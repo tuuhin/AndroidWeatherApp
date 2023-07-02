@@ -34,33 +34,42 @@ class AndroidLocationTracker(
             context, Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PermissionChecker.PERMISSION_GRANTED
 
+
         val fineLocationPermissions = ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_FINE_LOCATION
         ) == PermissionChecker.PERMISSION_GRANTED
 
 
-        if (!coarseLocationPermissions || !fineLocationPermissions ||
-            !isLocationEnabled || (!isNetworkProviderEnabled && !isGpsEnabled)
-        ) return null
+        if (!coarseLocationPermissions || !fineLocationPermissions
+            || !isLocationEnabled || (!isNetworkProviderEnabled && !isGpsEnabled)
+        )
+            return null
 
 
-        return suspendCancellableCoroutine { cancellableContinuation ->
+        return suspendCancellableCoroutine { continuation ->
             locationProviderClient.lastLocation.apply {
-
-                addOnSuccessListener {
-                    cancellableContinuation.resume(
-                        BaseLocationModel(
-                            latitude = result.latitude, longitude = result.longitude
-                        ), onCancellation = null
-                    )
+                addOnCompleteListener {
+                    addOnSuccessListener {
+                        // The result value can be null as there is no saved last known location
+                        // If this occurs open any apps that update the current location
+                        // Example: Open google maps and then restart the app
+                        if (result != null)
+                            continuation.resume(
+                                BaseLocationModel(
+                                    latitude = result.latitude,
+                                    longitude = result.longitude
+                                ), onCancellation = null
+                            )
+                        else
+                            continuation.resume(null, onCancellation = null)
+                    }
+                    addOnFailureListener {
+                        continuation.resume(null, onCancellation = null)
+                    }
                 }
-                addOnFailureListener {
-                    cancellableContinuation.resume(null, onCancellation = null)
-                }
-                addOnCanceledListener {
-                    cancellableContinuation.cancel()
-                }
+                addOnCanceledListener { continuation.cancel() }
             }
         }
     }
+
 }

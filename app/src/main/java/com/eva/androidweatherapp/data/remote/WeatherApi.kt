@@ -8,24 +8,24 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherApi {
-    @GET("/current.json")
+    @GET("current.json")
     suspend fun getCurrentData(
         @Query("key") key: String = BuildConfig.API_KEY,
         @Query("q") query: String
     ): WeatherCurrentDataDto
 
-    @GET("/forecast.json")
+    @GET("forecast.json")
     suspend fun getWeatherForecast(
         @Query("key") key: String = BuildConfig.API_KEY,
         @Query("q") query: String,
         @Query("days") days: Int,
         @Query("dt") hourCount: Int,
-        @Query("hour") currentHour: Int?,
+        @Query("hour") currentHour: Int? = null,
         @Query("alerts") alert: BooleanResponse,
-        @Query("aqi") quality: BooleanResponse = BooleanResponse.TRUE
+        @Query("aqi") quality: BooleanResponse,
     ): WeatherForecastDto
 
     companion object {
-        const val BASE_URL = "https://api.weatherapi.com/v1"
+        const val BASE_URL = "https://api.weatherapi.com/v1/"
     }
 }

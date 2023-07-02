@@ -1,4 +1,4 @@
-package com.eva.androidweatherapp
+package com.eva.androidweatherapp.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

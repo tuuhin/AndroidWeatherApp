@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WeatherForeCastDayDto(
+data class WeatherForeCastDayBlockDto(
     @SerialName("astro") val astronomical: WeatherAstronomyDto,
     @SerialName("date") val date: String,
     @SerialName("date_epoch") val epoch: Int,

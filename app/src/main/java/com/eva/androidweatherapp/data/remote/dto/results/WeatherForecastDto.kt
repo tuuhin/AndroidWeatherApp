@@ -10,7 +10,8 @@ import com.eva.androidweatherapp.data.remote.dto.common.WeatherForeCastDayDto
 @Serializable
 data class WeatherForecastDto(
     @SerialName("current") val current: CurrentWeatherConditionDto,
-    @SerialName("forecast") val forecast: List<WeatherForeCastDayDto>,
+    @SerialName("forecast") val forecast: WeatherForeCastDayDto,
     @SerialName("location") val location: SearchedLocationDto,
-    @SerialName("alerts") val alerts: List<WeatherAlertsDto>
+    @SerialName("alerts") val alerts: List<WeatherAlertsDto>? = null
 )
+
