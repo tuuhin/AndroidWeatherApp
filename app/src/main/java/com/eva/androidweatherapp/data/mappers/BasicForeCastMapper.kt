@@ -1,10 +1,10 @@
 package com.eva.androidweatherapp.data.mappers
 
 import com.eva.androidweatherapp.data.remote.dto.results.WeatherCurrentDataDto
-import com.eva.androidweatherapp.domain.models.CurrentWeatherForecastBasicModel
+import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
 
-fun WeatherCurrentDataDto.toModel(): CurrentWeatherForecastBasicModel =
-    CurrentWeatherForecastBasicModel(
-        currentWeatherModel = currentWeatherCondition.toModel(),
-        searchedLocationModel = searchedLocation.toModel()
+fun WeatherCurrentDataDto.toModel(): CurrentWeatherBasicModel =
+    CurrentWeatherBasicModel(
+        currentWeather = currentWeatherCondition.toModel(),
+        location = searchedLocation.toModel()
     )

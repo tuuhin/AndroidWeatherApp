@@ -3,7 +3,7 @@ package com.eva.androidweatherapp.data.repository
 import com.eva.androidweatherapp.data.mappers.toModel
 import com.eva.androidweatherapp.data.remote.WeatherApi
 import com.eva.androidweatherapp.domain.models.BaseLocationModel
-import com.eva.androidweatherapp.domain.models.CurrentWeatherForecastBasicModel
+import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.domain.repository.WeatherRepository
 import com.eva.androidweatherapp.utils.BooleanResponse
@@ -67,7 +67,7 @@ class WeatherRepositoryImpl(
     }
 
     override suspend fun getBasicWeatherInfoFromLatAndLong(location: BaseLocationModel)
-            : Flow<Resource<CurrentWeatherForecastBasicModel>> {
+            : Flow<Resource<CurrentWeatherBasicModel>> {
         return flow {
             emit(Resource.Loading())
             try {
@@ -85,7 +85,7 @@ class WeatherRepositoryImpl(
     }
 
     override suspend fun getBasicWeatherInfoFromName(name: String)
-            : Flow<Resource<CurrentWeatherForecastBasicModel>> {
+            : Flow<Resource<CurrentWeatherBasicModel>> {
         return flow {
             emit(Resource.Loading())
             try {

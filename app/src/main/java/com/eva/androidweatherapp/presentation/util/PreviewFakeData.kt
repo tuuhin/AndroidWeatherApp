@@ -4,7 +4,14 @@ import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
 import com.eva.androidweatherapp.domain.models.SearchedLocationModel
 import com.eva.androidweatherapp.domain.models.WeatherAlertModel
+import com.eva.androidweatherapp.domain.models.WeatherDayDataModel
+import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
+import com.eva.androidweatherapp.domain.models.WeatherForecastDayModel
+import com.eva.androidweatherapp.domain.models.WeatherHourModel
 import com.eva.androidweatherapp.domain.utils.AirQualityOption
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 object PreviewFakeData {
 
@@ -45,5 +52,56 @@ object PreviewFakeData {
 
     )
 
+    val fakeWeatherHourModel = WeatherHourModel(
+        code = 1000,
+        image = R.drawable.ic_weather_clear,
+        date = LocalDateTime.parse("2022-07-22 00:00",DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+        tempF = 83.7f,
+        tempC = 28.7f,
+        windSpeedMH = 9.4f,
+        windSpeedKmpH = 15.1f
+    )
+
+    val fakeWeatherForecastDayModel = WeatherForecastDayModel(
+        avgHumidity = 53f,
+        code = 1000,
+        image = R.drawable.ic_weather_clear,
+        avgTempInCelsius = 30.7f,
+        avgTempInFahrenheit = 87.3f,
+        quality = null,
+        maxTempInCelsius = 35.9f,
+        maxTempInFahrenheit = 96.3f,
+        maxWindSpeedInMph = 12.8f,
+        maxWindSpeedInKmpH = 20.5f,
+        minTempInCelsius = 26.3f,
+        minTempInFahrenheit = 79.3f,
+        rainPercentage = 0f,
+        snowPercentage = 0f,
+        weather = "Partly Cloudy",
+        totalPrecipitationInMm = 0f,
+        totalPrecipitationInInch = 0f,
+        ultralight = 8f,
+        totalSnowInCm = 0f
+    )
+
+    val fakeWeatherDayDataModel = WeatherDayDataModel(
+        date = LocalDate.parse(
+            "2022-07-22T00:00:00.000Z",
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        ),
+        dayCycle = fakeWeatherForecastDayModel,
+        hourCycle = List(10) { fakeWeatherHourModel },
+        moonSet = "03:35 PM",
+        moonRise = "12:58 AM",
+        sunset = "08:20 PM",
+        sunrise = "05:44 AM"
+    )
+
+    val fakeForeCastModel = WeatherForeCastModel(
+        currentWeatherModel = fakeCurrentWeatherModel,
+        searchedLocationModel = fakeSearchedLocationModel,
+        forecast = listOf(fakeWeatherDayDataModel),
+        alerts = listOf(fakeAlertModel)
+    )
 
 }

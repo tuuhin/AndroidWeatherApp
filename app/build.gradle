@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.22'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -86,6 +87,8 @@ dependencies {
     implementation "androidx.glance:glance:1.0.0-beta01"
     implementation "androidx.glance:glance-appwidget:1.0.0-beta01"
     implementation "androidx.glance:glance-material3:1.0.0-beta01"
+    //worker
+    implementation "androidx.work:work-runtime-ktx:2.8.1"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

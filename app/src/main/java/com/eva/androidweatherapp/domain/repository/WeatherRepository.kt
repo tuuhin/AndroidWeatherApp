@@ -1,7 +1,7 @@
 package com.eva.androidweatherapp.domain.repository
 
 import com.eva.androidweatherapp.domain.models.BaseLocationModel
-import com.eva.androidweatherapp.domain.models.CurrentWeatherForecastBasicModel
+import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -15,8 +15,8 @@ interface WeatherRepository {
             Flow<Resource<WeatherForeCastModel>>
 
     suspend fun getBasicWeatherInfoFromLatAndLong(location: BaseLocationModel)
-            : Flow<Resource<CurrentWeatherForecastBasicModel>>
+            : Flow<Resource<CurrentWeatherBasicModel>>
 
     suspend fun getBasicWeatherInfoFromName(name: String)
-            : Flow<Resource<CurrentWeatherForecastBasicModel>>
+            : Flow<Resource<CurrentWeatherBasicModel>>
 }

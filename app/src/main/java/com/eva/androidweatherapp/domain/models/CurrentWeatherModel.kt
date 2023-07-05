@@ -1,7 +1,9 @@
 package com.eva.androidweatherapp.domain.models
 
+import com.eva.androidweatherapp.domain.utils.AirQualityOption
+
 data class CurrentWeatherModel(
-    val airQuality: String?,
+    val airQuality: AirQualityOption?,
     val airQualityIndex: Float,
     val cloudCover: Float,
     val condition: String,
@@ -13,7 +15,7 @@ data class CurrentWeatherModel(
     val lastUpdated: String,
     val precipitationInch: Float,
     val precipitationMM: Float,
-    val pressureInch: Float,
+    val poundPerSquareInch: Float,
     val pressureMilliBar: Float,
     val tempInCelsius: Float,
     val tempInFahrenheit: Float,

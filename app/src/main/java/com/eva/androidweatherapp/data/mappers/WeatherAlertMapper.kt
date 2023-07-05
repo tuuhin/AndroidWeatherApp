@@ -7,5 +7,7 @@ fun WeatherAlertsDto.toModel(): WeatherAlertModel = WeatherAlertModel(
     areas = areas,
     headline = headline,
     instruction = instruction,
-    note = note
+    note = note,
+    desc = desc,
+    category = category
 )

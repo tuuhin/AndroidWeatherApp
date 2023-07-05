@@ -1,7 +1,9 @@
 package com.eva.androidweatherapp.domain.models
 
+import com.eva.androidweatherapp.domain.utils.AirQualityOption
+
 data class WeatherForecastDayModel(
-    val quality: String? = null,
+    val quality: AirQualityOption? = null,
     val avgHumidity: Float,
     val avgTempInCelsius: Float,
     val avgTempInFahrenheit: Float,

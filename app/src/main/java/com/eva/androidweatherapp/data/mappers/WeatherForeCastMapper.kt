@@ -6,8 +6,10 @@ import com.eva.androidweatherapp.domain.models.WeatherDayDataModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.domain.models.WeatherForecastDayModel
 import com.eva.androidweatherapp.domain.models.WeatherHourModel
+import com.eva.androidweatherapp.domain.utils.AirQualityOption
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
     currentWeatherModel = current.toModel(),
@@ -15,14 +17,20 @@ fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
     alerts = alerts?.map { it.toModel() },
     forecast = forecast.forecast.map { info ->
         WeatherDayDataModel(
-            date = LocalDate.parse(info.date),
+            date = LocalDate.parse(
+                info.date,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            ),
             sunrise = info.astronomical.sunrise,
             sunset = info.astronomical.sunset,
             moonRise = info.astronomical.moonRise,
             moonSet = info.astronomical.moonSet,
             hourCycle = info.hour.map { hourly ->
                 WeatherHourModel(
-                    date = LocalDateTime.parse(hourly.time),
+                    date = LocalDateTime.parse(
+                        hourly.time,
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                    ),
                     code = hourly.condition.weatherCode,
                     image = when (hourly.condition.weatherCode) {
                         1000 -> R.drawable.ic_weather_clear
@@ -50,14 +58,7 @@ fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
                 )
             },
             dayCycle = WeatherForecastDayModel(
-                quality = when (info.day.quality?.epaIndex) {
-                    1 -> "Good"
-                    2 -> "Moderate"
-                    3 -> "Unhealthy for sensitive"
-                    4 -> "Unhealthy"
-                    5 -> "Very Unhealthy"
-                    else -> "Hazardous"
-                },
+                quality = info.day.quality?.epaIndex?.let { AirQualityOption.airQualityFromNumber(it) },
                 avgHumidity = info.day.avgHumidity,
                 avgTempInCelsius = info.day.avgTempInCelsius,
                 avgTempInFahrenheit = info.day.avgTempInFahrenheit,

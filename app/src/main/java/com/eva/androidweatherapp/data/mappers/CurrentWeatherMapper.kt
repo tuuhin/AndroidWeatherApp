@@ -3,17 +3,11 @@ package com.eva.androidweatherapp.data.mappers
 import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.data.remote.dto.common.CurrentWeatherConditionDto
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
+import com.eva.androidweatherapp.domain.utils.AirQualityOption
 
 // TODO: Change the Air quality index parameter
 fun CurrentWeatherConditionDto.toModel(): CurrentWeatherModel = CurrentWeatherModel(
-    airQuality = when (airQuality?.epaIndex) {
-        1 -> "Good"
-        2 -> "Moderate"
-        3 -> "Unhealthy for sensitive"
-        4 -> "Unhealthy"
-        5 -> "Very Unhealthy"
-        else -> "Hazardous"
-    } ,
+    airQuality = airQuality?.epaIndex?.let { AirQualityOption.airQualityFromNumber(it) },
     airQualityIndex = 0f,
     cloudCover = cloudCover,
     code = condition.weatherCode,
@@ -42,7 +36,7 @@ fun CurrentWeatherConditionDto.toModel(): CurrentWeatherModel = CurrentWeatherMo
     humidity = humidity,
     precipitationInch = precipitationInch,
     precipitationMM = precipitationMM,
-    pressureInch = pressureInch,
+    poundPerSquareInch = pressureInch,
     pressureMilliBar = pressureMilliBar,
     lastUpdated = lastUpdated,
     tempInCelsius = tempInCelsius,
