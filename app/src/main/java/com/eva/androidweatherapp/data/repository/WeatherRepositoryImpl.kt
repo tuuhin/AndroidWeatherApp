@@ -32,10 +32,13 @@ class WeatherRepositoryImpl(
                     )
                 emit(Resource.Success(data = data.toModel()))
             } catch (e: HttpException) {
+                e.printStackTrace()
                 emit(Resource.Error(e.message ?: "Http exception occurred"))
             } catch (e: IOException) {
+                e.printStackTrace()
                 emit(Resource.Error(e.message ?: "IO exception occurred"))
             } catch (e: Exception) {
+                e.printStackTrace()
                 emit(Resource.Error(e.message ?: "Exception occurred"))
             }
         }

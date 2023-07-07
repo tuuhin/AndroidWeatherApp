@@ -4,6 +4,8 @@ import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.data.remote.dto.common.CurrentWeatherConditionDto
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
 import com.eva.androidweatherapp.domain.utils.AirQualityOption
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 // TODO: Change the Air quality index parameter
 fun CurrentWeatherConditionDto.toModel(): CurrentWeatherModel = CurrentWeatherModel(
@@ -38,7 +40,7 @@ fun CurrentWeatherConditionDto.toModel(): CurrentWeatherModel = CurrentWeatherMo
     precipitationMM = precipitationMM,
     poundPerSquareInch = pressureInch,
     pressureMilliBar = pressureMilliBar,
-    lastUpdated = lastUpdated,
+    lastUpdated = LocalDateTime.parse(lastUpdated, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
     tempInCelsius = tempInCelsius,
     tempInFahrenheit = tempInFahrenheit, ultraviolet = ultraviolet,
     windDirection = windDirection,

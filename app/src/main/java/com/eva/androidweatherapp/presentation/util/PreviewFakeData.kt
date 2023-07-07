@@ -27,7 +27,7 @@ object PreviewFakeData {
         feelsLikeFahrenheit = 98.6f,
         feelsLikeInCelsius = 37f,
         humidity = 31f, ultraviolet = 8f,
-        lastUpdated = "2022-07-22 16:45",
+        lastUpdated = LocalDateTime.now(),
         pressureMilliBar = 1011f,
         poundPerSquareInch = 29.85f, precipitationInch = 0f,
         precipitationMM = 0f,
@@ -39,7 +39,7 @@ object PreviewFakeData {
     val fakeSearchedLocationModel = SearchedLocationModel(
         country = "United States of America",
         name = "New York", region = "New York",
-        time = "2022-07-22 16:49"
+        time = LocalDateTime.now()
     )
 
     val fakeAlertModel = WeatherAlertModel(
@@ -55,7 +55,10 @@ object PreviewFakeData {
     val fakeWeatherHourModel = WeatherHourModel(
         code = 1000,
         image = R.drawable.ic_weather_clear,
-        date = LocalDateTime.parse("2022-07-22 00:00",DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+        date = LocalDateTime.parse(
+            "2022-07-22 00:00",
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+        ),
         tempF = 83.7f,
         tempC = 28.7f,
         windSpeedMH = 9.4f,
@@ -68,7 +71,7 @@ object PreviewFakeData {
         image = R.drawable.ic_weather_clear,
         avgTempInCelsius = 30.7f,
         avgTempInFahrenheit = 87.3f,
-        quality = null,
+        quality = AirQualityOption.MODERATE,
         maxTempInCelsius = 35.9f,
         maxTempInFahrenheit = 96.3f,
         maxWindSpeedInMph = 12.8f,
@@ -81,7 +84,7 @@ object PreviewFakeData {
         totalPrecipitationInMm = 0f,
         totalPrecipitationInInch = 0f,
         ultralight = 8f,
-        totalSnowInCm = 0f
+        totalSnowInCm = 0f,
     )
 
     val fakeWeatherDayDataModel = WeatherDayDataModel(
@@ -94,13 +97,13 @@ object PreviewFakeData {
         moonSet = "03:35 PM",
         moonRise = "12:58 AM",
         sunset = "08:20 PM",
-        sunrise = "05:44 AM"
+        sunrise = "05:44 AM",
     )
 
     val fakeForeCastModel = WeatherForeCastModel(
         currentWeatherModel = fakeCurrentWeatherModel,
         searchedLocationModel = fakeSearchedLocationModel,
-        forecast = listOf(fakeWeatherDayDataModel),
+        forecast = List(5) { fakeWeatherDayDataModel },
         alerts = listOf(fakeAlertModel)
     )
 

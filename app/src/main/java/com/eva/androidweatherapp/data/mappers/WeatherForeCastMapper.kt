@@ -19,7 +19,7 @@ fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
         WeatherDayDataModel(
             date = LocalDate.parse(
                 info.date,
-                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")
             ),
             sunrise = info.astronomical.sunrise,
             sunset = info.astronomical.sunset,

@@ -8,13 +8,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun isCurrentLocalAmerican(
+fun isCurrentLocaleAmerican(
     context: Context = LocalContext.current
 ): Boolean {
     val locale by remember {
         derivedStateOf {
             val current = context.resources.configuration.locales.get(0)
-            current.country == "US" || current.language == "en"
+            current.country == "US" && current.language == "en"
         }
     }
     return locale
