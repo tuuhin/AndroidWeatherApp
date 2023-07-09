@@ -2,11 +2,10 @@ package com.eva.androidweatherapp.presentation.util
 
 import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
-import com.eva.androidweatherapp.domain.models.SearchedLocationModel
+import com.eva.androidweatherapp.domain.models.SearchLocationResult
 import com.eva.androidweatherapp.domain.models.WeatherAlertModel
-import com.eva.androidweatherapp.domain.models.WeatherDayDataModel
+import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
-import com.eva.androidweatherapp.domain.models.WeatherForecastDayModel
 import com.eva.androidweatherapp.domain.models.WeatherHourModel
 import com.eva.androidweatherapp.domain.utils.AirQualityOption
 import java.time.LocalDate
@@ -14,6 +13,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object PreviewFakeData {
+
+    val locationResult = SearchLocationResult(
+        id = 1000,
+        name = "New York",
+        region = "New York",
+        country = "United States of America"
+    )
 
     val fakeCurrentWeatherModel = CurrentWeatherModel(
         airQuality = AirQualityOption.GOOD,
@@ -33,13 +39,8 @@ object PreviewFakeData {
         precipitationMM = 0f,
         tempInFahrenheit = 93.9f,
         tempInCelsius = 34.4f,
-        windDirection = "S"
-    )
-
-    val fakeSearchedLocationModel = SearchedLocationModel(
-        country = "United States of America",
+        windDirection = "S", country = "United States of America",
         name = "New York", region = "New York",
-        time = LocalDateTime.now()
     )
 
     val fakeAlertModel = WeatherAlertModel(
@@ -65,7 +66,16 @@ object PreviewFakeData {
         windSpeedKmpH = 15.1f
     )
 
-    val fakeWeatherForecastDayModel = WeatherForecastDayModel(
+    val fakeWeatherDayDataModel = WeatherDayForecastModel(
+        date = LocalDate.parse(
+            "2022-07-22T00:00:00.000Z",
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        ),
+        hourCycle = List(10) { fakeWeatherHourModel },
+        moonSet = "03:35 PM",
+        moonRise = "12:58 AM",
+        sunset = "08:20 PM",
+        sunrise = "05:44 AM",
         avgHumidity = 53f,
         code = 1000,
         image = R.drawable.ic_weather_clear,
@@ -87,22 +97,8 @@ object PreviewFakeData {
         totalSnowInCm = 0f,
     )
 
-    val fakeWeatherDayDataModel = WeatherDayDataModel(
-        date = LocalDate.parse(
-            "2022-07-22T00:00:00.000Z",
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        ),
-        dayCycle = fakeWeatherForecastDayModel,
-        hourCycle = List(10) { fakeWeatherHourModel },
-        moonSet = "03:35 PM",
-        moonRise = "12:58 AM",
-        sunset = "08:20 PM",
-        sunrise = "05:44 AM",
-    )
-
     val fakeForeCastModel = WeatherForeCastModel(
-        currentWeatherModel = fakeCurrentWeatherModel,
-        searchedLocationModel = fakeSearchedLocationModel,
+        current = fakeCurrentWeatherModel,
         forecast = List(5) { fakeWeatherDayDataModel },
         alerts = listOf(fakeAlertModel)
     )

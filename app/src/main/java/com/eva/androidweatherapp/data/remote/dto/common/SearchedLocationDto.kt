@@ -8,7 +8,7 @@ data class SearchedLocationDto(
     @SerialName("country") val country: String,
     @SerialName("lat") val latitude: Double,
     @SerialName("localtime") val time: String,
-    @SerialName("localtime_epoch") val epoch: Int,
+    @SerialName("localtime_epoch") val epoch: Long,
     @SerialName("lon") val longitude: Double,
     @SerialName("name") val name: String,
     @SerialName("region") val region: String,

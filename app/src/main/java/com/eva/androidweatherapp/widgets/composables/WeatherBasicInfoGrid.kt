@@ -6,41 +6,43 @@ import androidx.glance.GlanceModifier
 import androidx.glance.appwidget.lazy.GridCells
 import androidx.glance.appwidget.lazy.LazyVerticalGrid
 import com.eva.androidweatherapp.R
-import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
+import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 
 @Composable
 @GlanceComposable
 fun WeatherBasicInfoGrid(
     modifier: GlanceModifier = GlanceModifier,
-    model: CurrentWeatherBasicModel
+    model: WidgetWeatherModel,
 ) {
-
-    LazyVerticalGrid(gridCells = GridCells.Fixed(2), modifier = modifier) {
+    LazyVerticalGrid(
+        gridCells = GridCells.Fixed(2),
+        modifier = modifier
+    ) {
         item {
             WeatherBasicInformation(
                 image = R.drawable.ic_precipitation,
-                data = "${model.currentWeather.precipitationMM}",
+                data = "${model.precipitationMM}",
                 unit = "mm"
             )
         }
         item {
             WeatherBasicInformation(
                 image = R.drawable.ic_humidity,
-                data = "${model.currentWeather.humidity}",
+                data = "${model.humidity}",
                 unit = "%"
             )
         }
         item {
             WeatherBasicInformation(
                 image = R.drawable.ic_wind_speed,
-                data = "${model.currentWeather.windSpeedInKmh}",
+                data = "${model.windSpeedInKmh}",
                 unit = "km/h"
             )
         }
         item {
             WeatherBasicInformation(
                 image = R.drawable.ic_pressure,
-                data = "${model.currentWeather.pressureMilliBar}",
+                data = "${model.pressureMilliBar}",
                 unit = "mBar"
             )
         }

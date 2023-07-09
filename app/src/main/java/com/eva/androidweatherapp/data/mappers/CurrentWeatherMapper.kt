@@ -1,19 +1,19 @@
 package com.eva.androidweatherapp.data.mappers
 
 import com.eva.androidweatherapp.R
-import com.eva.androidweatherapp.data.remote.dto.common.CurrentWeatherConditionDto
+import com.eva.androidweatherapp.data.remote.dto.results.WeatherCurrentDataDto
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
 import com.eva.androidweatherapp.domain.utils.AirQualityOption
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 // TODO: Change the Air quality index parameter
-fun CurrentWeatherConditionDto.toModel(): CurrentWeatherModel = CurrentWeatherModel(
-    airQuality = airQuality?.epaIndex?.let { AirQualityOption.airQualityFromNumber(it) },
+fun WeatherCurrentDataDto.toModel(): CurrentWeatherModel = CurrentWeatherModel(
+    airQuality = weather.airQuality?.epaIndex?.let { AirQualityOption.airQualityFromNumber(it) },
     airQualityIndex = 0f,
-    cloudCover = cloudCover,
-    code = condition.weatherCode,
-    image = when (condition.weatherCode) {
+    cloudCover = weather.cloudCover,
+    code = weather.condition.weatherCode,
+    image = when (weather.condition.weatherCode) {
         1000 -> R.drawable.ic_weather_clear
         1003 -> R.drawable.ic_few_clouds
         1006 -> R.drawable.ic_clouds
@@ -32,18 +32,24 @@ fun CurrentWeatherConditionDto.toModel(): CurrentWeatherModel = CurrentWeatherMo
         1198, 1201 -> R.drawable.ic_freezing_rain
         else -> R.drawable.ic_unknown_weather
     },
-    condition = condition.text,
-    feelsLikeInCelsius = feelsLikeInCelsius,
-    feelsLikeFahrenheit = feelsLikeFahrenheit,
-    humidity = humidity,
-    precipitationInch = precipitationInch,
-    precipitationMM = precipitationMM,
-    poundPerSquareInch = pressureInch,
-    pressureMilliBar = pressureMilliBar,
-    lastUpdated = LocalDateTime.parse(lastUpdated, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
-    tempInCelsius = tempInCelsius,
-    tempInFahrenheit = tempInFahrenheit, ultraviolet = ultraviolet,
-    windDirection = windDirection,
-    windSpeedInKmh = windSpeedInKmh,
-    windSpeedInMh = windSpeedInMh,
+    condition = weather.condition.text,
+    feelsLikeInCelsius = weather.feelsLikeInCelsius,
+    feelsLikeFahrenheit = weather.feelsLikeFahrenheit,
+    humidity = weather.humidity,
+    precipitationInch = weather.precipitationInch,
+    precipitationMM = weather.precipitationMM,
+    poundPerSquareInch = weather.pressureInch,
+    pressureMilliBar = weather.pressureMilliBar,
+    lastUpdated = LocalDateTime.parse(
+        weather.lastUpdated,
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    ),
+    tempInCelsius = weather.tempInCelsius,
+    tempInFahrenheit = weather.tempInFahrenheit,
+    ultraviolet = weather.ultraviolet,
+    windDirection = weather.windDirection,
+    windSpeedInKmh = weather.windSpeedInKmh,
+    windSpeedInMh = weather.windSpeedInMh,
+    name = location.name, region = location.region,
+    country = location.country
 )

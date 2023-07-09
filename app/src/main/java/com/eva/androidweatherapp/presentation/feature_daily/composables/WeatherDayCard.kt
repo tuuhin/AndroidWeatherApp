@@ -3,13 +3,16 @@ package com.eva.androidweatherapp.presentation.feature_daily.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -21,16 +24,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import com.eva.androidweatherapp.domain.models.WeatherDayDataModel
+import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
 import com.eva.androidweatherapp.presentation.composables.CurrentTemperatureData
-import com.eva.androidweatherapp.presentation.composables.CurrentWeatherProperties
 import com.eva.androidweatherapp.presentation.composables.WeatherImage
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun WeatherDayCard(
-    dayModel: WeatherDayDataModel,
+    forecastModel: WeatherDayForecastModel,
     modifier: Modifier = Modifier,
     selectedColor: Color = MaterialTheme.colorScheme.primaryContainer,
     unSelectedColor: Color = MaterialTheme.colorScheme.surfaceVariant,
@@ -39,40 +42,61 @@ fun WeatherDayCard(
 ) {
     val isCurrentDay by remember {
         derivedStateOf {
-            dayModel.date == LocalDate.now()
+            forecastModel.date == LocalDate.now()
+        }
+    }
+
+    val formattedDate by remember {
+        derivedStateOf {
+            forecastModel.date.format(DateTimeFormatter.ofPattern("dd MMMM"))
         }
     }
 
     Card(
-        modifier = modifier.aspectRatio(1.5f),
+        modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = if (isCurrentDay) selectedColor else unSelectedColor,
             contentColor = if (isCurrentDay) onSelectedColor else onUnSelectedColor
         ), shape = MaterialTheme.shapes.large
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            WeatherDayCardTopBar(
-                dayModel = dayModel,
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 2.dp)
-            )
+                    .height(40.dp)
+                    .padding(horizontal = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = forecastModel.date.dayOfWeek.name,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = formattedDate,
+                    style = MaterialTheme.typography.titleSmall
+                )
+
+            }
             Divider(
-                color = if (isCurrentDay) onSelectedColor else onUnSelectedColor,
-                modifier = Modifier.padding(vertical = 2.dp)
+                modifier = Modifier.padding(vertical = 4.dp),
+                color = if (isCurrentDay)
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                else MaterialTheme.colorScheme.onSurfaceVariant
             )
             Row(
                 modifier = Modifier
                     .padding(vertical = 2.dp)
                     .fillMaxWidth()
-                    .weight(.4f),
+                    .wrapContentHeight(),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 WeatherImage(
-                    res = dayModel.dayCycle.image,
+                    res = forecastModel.image,
                     background = if (isCurrentDay)
                         MaterialTheme.colorScheme.secondaryContainer
                     else
@@ -80,23 +104,36 @@ fun WeatherDayCard(
                     color = if (isCurrentDay)
                         MaterialTheme.colorScheme.onSecondaryContainer
                     else
-                        MaterialTheme.colorScheme.onPrimaryContainer
+                        MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier.sizeIn(maxHeight = 100.dp, maxWidth = 100.dp)
                 )
-                CurrentTemperatureData(
-                    dayModel = dayModel.dayCycle,
-                    horizontal = Alignment.CenterHorizontally
-                )
+                Column(
+                    modifier = Modifier.wrapContentHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    CurrentTemperatureData(
+                        forecastDay = forecastModel,
+                        horizontal = Alignment.CenterHorizontally
+                    )
+
+                    Text(
+                        text = forecastModel.weather,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
             }
-            CurrentWeatherProperties(
-                forecast = dayModel.dayCycle,
-                modifier = Modifier.fillMaxWidth()
+            WeatherPropertiesSimplified(
+                dayForecast = forecastModel,
+                modifier = Modifier.fillMaxWidth(),
+                arrangement = Arrangement.SpaceAround
             )
         }
     }
 }
 
 class WeatherDayPreviewParams :
-    CollectionPreviewParameterProvider<WeatherDayDataModel>(
+    CollectionPreviewParameterProvider<WeatherDayForecastModel>(
         listOf(
             PreviewFakeData.fakeWeatherDayDataModel,
             PreviewFakeData.fakeWeatherDayDataModel.copy(date = LocalDate.now())
@@ -107,7 +144,8 @@ class WeatherDayPreviewParams :
 @Preview
 @Composable
 fun WeatherDayCardPreview(
-    @PreviewParameter(WeatherDayPreviewParams::class) day: WeatherDayDataModel
+    @PreviewParameter(WeatherDayPreviewParams::class)
+    day: WeatherDayForecastModel
 ) {
-    WeatherDayCard(dayModel = day)
+    WeatherDayCard(forecastModel = day)
 }

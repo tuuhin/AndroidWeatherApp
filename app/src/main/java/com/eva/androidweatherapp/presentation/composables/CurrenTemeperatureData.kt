@@ -20,8 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
-import com.eva.androidweatherapp.domain.models.WeatherForecastDayModel
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.isCurrentLocaleAmerican
 
@@ -42,13 +42,13 @@ fun CurrentTemperatureData(
     ) {
         if (localeAmerican)
             Text(
-                text = "${model.currentWeatherModel.tempInFahrenheit} F",
+                text = "${model.current.tempInFahrenheit} F",
                 style = tempTextStyle,
                 fontWeight = FontWeight.Bold
             )
         else
             Text(
-                text = "${model.currentWeatherModel.tempInCelsius} C",
+                text = "${model.current.tempInCelsius} C",
                 style = tempTextStyle,
                 fontWeight = FontWeight.Bold
             )
@@ -67,12 +67,12 @@ fun CurrentTemperatureData(
                 )
                 if (localeAmerican)
                     Text(
-                        text = "${model.forecast.first().dayCycle.maxTempInFahrenheit} F",
+                        text = "${model.forecast.first().maxTempInFahrenheit} F",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 else
                     Text(
-                        text = "${model.forecast.first().dayCycle.maxTempInCelsius} C",
+                        text = "${model.forecast.first().maxTempInCelsius} C",
                         style = MaterialTheme.typography.bodyMedium
                     )
             }
@@ -86,12 +86,12 @@ fun CurrentTemperatureData(
                 )
                 if (localeAmerican)
                     Text(
-                        text = "${model.forecast[0].dayCycle.minTempInFahrenheit} F",
+                        text = "${model.forecast[0].minTempInFahrenheit} F",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 else
                     Text(
-                        text = "${model.forecast[0].dayCycle.minTempInCelsius} C",
+                        text = "${model.forecast[0].minTempInCelsius} C",
                         style = MaterialTheme.typography.bodyMedium
                     )
 
@@ -102,7 +102,7 @@ fun CurrentTemperatureData(
 
 @Composable
 fun CurrentTemperatureData(
-    dayModel: WeatherForecastDayModel,
+    forecastDay: WeatherDayForecastModel,
     modifier: Modifier = Modifier,
     localeAmerican: Boolean = isCurrentLocaleAmerican(),
     isCurrentDay: Boolean = false,
@@ -119,13 +119,13 @@ fun CurrentTemperatureData(
     ) {
         if (localeAmerican)
             Text(
-                text = "${dayModel.maxTempInFahrenheit} F",
+                text = "${forecastDay.maxTempInFahrenheit} F",
                 style = tempTextStyle,
                 fontWeight = FontWeight.Bold
             )
         else
             Text(
-                text = "${dayModel.maxTempInCelsius} C",
+                text = "${forecastDay.maxTempInCelsius} C",
                 style = tempTextStyle,
                 fontWeight = FontWeight.Bold
             )
@@ -146,12 +146,12 @@ fun CurrentTemperatureData(
                 )
                 if (localeAmerican)
                     Text(
-                        text = "${dayModel.maxTempInFahrenheit} F",
+                        text = "${forecastDay.maxTempInFahrenheit} F",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 else
                     Text(
-                        text = "${dayModel.maxTempInCelsius} C",
+                        text = "${forecastDay.maxTempInCelsius} C",
                         style = MaterialTheme.typography.bodyMedium
                     )
             }
@@ -167,12 +167,12 @@ fun CurrentTemperatureData(
                 )
                 if (localeAmerican)
                     Text(
-                        text = "${dayModel.minTempInFahrenheit} F",
+                        text = "${forecastDay.minTempInFahrenheit} F",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 else
                     Text(
-                        text = "${dayModel.minTempInFahrenheit} F",
+                        text = "${forecastDay.minTempInFahrenheit} F",
                         style = MaterialTheme.typography.bodyMedium
                     )
             }

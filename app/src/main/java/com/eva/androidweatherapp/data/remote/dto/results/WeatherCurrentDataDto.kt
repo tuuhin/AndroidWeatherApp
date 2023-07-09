@@ -7,6 +7,6 @@ import com.eva.androidweatherapp.data.remote.dto.common.SearchedLocationDto
 
 @Serializable
 data class WeatherCurrentDataDto(
-    @SerialName("location") val searchedLocation: SearchedLocationDto,
-    @SerialName("current") val currentWeatherCondition: CurrentWeatherConditionDto
+    @SerialName("location") val location: SearchedLocationDto,
+    @SerialName("current") val weather: CurrentWeatherConditionDto
 )

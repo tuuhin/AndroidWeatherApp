@@ -14,13 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.R
-import com.eva.androidweatherapp.domain.models.WeatherDayDataModel
+import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
 import com.eva.androidweatherapp.presentation.composables.WeatherPropertyItem
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 
 @Composable
 fun WeatherAstronomicalData(
-    dayModel: WeatherDayDataModel,
+    dayModel: WeatherDayForecastModel,
     modifier: Modifier = Modifier,
     columns: GridCells = GridCells.Fixed(2),
     horizontal: Arrangement.HorizontalOrVertical = Arrangement.SpaceBetween,

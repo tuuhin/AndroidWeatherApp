@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,6 +38,7 @@ fun CurrentWeatherData(
         Column(
             modifier = Modifier
                 .weight(.5f)
+                .fillMaxHeight()
                 .padding(10.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -45,17 +47,17 @@ fun CurrentWeatherData(
                 verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 Text(
-                    text = model.searchedLocationModel.name,
+                    text = model.current.name,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
                     text = buildAnnotatedString {
                         withStyle(SpanStyle(fontWeight = FontWeight.Medium)) {
-                            append(model.searchedLocationModel.region)
+                            append(model.current.region)
                         }
                         append(" , ")
-                        append(model.searchedLocationModel.country)
+                        append(model.current.country)
                     },
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Normal
@@ -72,7 +74,7 @@ fun CurrentWeatherData(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = model.currentWeatherModel.condition,
+                    text = model.current.condition,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium
                 )
@@ -86,9 +88,9 @@ fun CurrentWeatherData(
                             )
                         }
                         if (localeAmerican)
-                            append("${model.currentWeatherModel.feelsLikeFahrenheit} F")
+                            append("${model.current.feelsLikeFahrenheit} F")
                         else
-                            append("${model.currentWeatherModel.feelsLikeInCelsius} C")
+                            append("${model.current.feelsLikeInCelsius} C")
                     },
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium
@@ -96,7 +98,7 @@ fun CurrentWeatherData(
             }
         }
         WeatherImage(
-            res = model.currentWeatherModel.image,
+            res = model.current.image,
             background = MaterialTheme.colorScheme.primaryContainer,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             imagePadding = PaddingValues(40.dp),
@@ -114,7 +116,7 @@ fun CurrentWeatherDataPreview() {
     CurrentWeatherData(
         model = PreviewFakeData.fakeForeCastModel,
         modifier = Modifier
-            .aspectRatio(1f)
+            .aspectRatio(1.25f)
             .padding(10.dp)
     )
 }

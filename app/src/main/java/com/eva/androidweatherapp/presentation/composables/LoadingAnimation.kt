@@ -19,7 +19,9 @@ import com.eva.androidweatherapp.R
 fun LoadingAnimation(
     modifier: Modifier = Modifier
 ) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading_animation))
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.loading_animation)
+    )
     val progress by animateLottieCompositionAsState(
         composition = composition,
         iterations = LottieConstants.IterateForever
@@ -32,7 +34,7 @@ fun LoadingAnimation(
         LottieAnimation(
             composition = composition,
             progress = { progress },
-            contentScale = ContentScale.FillBounds
+            contentScale = ContentScale.Fit,
         )
     }
 }

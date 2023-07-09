@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">AndroidWeatherApp</string>
-    <string name="weatherapi_logo">https://cdn.weatherapi.com/v4/images/weatherapi_logo.png</string>
-    <string name="api_info_webpage">weatherapi.com</string>
+    <string name="weather_api_url_readable">weatherapi.com</string>
     <string name="weather_api_desc">Designed for developers by developers, Weather API is the ultimate weather and geolocation API trusted by +215K users worldwide.</string>
+
     <string name="no_alerts_text">No alerts in the current location</string>
     <string name="app_widget_desc"> Stay informed about the weather conditions without opening the app, making it convenient and efficient for daily planning.</string>
+
+    <string name="notification_channel_id">WeatherNotifications</string>
+    <string name="notification_channel_name">WeatherAppChannel</string>
+    <string name="notification_channel_desc">This channel will be used to show when sunning the worker or foreground service notification</string>
+
+    <string name="worker_content_text">Fetching the current weather information, this will take couple of seconds</string>
+    <string name="worker_content_title">Fetching Current Weather..</string>
 </resources>

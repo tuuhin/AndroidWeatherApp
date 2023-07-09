@@ -32,7 +32,7 @@ import java.time.LocalDateTime
 fun WeatherHourlyData(
     hourlyWeather: List<WeatherHourModel>,
     modifier: Modifier = Modifier,
-    onDetails: () -> Unit,
+    onForecast: () -> Unit,
     titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
     color: Color = MaterialTheme.colorScheme.onSurface
 ) {
@@ -52,13 +52,13 @@ fun WeatherHourlyData(
                 color = color
             )
             TextButton(
-                onClick = onDetails,
+                onClick = onForecast,
                 colors = ButtonDefaults.textButtonColors(
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             ) {
-                Text(text = "Next days", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "Forecast", style = MaterialTheme.typography.bodyMedium)
             }
         }
         Divider(modifier = Modifier.padding(vertical = 2.dp))
@@ -101,7 +101,7 @@ fun WeatherHourlyDataPreview(
 ) {
     WeatherHourlyData(
         hourlyWeather = hourly,
-        onDetails = {},
+        onForecast = {},
         modifier = Modifier.height(180.dp)
     )
 }

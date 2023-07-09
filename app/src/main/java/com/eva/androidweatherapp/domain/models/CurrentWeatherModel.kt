@@ -24,5 +24,8 @@ data class CurrentWeatherModel(
     val ultraviolet: Float,
     val windDirection: String,
     val windSpeedInKmh: Float,
-    val windSpeedInMh: Float
+    val windSpeedInMh: Float,
+    val country: String,
+    val name: String,
+    val region: String,
 )

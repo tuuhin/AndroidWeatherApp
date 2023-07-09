@@ -1,6 +1,7 @@
 package com.eva.androidweatherapp.data.remote
 
 import com.eva.androidweatherapp.BuildConfig
+import com.eva.androidweatherapp.data.remote.dto.results.SearchResultsDto
 import com.eva.androidweatherapp.data.remote.dto.results.WeatherCurrentDataDto
 import com.eva.androidweatherapp.data.remote.dto.results.WeatherForecastDto
 import com.eva.androidweatherapp.utils.BooleanResponse
@@ -24,6 +25,12 @@ interface WeatherApi {
         @Query("alerts") alert: BooleanResponse,
         @Query("aqi") quality: BooleanResponse,
     ): WeatherForecastDto
+
+    @GET("search.json")
+    suspend fun searchCity(
+        @Query("key") key: String = BuildConfig.API_KEY,
+        @Query("q") query: String,
+    ): List<SearchResultsDto>
 
     companion object {
         const val BASE_URL = "https://api.weatherapi.com/v1/"

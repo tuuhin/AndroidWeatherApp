@@ -2,8 +2,9 @@ package com.eva.androidweatherapp.data.repository
 
 import com.eva.androidweatherapp.data.mappers.toModel
 import com.eva.androidweatherapp.data.remote.WeatherApi
+import com.eva.androidweatherapp.domain.location.LocationTracker
 import com.eva.androidweatherapp.domain.models.BaseLocationModel
-import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
+import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.domain.repository.WeatherRepository
 import com.eva.androidweatherapp.utils.BooleanResponse
@@ -14,8 +15,10 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class WeatherRepositoryImpl(
-    private val weatherApi: WeatherApi
+    private val weatherApi: WeatherApi,
+    private val locationTracker: LocationTracker
 ) : WeatherRepository {
+
 
     override suspend fun getWeatherForecastOneDayFromLatAndLong(location: BaseLocationModel)
             : Flow<Resource<WeatherForeCastModel>> {
@@ -25,10 +28,10 @@ class WeatherRepositoryImpl(
                 val data =
                     weatherApi.getWeatherForecast(
                         query = "${location.latitude},${location.longitude}",
-                        days = 1,
+                        days = 14,
                         alert = BooleanResponse.FALSE,
-                        hourCount = 10,
-                        quality = BooleanResponse.TRUE,
+                        hourCount = 12,
+                        quality = BooleanResponse.FALSE,
                     )
                 emit(Resource.Success(data = data.toModel()))
             } catch (e: HttpException) {
@@ -70,7 +73,7 @@ class WeatherRepositoryImpl(
     }
 
     override suspend fun getBasicWeatherInfoFromLatAndLong(location: BaseLocationModel)
-            : Flow<Resource<CurrentWeatherBasicModel>> {
+            : Flow<Resource<CurrentWeatherModel>> {
         return flow {
             emit(Resource.Loading())
             try {
@@ -88,7 +91,7 @@ class WeatherRepositoryImpl(
     }
 
     override suspend fun getBasicWeatherInfoFromName(name: String)
-            : Flow<Resource<CurrentWeatherBasicModel>> {
+            : Flow<Resource<CurrentWeatherModel>> {
         return flow {
             emit(Resource.Loading())
             try {
@@ -100,6 +103,29 @@ class WeatherRepositoryImpl(
                 emit(Resource.Error(e.message ?: "IO exception occurred"))
             } catch (e: Exception) {
                 emit(Resource.Error(e.message ?: "Exception occurred"))
+            }
+        }
+    }
+
+    override suspend fun getCurrentLocationWeather(): Flow<Resource<CurrentWeatherModel>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val location =
+                    locationTracker.getLastLocation() ?: locationTracker.getCurrentLocation()
+                if (location != null) {
+                    val data =
+                        weatherApi.getCurrentData(query = "${location.latitude},${location.longitude}")
+                    emit(Resource.Success(data = data.toModel()))
+                } else {
+                    emit(Resource.Error("Cannot retrieve the last location"))
+                }
+            } catch (e: HttpException) {
+                emit(Resource.Error(e.message ?: "Http exception occurred", throwable = e))
+            } catch (e: IOException) {
+                emit(Resource.Error(e.message ?: "IO exception occurred", throwable = e))
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message ?: "Exception occurred", throwable = e))
             }
         }
     }

@@ -1,8 +1,15 @@
 package com.eva.androidweatherapp.domain.models
 
 import com.eva.androidweatherapp.domain.utils.AirQualityOption
+import java.time.LocalDate
 
-data class WeatherForecastDayModel(
+data class WeatherDayForecastModel(
+    val date: LocalDate,
+    val moonRise: String,
+    val moonSet: String,
+    val sunrise: String,
+    val sunset: String,
+    val hourCycle: List<WeatherHourModel>,
     val quality: AirQualityOption? = null,
     val avgHumidity: Float,
     val avgTempInCelsius: Float,

@@ -5,9 +5,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,8 +38,7 @@ fun WeatherPropertyItem(
             contentDescription = title,
             contentScale = ContentScale.Fit,
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
-            modifier = Modifier
-                .sizeIn(maxWidth = 80.dp, minHeight = 80.dp)
+            modifier = Modifier.size(40.dp)
         )
         Column(
             horizontalAlignment = Alignment.Start,
@@ -58,9 +56,6 @@ fun WeatherPropertyItemPreview() {
     WeatherPropertyItem(
         image = R.drawable.ic_sunrise,
         title = "Sunrise",
-        value = "5:00AM",
-        modifier = Modifier
-            .height(50.dp)
-            .padding(horizontal = 8.dp)
+        value = "5:00AM"
     )
 }
