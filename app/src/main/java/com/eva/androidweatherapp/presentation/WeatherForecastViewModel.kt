@@ -31,30 +31,40 @@ class WeatherForecastViewModel(
     val content = _content.asStateFlow()
 
     init {
+        getCurrentWeather()
+    }
+
+
+    private fun getCurrentWeather() {
         viewModelScope.launch {
             locationTracker.getLastLocation()?.let { location ->
                 weatherRepository.getWeatherForecastOneDayFromLatAndLong(location)
                     .onEach { res ->
-                        Log.d("TAG", res.toString())
                         when (res) {
-                            is Resource.Success -> _content.update {
-                                ShowContent(
-                                    isLoading = false,
-                                    content = res.data
+                            is Resource.Error -> {
+                                _content.update {
+                                    ShowContent(isLoading = false, content = null)
+                                }
+                                _uiEvent.emit(
+                                    UiEvents.ShowSnackBar(res.message ?: "Error Occurred")
                                 )
                             }
 
-                            is Resource.Error -> {
-                                Log.d("TAG", res.message ?: "")
+                            is Resource.Success -> _content.update {
+                                ShowContent(isLoading = false, content = res.data)
                             }
 
                             else -> {}
                         }
 
-                    }.launchIn(viewModelScope)
-
+                    }.launchIn(this)
             }
-
         }
+    }
+
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("VIEWMODEL", "CLEARED")
     }
 }

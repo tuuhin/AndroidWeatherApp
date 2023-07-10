@@ -29,11 +29,14 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
@@ -58,6 +61,7 @@ fun ForeCastGraph(
     chartColor: Color = MaterialTheme.colorScheme.primary,
     type: WeatherGraphType = WeatherGraphType.AVG_TEMPERATURE,
     localeAmerican: Boolean = isCurrentLocaleAmerican(),
+    numberStyle: TextStyle = MaterialTheme.typography.labelMedium,
 ) {
 
     val listOfTypes = remember { WeatherGraphType.values() }
@@ -214,7 +218,7 @@ fun ForeCastGraph(
                                     GraphPoints(
                                         text = currentValue,
                                         offset = Offset(
-                                            x = if (idx == 0) 0f else blockWidth * idx,
+                                            x = blockWidth * idx,
                                             y = graphHeight
                                         )
                                     )
@@ -229,16 +233,14 @@ fun ForeCastGraph(
                                 start = Offset(0f, 0f),
                                 end = Offset(0f, size.height + 10),
                                 cap = StrokeCap.Round,
-                                strokeWidth = 1f,
-                                alpha = 0.8f
+                                strokeWidth = 2f,
                             )
                             drawLine(
                                 color = axisColor,
                                 start = Offset(-10f, size.height),
                                 end = Offset(size.width + 10f, size.height),
                                 cap = StrokeCap.Round,
-                                strokeWidth = 1f,
-                                alpha = 0.8f
+                                strokeWidth = 2f
                             )
 
                             if (minOfType <= 0f) {
@@ -253,21 +255,31 @@ fun ForeCastGraph(
                                 )
                             }
 
+
                             drawPath(
                                 path = path,
                                 color = chartColor,
-                                style = Stroke(width = 4f)
+                                style = Stroke(
+                                    width = 4f,
+                                    cap = StrokeCap.Round,
+                                    join = StrokeJoin.Bevel
+                                )
                             )
 
                             listOffset.forEach { point ->
+
                                 drawText(
                                     textMeasurer = textMeasurer,
                                     text = "${point.text}",
-                                    topLeft = point.offset
+                                    topLeft = point.offset,
+                                    style = numberStyle,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Visible,
+                                    softWrap = true
                                 )
                                 drawCircle(
                                     color = chartColor,
-                                    radius = 10f,
+                                    radius = 6f,
                                     center = point.offset
                                 )
                             }
@@ -305,7 +317,9 @@ fun ForeCastGraphPreview(
 ) {
     ForeCastGraph(
         forecast = forecast,
-        modifier = Modifier.aspectRatio(1.5f),
+        modifier = Modifier
+            .aspectRatio(1.5f)
+            .padding(10.dp),
         type = WeatherGraphType.HUMIDITY,
         onTypeChanged = {},
         isDropdownExpanded = true,

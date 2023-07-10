@@ -67,7 +67,8 @@ fun NavigationGraph(
                     ) { forecast ->
                         CurrentWeatherRoute(forecast = forecast,
                             onAbout = { navController.navigate(NavScreens.AboutScreen.route) },
-                            onForecast = { navController.navigate(NavScreens.WeatherForecastScreen.route) })
+                            onForecast = { navController.navigate(NavScreens.WeatherForecastScreen.route) },
+                            onSearch = { navController.navigate(NavScreens.SearchCityScreen.route) })
                     }
 
                 }
@@ -108,7 +109,7 @@ fun NavigationGraph(
                 composable(NavScreens.SearchCityScreen.route) {
                     val viewModel = koinViewModel<SearchLocationViewModel>()
 
-                    val isActive by viewModel.isActive.collectAsStateWithLifecycle()
+                    val isActive by viewModel.isSearchActive.collectAsStateWithLifecycle()
                     val query by viewModel.query.collectAsStateWithLifecycle()
                     val results by viewModel.searchResults.collectAsStateWithLifecycle()
                     val savedLocations by viewModel.savedLocation.collectAsStateWithLifecycle()

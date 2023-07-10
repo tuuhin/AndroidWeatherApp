@@ -2,6 +2,7 @@ package com.eva.androidweatherapp.presentation.util
 
 import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
+import com.eva.androidweatherapp.domain.models.SavedWeatherModel
 import com.eva.androidweatherapp.domain.models.SearchLocationResult
 import com.eva.androidweatherapp.domain.models.WeatherAlertModel
 import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
@@ -19,6 +20,24 @@ object PreviewFakeData {
         name = "New York",
         region = "New York",
         country = "United States of America"
+    )
+
+    val fakeSavedWeatherModel = SavedWeatherModel(
+        condition = "Partly Cloudy",
+        code = 1003,
+        image = R.drawable.ic_few_clouds,
+        windSpeedInMh = 16.3f,
+        windSpeedInKmh = 25.9f,
+        feelsLikeFahrenheit = 98.6f,
+        feelsLikeInCelsius = 37f,
+        humidity = 31f,
+        pressureMilliBar = 1011f,
+        precipitationInch = 0f,
+        precipitationMM = 0f,
+        tempInFahrenheit = 93.9f,
+        tempInCelsius = 34.4f,
+        country = "United States of America",
+        name = "New York", region = "New York",
     )
 
     val fakeCurrentWeatherModel = CurrentWeatherModel(

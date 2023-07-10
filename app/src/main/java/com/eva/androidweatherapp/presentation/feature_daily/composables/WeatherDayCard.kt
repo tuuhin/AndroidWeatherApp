@@ -2,12 +2,14 @@ package com.eva.androidweatherapp.presentation.feature_daily.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -20,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
@@ -66,7 +69,7 @@ fun WeatherDayCard(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(40.dp)
+                    .height(32.dp)
                     .padding(horizontal = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -95,33 +98,36 @@ fun WeatherDayCard(
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                WeatherImage(
-                    res = forecastModel.image,
-                    background = if (isCurrentDay)
-                        MaterialTheme.colorScheme.secondaryContainer
-                    else
-                        MaterialTheme.colorScheme.primaryContainer,
-                    color = if (isCurrentDay)
-                        MaterialTheme.colorScheme.onSecondaryContainer
-                    else
-                        MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.sizeIn(maxHeight = 100.dp, maxWidth = 100.dp)
-                )
                 Column(
                     modifier = Modifier.wrapContentHeight(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    CurrentTemperatureData(
-                        forecastDay = forecastModel,
-                        horizontal = Alignment.CenterHorizontally
-                    )
+                    WeatherImage(
+                        res = forecastModel.image,
+                        background = if (isCurrentDay)
+                            MaterialTheme.colorScheme.primaryContainer
+                        else
+                            MaterialTheme.colorScheme.surfaceVariant,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.sizeIn(maxHeight = 64.dp, maxWidth = 64.dp),
+                        imagePadding = PaddingValues(8.dp)
 
+                    )
                     Text(
                         text = forecastModel.weather,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.wrapContentWidth()
                     )
+
                 }
+                CurrentTemperatureData(
+                    forecastDay = forecastModel,
+                    horizontal = Alignment.CenterHorizontally
+                )
+
             }
             WeatherPropertiesSimplified(
                 dayForecast = forecastModel,

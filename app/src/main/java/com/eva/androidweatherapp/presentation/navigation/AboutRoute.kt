@@ -50,13 +50,15 @@ fun AboutRoute(
     navigationIcon: (@Composable () -> Unit)? = null,
     context: Context = LocalContext.current,
 ) {
-
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "About") },
                 navigationIcon = navigationIcon ?: {},
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                colors = TopAppBarDefaults
+                    .topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.inverseOnSurface
+                    )
             )
         }, containerColor = MaterialTheme.colorScheme.inverseOnSurface
     ) { scPadding ->
@@ -73,15 +75,16 @@ fun AboutRoute(
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Box(
                         modifier = Modifier
                             .size(50.dp)
                             .clip(MaterialTheme.shapes.medium)
                             .background(MaterialTheme.colorScheme.primaryContainer),
                         contentAlignment = Alignment.Center
-                    )
-                    {
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_api_logo),
                             tint = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -138,13 +141,10 @@ fun AboutRoute(
 @Composable
 fun AboutRoutePreview() {
     Surface(color = MaterialTheme.colorScheme.inverseOnSurface) {
-        AboutRoute(
-            navigationIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.ArrowBack,
-                    contentDescription = "Back Button"
-                )
-            }
-        )
+        AboutRoute(navigationIcon = {
+            Icon(
+                imageVector = Icons.Outlined.ArrowBack, contentDescription = "Back Button"
+            )
+        })
     }
 }

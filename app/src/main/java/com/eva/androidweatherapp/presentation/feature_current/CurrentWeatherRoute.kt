@@ -8,17 +8,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -43,6 +45,7 @@ fun CurrentWeatherRoute(
     modifier: Modifier = Modifier,
     onAbout: (() -> Unit)? = null,
     onForecast: (() -> Unit)? = null,
+    onSearch: (() -> Unit)? = null,
     snackBarHostState: SnackbarHostState = LocalSnackBarHostState.current
 ) {
     val formattedTime by remember {
@@ -52,12 +55,10 @@ fun CurrentWeatherRoute(
         }
     }
 
-
-
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
                     Text(text = formattedTime, style = MaterialTheme.typography.titleMedium)
                 },
@@ -71,6 +72,19 @@ fun CurrentWeatherRoute(
                         Icon(
                             imageVector = Icons.Outlined.Info,
                             contentDescription = "Information"
+                        )
+                    }
+                }, navigationIcon = {
+                    IconButton(
+                        onClick = onSearch ?: {},
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Search,
+                            contentDescription = "Search"
                         )
                     }
                 }
@@ -87,13 +101,13 @@ fun CurrentWeatherRoute(
             CurrentWeatherData(
                 model = forecast,
                 modifier = Modifier
-                    .weight(.45f)
+                    .weight(.35f)
                     .padding(horizontal = 10.dp)
             )
             WeatherHourlyData(
                 hourlyWeather = forecast.forecast.first().hourCycle,
                 modifier = Modifier
-                    .weight(.3f)
+                    .weight(.25f)
                     .padding(horizontal = 4.dp),
                 onForecast = onForecast ?: {}
             )
