@@ -96,8 +96,6 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:2.8.1"
     //lottie
     implementation "com.airbnb.android:lottie-compose:6.0.1"
-    //datastore
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

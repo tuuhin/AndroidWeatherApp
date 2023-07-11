@@ -12,13 +12,13 @@ import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import com.eva.androidweatherapp.R
-import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
+import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 
 @Composable
 @GlanceComposable
 fun WeatherTileBottomSimple(
     modifier: GlanceModifier = GlanceModifier,
-    model: CurrentWeatherBasicModel
+    model: WidgetWeatherModel,
 ) {
     Row(
         modifier = modifier
@@ -31,19 +31,19 @@ fun WeatherTileBottomSimple(
     ) {
         WeatherBasicInformation(
             image = R.drawable.ic_precipitation,
-            data = "${model.currentWeather.precipitationMM}",
+            data = "${model.precipitationMM}",
             unit = "mm",
             modifier = GlanceModifier.defaultWeight()
         )
         WeatherBasicInformation(
             image = R.drawable.ic_humidity,
-            data = "${model.currentWeather.humidity}",
+            data = "${model.humidity}",
             unit = "%",
             modifier = GlanceModifier.defaultWeight()
         )
         WeatherBasicInformation(
             image = R.drawable.ic_wind_speed,
-            data = "${model.currentWeather.windSpeedInKmh}",
+            data = "${model.windSpeedInKmh}",
             unit = "kmph",
             modifier = GlanceModifier.defaultWeight()
         )

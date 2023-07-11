@@ -21,13 +21,13 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.eva.androidweatherapp.R
-import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
+import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 
 @Composable
 @GlanceComposable
 fun WeatherTileTopBar(
     modifier: GlanceModifier = GlanceModifier,
-    model: CurrentWeatherBasicModel
+    model: WidgetWeatherModel,
 ) {
     Row(
         modifier = modifier
@@ -47,7 +47,7 @@ fun WeatherTileTopBar(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = model.location.name,
+                text = model.name,
                 style = TextStyle(
                     color = GlanceTheme.colors.onSurfaceVariant,
                     fontSize = 14.sp,
@@ -55,7 +55,7 @@ fun WeatherTileTopBar(
                 )
             )
             Text(
-                text = model.currentWeather.condition,
+                text = model.condition,
                 style = TextStyle(
                     color = GlanceTheme.colors.onSurfaceVariant,
                     fontSize = 10.sp,

@@ -24,13 +24,13 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
-import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
+import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 
 @Composable
 @GlanceComposable
 fun WeatherTopBarExtended(
     modifier: GlanceModifier = GlanceModifier,
-    model: CurrentWeatherBasicModel,
+    model: WidgetWeatherModel,
 ) {
     Row(
         modifier = modifier
@@ -50,8 +50,8 @@ fun WeatherTopBarExtended(
                 contentAlignment = Alignment.CenterStart
             ) {
                 Image(
-                    provider = ImageProvider(model.currentWeather.image),
-                    contentDescription = model.currentWeather.condition,
+                    provider = ImageProvider(model.image),
+                    contentDescription = model.condition,
                     colorFilter = ColorFilter.tint(GlanceTheme.colors.onPrimaryContainer),
                     modifier = GlanceModifier.padding(8.dp)
                 )
@@ -62,7 +62,7 @@ fun WeatherTopBarExtended(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = model.location.name,
+                text = model.name,
                 style = TextStyle(
                     color = GlanceTheme.colors.onSurfaceVariant,
                     fontSize = 20.sp,
@@ -70,7 +70,7 @@ fun WeatherTopBarExtended(
                 )
             )
             Text(
-                text = model.currentWeather.condition,
+                text = model.condition,
                 style = TextStyle(
                     color = GlanceTheme.colors.onSurfaceVariant,
                     fontSize = 16.sp,

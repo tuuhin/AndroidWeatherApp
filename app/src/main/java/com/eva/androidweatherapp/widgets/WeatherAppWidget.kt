@@ -1,14 +1,13 @@
 package com.eva.androidweatherapp.widgets
 
 import android.content.Context
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.action.ActionParameters
-import androidx.glance.appwidget.CircularProgressIndicator
+import androidx.glance.action.actionStartActivity
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.action.ActionCallback
@@ -16,56 +15,37 @@ import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
+import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.background
+import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
-import androidx.glance.layout.Column
-import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
-import androidx.glance.layout.height
-import androidx.glance.text.Text
-import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
-import com.eva.androidweatherapp.domain.repository.WeatherRepository
-import com.eva.androidweatherapp.utils.Resource
+import androidx.glance.state.GlanceStateDefinition
+import com.eva.androidweatherapp.presentation.MainActivity
+import com.eva.androidweatherapp.widgets.composables.LoadingLayout
+import com.eva.androidweatherapp.widgets.composables.NoLocationError
 import com.eva.androidweatherapp.widgets.composables.WeatherErrorLayout
 import com.eva.androidweatherapp.widgets.composables.WeatherWidgetLayouts
+import com.eva.androidweatherapp.widgets.data.SerializedResource
+import com.eva.androidweatherapp.widgets.data.toModel
 import com.eva.androidweatherapp.widgets.theme.WeatherAppWidgetTheme
 import com.eva.androidweatherapp.widgets.utils.AvailableSizes
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.cancellable
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.withContext
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import com.eva.androidweatherapp.workers.WidgetRefreshWorker
 
-typealias CurrentWeatherResource = Resource<CurrentWeatherBasicModel>
-
-object WeatherAppWidget : GlanceAppWidget(), KoinComponent {
-
-    private val weatherRepo: WeatherRepository by inject()
-
-
-    private val weatherData =
-        MutableStateFlow<CurrentWeatherResource>(Resource.Loading())
+object WeatherAppWidget : GlanceAppWidget() {
 
     override val sizeMode: SizeMode
         get() = SizeMode.Responsive(AvailableSizes.SIZES)
 
+    override val stateDefinition: GlanceStateDefinition<SerializedResource>
+        get() = WeatherDataDefinition
+
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        // suspend call can be made here
-        withContext(Dispatchers.IO) {
-            weatherRepo
-                .getBasicWeatherInfoFromName("Howrah")
-                .cancellable()
-                .onEach { res -> weatherData.update { res } }
-                .launchIn(this)
-        }
 
         provideContent {
+            val state = currentState<SerializedResource>()
             WeatherAppWidgetTheme {
                 Box(
                     modifier = GlanceModifier
@@ -75,33 +55,27 @@ object WeatherAppWidget : GlanceAppWidget(), KoinComponent {
                         .appWidgetBackground(),
                     contentAlignment = Alignment.Center
                 ) {
-                    val state by weatherData.collectAsState()
                     when (state) {
-                        is Resource.Error -> WeatherErrorLayout(
-                            errorMessage = state.message ?: "",
+                        is SerializedResource.Error -> WeatherErrorLayout(
+                            errorMessage = state.message,
                             action = actionRunCallback<RefreshAction>()
                         )
 
-                        is Resource.Loading -> Column(
-                            modifier = GlanceModifier.fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            CircularProgressIndicator(
-                                color = GlanceTheme.colors.onPrimaryContainer
-                            )
-                            Spacer(modifier = GlanceModifier.height(2.dp))
-                            Text(text = "Loading..")
-                        }
+                        is SerializedResource.IsLoading -> LoadingLayout()
 
-                        is Resource.Success -> state.data
-                            ?.let { model -> WeatherWidgetLayouts(model = model) }
-                            ?: Text(text = "No results..")
+                        is SerializedResource.Success ->
+                            WeatherWidgetLayouts(model = state.data.toModel())
+
+                        is SerializedResource.NoLocationFound -> NoLocationError(
+                            action = actionRunCallback<RefreshAction>(),
+                            modifier = GlanceModifier.clickable(actionStartActivity<MainActivity>())
+                        )
                     }
                 }
             }
         }
     }
+
 }
 
 class RefreshAction : ActionCallback {
@@ -110,6 +84,11 @@ class RefreshAction : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
+        updateAppWidgetState(context, WeatherDataDefinition, glanceId) {
+            SerializedResource.IsLoading
+        }
+
         WeatherAppWidget.update(context, glanceId)
+        WidgetRefreshWorker.start(context)
     }
 }

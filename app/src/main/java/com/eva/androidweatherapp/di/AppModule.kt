@@ -1,18 +1,12 @@
 package com.eva.androidweatherapp.di
 
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import com.eva.androidweatherapp.data.local.AppDataBase
 import com.eva.androidweatherapp.data.location.AndroidLocationTracker
 import com.eva.androidweatherapp.data.remote.WeatherApi
-import com.eva.androidweatherapp.data.repository.PreferenceStoreImpl
 import com.eva.androidweatherapp.data.repository.SaveLocationRepoImpl
 import com.eva.androidweatherapp.data.repository.SearchLocationRepoImpl
 import com.eva.androidweatherapp.data.repository.WeatherRepositoryImpl
 import com.eva.androidweatherapp.domain.location.LocationTracker
-import com.eva.androidweatherapp.domain.repository.PreferenceStoreFacade
 import com.eva.androidweatherapp.domain.repository.SaveLocationRepository
 import com.eva.androidweatherapp.domain.repository.SearchLocationRepository
 import com.eva.androidweatherapp.domain.repository.WeatherRepository
@@ -26,8 +20,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.time.Duration
 import java.util.concurrent.TimeUnit
-
-val Context.configStore: DataStore<Preferences> by preferencesDataStore(name = "APP_CONFIGURATION")
 
 val appModule = module {
 
@@ -47,9 +39,7 @@ val appModule = module {
 
     factory<LocationTracker> { AndroidLocationTracker(get(), get()) }
 
-    factory<PreferenceStoreFacade> { PreferenceStoreImpl(get()) }
-
-    factory<WeatherRepository> { WeatherRepositoryImpl(get(), get()) }
+    factory<WeatherRepository> { WeatherRepositoryImpl(get()) }
 
     factory<SearchLocationRepository> { SearchLocationRepoImpl(get()) }
 

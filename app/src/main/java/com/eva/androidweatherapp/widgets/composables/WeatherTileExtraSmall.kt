@@ -21,12 +21,12 @@ import androidx.glance.layout.height
 import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.layout.wrapContentSize
-import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
+import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 
 @Composable
 @GlanceComposable
 fun WeatherTileExtraSmall(
-    model: CurrentWeatherBasicModel,
+    model: WidgetWeatherModel,
     modifier: GlanceModifier = GlanceModifier
 ) {
     Column(
@@ -49,16 +49,16 @@ fun WeatherTileExtraSmall(
                 contentAlignment = Alignment.TopStart
             ) {
                 Image(
-                    provider = ImageProvider(model.currentWeather.image),
-                    contentDescription = model.currentWeather.condition,
+                    provider = ImageProvider(model.image),
+                    contentDescription = model.condition,
                     colorFilter = ColorFilter.tint(GlanceTheme.colors.onPrimaryContainer),
                     modifier = GlanceModifier.padding(4.dp)
                 )
             }
             Spacer(modifier = GlanceModifier.width(8.dp))
-            CurrentTemperature(
-                celsius = model.currentWeather.tempInCelsius,
-                fahrenheit = model.currentWeather.tempInFahrenheit
+            CurrentTemperatureText(
+                celsius = model.tempInCelsius,
+                fahrenheit = model.tempInFahrenheit
             )
         }
     }

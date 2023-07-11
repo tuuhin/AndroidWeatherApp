@@ -21,14 +21,14 @@ import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
+import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 import com.eva.androidweatherapp.widgets.utils.isCurrentLocalAmericanGlance
 
 @Composable
 @GlanceComposable
 fun WeatherTileMedium(
     modifier: GlanceModifier = GlanceModifier,
-    model: CurrentWeatherBasicModel,
+    model: WidgetWeatherModel,
 ) {
     Column(
         modifier = modifier
@@ -49,9 +49,9 @@ fun WeatherTileMedium(
                     modifier = GlanceModifier.defaultWeight(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CurrentTemperature(
-                        celsius = model.currentWeather.tempInCelsius,
-                        fahrenheit = model.currentWeather.tempInFahrenheit
+                    CurrentTemperatureText(
+                        celsius = model.tempInCelsius,
+                        fahrenheit = model.tempInFahrenheit
                     )
                 }
                 Text(
@@ -64,7 +64,7 @@ fun WeatherTileMedium(
                 )
                 if (isCurrentLocalAmericanGlance())
                     Text(
-                        text = "${model.currentWeather.feelsLikeFahrenheit}" + "\u00B0",
+                        text = "${model.feelsLikeFahrenheit}" + "\u00B0",
                         style = TextStyle(
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
@@ -73,7 +73,7 @@ fun WeatherTileMedium(
                     )
                 else
                     Text(
-                        text = "${model.currentWeather.feelsLikeInCelsius}" + "\u00B0",
+                        text = "${model.feelsLikeInCelsius}" + "\u00B0",
                         style = TextStyle(
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,

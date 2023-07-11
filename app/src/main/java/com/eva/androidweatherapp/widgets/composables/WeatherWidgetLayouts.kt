@@ -5,13 +5,13 @@ import androidx.compose.ui.unit.DpSize
 import androidx.glance.GlanceComposable
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalSize
-import com.eva.androidweatherapp.domain.models.CurrentWeatherBasicModel
+import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 import com.eva.androidweatherapp.widgets.utils.AvailableSizes
 
 @Composable
 @GlanceComposable
 fun WeatherWidgetLayouts(
-    model: CurrentWeatherBasicModel,
+    model: WidgetWeatherModel,
     modifier: GlanceModifier = GlanceModifier,
     size: DpSize = LocalSize.current
 ) {
@@ -26,7 +26,7 @@ fun WeatherWidgetLayouts(
             modifier = modifier
         )
 
-        else -> WeatherTileMedium(
+        AvailableSizes.WIDGET_SIZE_LARGE -> WeatherTileMedium(
             model = model,
             modifier = modifier
         )

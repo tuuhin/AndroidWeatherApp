@@ -48,7 +48,9 @@ fun WeatherErrorLayout(
             .padding(8.dp),
         contentAlignment = Alignment.Center
     ) {
-        Box(contentAlignment = Alignment.TopEnd) {
+        Box(
+            contentAlignment = Alignment.TopEnd
+        ) {
             Image(
                 provider = ImageProvider(R.drawable.ic_refresh_symbol),
                 contentDescription = "Refresh Symbol",
@@ -65,7 +67,7 @@ fun WeatherErrorLayout(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        provider = ImageProvider(R.drawable.ic_no_location),
+                        provider = ImageProvider(R.drawable.ic_error),
                         contentDescription = "No weather data found",
                         colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
                         modifier = GlanceModifier.padding(4.dp)

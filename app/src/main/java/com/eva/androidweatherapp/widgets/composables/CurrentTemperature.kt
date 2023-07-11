@@ -12,29 +12,19 @@ import com.eva.androidweatherapp.widgets.utils.isCurrentLocalAmericanGlance
 
 @Composable
 @GlanceComposable
-fun CurrentTemperature(
+fun CurrentTemperatureText(
     celsius: Float,
     fahrenheit: Float,
-    modifier: GlanceModifier = GlanceModifier
+    modifier: GlanceModifier = GlanceModifier,
+    isAmerican: Boolean = isCurrentLocalAmericanGlance()
 ) {
-    if (!isCurrentLocalAmericanGlance())
-        Text(
-            text = "$celsius \u00B0",
-            style = TextStyle(
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = GlanceTheme.colors.onSurfaceVariant
-            ),
-            modifier = modifier
-        )
-    else
-        Text(
-            text = "$fahrenheit \u00B0",
-            style = TextStyle(
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = GlanceTheme.colors.onSurfaceVariant
-            ),
-            modifier = modifier
-        )
+    Text(
+        text = if (isAmerican) "$fahrenheit \u00B0" else "$celsius \u00B0",
+        style = TextStyle(
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            color = GlanceTheme.colors.onSurfaceVariant
+        ),
+        modifier = modifier
+    )
 }
