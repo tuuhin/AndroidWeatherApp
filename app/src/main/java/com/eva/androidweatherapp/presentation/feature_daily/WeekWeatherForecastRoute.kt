@@ -1,5 +1,7 @@
 package com.eva.androidweatherapp.presentation.feature_daily
 
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,16 +32,17 @@ import com.eva.androidweatherapp.presentation.feature_daily.composables.ForeCast
 import com.eva.androidweatherapp.presentation.feature_daily.composables.WeatherDayCard
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun WeekForecastRoute(
     forecastModel: WeatherForeCastModel,
     modifier: Modifier = Modifier,
     navigation: (@Composable () -> Unit)? = null,
-    onTypeChanged: (WeatherGraphType) -> Unit,
-    isDropdownExpanded: Boolean,
-    graphType: WeatherGraphType,
-    onDropDownDismiss: () -> Unit,
+    onEvents: (GraphInteractionEvents) -> Unit,
+    state: GraphInteractionState,
 ) {
     Scaffold(
         topBar = {
@@ -64,10 +67,8 @@ fun WeekForecastRoute(
         ) {
             ForeCastGraph(
                 forecast = forecastModel,
-                type = graphType,
-                onTypeChanged = onTypeChanged,
-                isExpanded = isDropdownExpanded,
-                onDropDownDismiss = onDropDownDismiss,
+                state = state,
+                onEvents = onEvents,
                 modifier = Modifier.aspectRatio(1.5f)
             )
             Text(
@@ -81,7 +82,9 @@ fun WeekForecastRoute(
                 itemsIndexed(forecastModel.forecast) { _, forecast ->
                     WeatherDayCard(
                         forecastModel = forecast,
-                        modifier = Modifier.wrapContentSize()
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .animateItemPlacement(tween(600))
                     )
                 }
             }
@@ -104,11 +107,8 @@ fun WeekForeCastRoutePreview() {
                     contentDescription = "Arrow Symbol"
                 )
             },
-            isDropdownExpanded = true,
-            onTypeChanged = {},
-            onDropDownDismiss = {},
-            graphType = WeatherGraphType.AVG_TEMPERATURE
+            state = GraphInteractionState(),
+            onEvents = {}
         )
-
     }
 }

@@ -7,17 +7,24 @@ import kotlinx.coroutines.flow.update
 
 class WeatherGraphViewModel : ViewModel() {
 
-    private val _isDropDownOpen = MutableStateFlow(false)
-    val isDropDownOpen = _isDropDownOpen.asStateFlow()
+    private val _graphState = MutableStateFlow(GraphInteractionState())
+    val graphState = _graphState.asStateFlow()
 
-    private val _graphType = MutableStateFlow(WeatherGraphType.AVG_TEMPERATURE)
-    val graphType = _graphType.asStateFlow()
+    fun onGraphEvents(events: GraphInteractionEvents) {
+        when (events) {
 
-    fun onDropDownToggle() {
-        _isDropDownOpen.update { !_isDropDownOpen.value }
+            GraphInteractionEvents.OnToggleDropDown -> {
+                _graphState.update {
+                    it.copy(isDropDownOpen = !_graphState.value.isDropDownOpen)
+                }
+            }
+
+            is GraphInteractionEvents.OngraphSelect -> {
+                _graphState.update {
+                    it.copy(graph = events.type)
+                }
+            }
+        }
     }
 
-    fun onGraphTypeSelect(type: WeatherGraphType) {
-        _graphType.update { type }
-    }
 }

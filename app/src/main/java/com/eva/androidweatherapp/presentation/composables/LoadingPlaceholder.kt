@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.presentation.util.ShowContent
@@ -30,6 +31,7 @@ fun <T> LoadingPlaceholder(
     density: Density = LocalDensity.current,
     content: (@Composable (T) -> Unit) = {},
 ) {
+
     AnimatedVisibility(
         visible = showContent.isLoading,
         enter = fadeIn() + slideInVertically { with(density) { -40.dp.roundToPx() } },
@@ -40,7 +42,9 @@ fun <T> LoadingPlaceholder(
     }
     AnimatedVisibility(
         visible = !showContent.isLoading,
-        enter = fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.Center)
+        enter = fadeIn() +
+                expandIn(expandFrom = Alignment.Center) { IntSize(100, 100) },
+        modifier = Modifier.fillMaxSize()
     ) {
         showContent.content
             ?.let { data -> content(data) }
@@ -61,3 +65,4 @@ fun <T> LoadingPlaceholder(
             }
     }
 }
+

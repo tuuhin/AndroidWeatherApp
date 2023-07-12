@@ -79,8 +79,7 @@ fun NavigationGraph(
                     val content by sharedViewModel.content.collectAsStateWithLifecycle()
 
                     val viewModel = viewModel<WeatherGraphViewModel>()
-                    val isDropdownOpen by viewModel.isDropDownOpen.collectAsStateWithLifecycle()
-                    val graphType by viewModel.graphType.collectAsStateWithLifecycle()
+                    val state by viewModel.graphState.collectAsStateWithLifecycle()
 
 
                     LoadingPlaceholder(
@@ -98,10 +97,8 @@ fun NavigationGraph(
                                     )
                                 }
                             },
-                            isDropdownExpanded = isDropdownOpen,
-                            graphType = graphType,
-                            onDropDownDismiss = viewModel::onDropDownToggle,
-                            onTypeChanged = viewModel::onGraphTypeSelect
+                            state = state,
+                            onEvents = viewModel::onGraphEvents
                         )
                     }
                 }
@@ -109,32 +106,39 @@ fun NavigationGraph(
                 composable(NavScreens.SearchCityScreen.route) {
                     val viewModel = koinViewModel<SearchLocationViewModel>()
 
-                    val isActive by viewModel.isSearchActive.collectAsStateWithLifecycle()
-                    val query by viewModel.query.collectAsStateWithLifecycle()
+                    val state by viewModel.searchBarState.collectAsStateWithLifecycle()
                     val results by viewModel.searchResults.collectAsStateWithLifecycle()
                     val savedLocations by viewModel.savedLocation.collectAsStateWithLifecycle()
 
+                    LaunchedEffect(Unit) {
+                        viewModel.uiEvents.collect { events ->
+                            when (events) {
+                                is UiEvents.ShowSnackBar -> snackBarState.showSnackbar(events.message)
+                            }
+                        }
+                    }
+
                     SearchLocationsRoute(
-                        query = query,
-                        onQuery = viewModel::onQueryChange,
-                        isActive = isActive,
-                        onActiveChange = viewModel::onToggleSearch,
-                        onLocationSelect = viewModel::onLocationSelect,
+                        state = state,
                         searchResults = results,
-                        overallocationResults = savedLocations,
+                        savedLocations = savedLocations,
+                        onEvents = viewModel::onSearchBarEvents
                     )
                 }
 
             }
             composable(NavScreens.AboutScreen.route) {
-                AboutRoute(navigationIcon = {
-                    if (navController.previousBackStackEntry != null) IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = "Back button"
-                        )
+                AboutRoute(
+                    navigationIcon = {
+                        if (navController.previousBackStackEntry != null)
+                            IconButton(onClick = { navController.navigateUp() }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.ArrowBack,
+                                    contentDescription = "Back button"
+                                )
+                            }
                     }
-                })
+                )
             }
         }
     }

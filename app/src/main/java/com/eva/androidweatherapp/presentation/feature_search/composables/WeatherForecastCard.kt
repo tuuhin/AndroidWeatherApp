@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ButtonDefaults
@@ -25,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -96,12 +96,11 @@ fun WeatherForecastCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 4.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(
-                    modifier = Modifier.wrapContentSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    modifier = Modifier.weight(.5f),
+                    horizontalAlignment = Alignment.Start
                 ) {
                     WeatherImage(
                         res = model.image,
@@ -111,11 +110,14 @@ fun WeatherForecastCard(
                     )
                     Text(
                         text = model.condition,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 3,
+                        textAlign = TextAlign.Center
                     )
                 }
+                Spacer(modifier = Modifier.weight(.05f))
                 Column(
-                    modifier = Modifier.wrapContentSize(),
+                    modifier = Modifier.weight(.4f),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(

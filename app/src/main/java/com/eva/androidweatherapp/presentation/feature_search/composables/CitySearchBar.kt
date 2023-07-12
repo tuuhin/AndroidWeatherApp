@@ -23,10 +23,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.domain.models.SearchLocationResult
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.ShowContent
@@ -62,7 +64,7 @@ fun CitySearchBar(
         shape = MaterialTheme.shapes.medium,
     ) {
         when {
-            results.isLoading -> Text(
+            results.isLoading && results.content == null -> Text(
                 text = "Requesting...",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
@@ -70,9 +72,9 @@ fun CitySearchBar(
                     .padding(vertical = 4.dp)
             )
 
-            results.content == null -> {}
-            results.content.isNotEmpty() -> LazyColumn(
+            !results.content.isNullOrEmpty() -> LazyColumn(
                 contentPadding = PaddingValues(10.dp),
+                reverseLayout = true,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 itemsIndexed(results.content) { _, item ->
@@ -100,7 +102,10 @@ fun CitySearchBar(
                 }
             }
 
-            else -> NoSearchResults()
+            else -> NoSearchResults(
+                text = "No city found",
+                painter = painterResource(id = R.drawable.ic_search)
+            )
         }
     }
 }

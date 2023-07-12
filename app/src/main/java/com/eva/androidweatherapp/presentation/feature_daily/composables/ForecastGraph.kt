@@ -47,6 +47,8 @@ import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameter
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
+import com.eva.androidweatherapp.presentation.feature_daily.GraphInteractionEvents
+import com.eva.androidweatherapp.presentation.feature_daily.GraphInteractionState
 import com.eva.androidweatherapp.presentation.feature_daily.WeatherGraphType
 import com.eva.androidweatherapp.presentation.util.GraphPoints
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
@@ -58,11 +60,9 @@ import kotlin.random.Random
 @Composable
 fun ForeCastGraph(
     forecast: WeatherForeCastModel,
-    onTypeChanged: (WeatherGraphType) -> Unit,
-    isExpanded: Boolean,
-    onDropDownDismiss: () -> Unit,
+    state: GraphInteractionState,
+    onEvents: (GraphInteractionEvents) -> Unit,
     modifier: Modifier = Modifier,
-    type: WeatherGraphType = WeatherGraphType.AVG_TEMPERATURE,
     localeAmerican: Boolean = isCurrentLocaleAmerican(),
     axisColor: Color = MaterialTheme.colorScheme.tertiary,
     chartColor: Color = MaterialTheme.colorScheme.primary,
@@ -95,7 +95,7 @@ fun ForeCastGraph(
                 modifier = Modifier.wrapContentWidth()
             ) {
                 TextButton(
-                    onClick = onDropDownDismiss,
+                    onClick = { onEvents(GraphInteractionEvents.OnToggleDropDown) },
                     modifier = Modifier
                         .pointerInput(Unit) {
                             detectTapGestures { offset ->
@@ -105,15 +105,15 @@ fun ForeCastGraph(
                         }
                 ) {
                     Text(
-                        text = type.typeWithUnit(localeAmerican),
+                        text = state.graph.typeWithUnit(localeAmerican),
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Medium
                     )
                 }
                 DropdownMenu(
-                    expanded = isExpanded,
-                    onDismissRequest = onDropDownDismiss,
+                    expanded = state.isDropDownOpen,
+                    onDismissRequest = { onEvents(GraphInteractionEvents.OnToggleDropDown) },
                     offset = dropDownOffset
                 ) {
                     listOfTypes.forEach { type ->
@@ -124,7 +124,7 @@ fun ForeCastGraph(
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             },
-                            onClick = { onTypeChanged(type) },
+                            onClick = { onEvents(GraphInteractionEvents.OngraphSelect(type)) },
                             colors = MenuDefaults.itemColors(
                                 textColor = MaterialTheme.colorScheme.onSecondaryContainer
                             )
@@ -139,7 +139,7 @@ fun ForeCastGraph(
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary)
         ) {
             Crossfade(
-                targetState = type,
+                targetState = state.graph,
                 modifier = Modifier.fillMaxWidth(),
                 label = "Graph Transitions"
             ) { graph ->
@@ -235,21 +235,34 @@ fun ForeCastGraph(
                                     )
                                 )
 
-                                listOffset.forEach { point ->
-                                    drawCircle(
-                                        color = chartColor,
-                                        radius = 6f,
-                                        center = point.coordinate
-                                    )
+                                if (!listOffset.all { it.value == 0f }) {
+                                    listOffset.forEach { point ->
+                                        drawCircle(
+                                            color = chartColor,
+                                            radius = 6f,
+                                            center = point.coordinate
+                                        )
 
+                                        drawText(
+                                            textMeasurer = textMeasurer,
+                                            text = "${point.value}",
+                                            topLeft = point.coordinate,
+                                            style = numberStyle,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Visible,
+                                            softWrap = false
+                                        )
+
+                                    }
+                                } else {
                                     drawText(
                                         textMeasurer = textMeasurer,
-                                        text = "${point.value}",
-                                        topLeft = point.coordinate,
-                                        style = numberStyle,
+                                        text = "No data for these days",
+                                        topLeft = Offset(center.x, center.y),
+                                        style = numberStyle.copy(color = textColor),
                                         maxLines = 1,
                                         overflow = TextOverflow.Visible,
-                                        softWrap = true
+                                        softWrap = false
                                     )
                                 }
                             }
@@ -283,9 +296,6 @@ fun ForeCastGraphPreview(
         modifier = Modifier
             .aspectRatio(1.5f)
             .padding(10.dp),
-        type = WeatherGraphType.HUMIDITY,
-        onTypeChanged = {},
-        isExpanded = true,
-        onDropDownDismiss = {}
+        state = GraphInteractionState(), onEvents = {}
     )
 }

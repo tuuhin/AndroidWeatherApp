@@ -34,8 +34,8 @@ fun WeatherCurrentDataDto.toModel(): CurrentWeatherModel = CurrentWeatherModel(
     country = location.country
 )
 
-fun WeatherCurrentDataDto.toDbModel(id: Int? = null): SavedWeatherModel = SavedWeatherModel(
-    id = id,
+fun WeatherCurrentDataDto.toDbModel(entityId: Int? = null): SavedWeatherModel = SavedWeatherModel(
+    id = entityId,
     code = weather.condition.weatherCode,
     image = weather.condition.weatherCode.toDrawableRes(),
     condition = weather.condition.text,
