@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface SaveLocationRepository {
     suspend fun getCityWeatherFromLocations(): Flow<List<SavedWeatherModel>>
 
-    suspend fun removeCity(model: SavedWeatherModel)
+    suspend fun removeCity(model: SavedWeatherModel): Resource<Boolean>
 
     suspend fun addCity(name: String): Resource<SavedWeatherModel>
 }

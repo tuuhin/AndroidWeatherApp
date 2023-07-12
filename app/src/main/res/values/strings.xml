@@ -12,4 +12,10 @@
 
     <string name="worker_content_text">Fetching the current weather information, this will take couple of seconds</string>
     <string name="worker_content_title">Fetching Current Weather..</string>
+
+    <string name="background_location_title">Background location required</string>
+    <string name="background_location_body">For the app widgets you need background location permission,click on allow all time</string>
+    <string name="no_location_body">Allow location permissions to continue</string>
+    <string name="no_location_title">Location permissions not found</string>
+    <string name="saved_location_helper_text">All saved city data will be synced in the interval of 12 hrs</string>
 </resources>

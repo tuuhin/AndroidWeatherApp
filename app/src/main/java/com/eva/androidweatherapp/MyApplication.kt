@@ -2,6 +2,7 @@ package com.eva.androidweatherapp
 
 import android.app.Application
 import com.eva.androidweatherapp.di.appModule
+import com.eva.androidweatherapp.workers.DataBaseSyncWorker
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -14,8 +15,10 @@ class MyApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@MyApplication)
-            modules(appModule )
+            modules(appModule)
         }
+
+        DataBaseSyncWorker.start(applicationContext)
     }
 
     override fun onTerminate() {

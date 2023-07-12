@@ -6,7 +6,6 @@ import java.time.LocalDateTime
 
 data class CurrentWeatherModel(
     val airQuality: AirQualityOption?,
-    val airQualityIndex: Float,
     val cloudCover: Float,
     val condition: String,
     @DrawableRes val image: Int,

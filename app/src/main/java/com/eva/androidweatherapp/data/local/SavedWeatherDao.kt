@@ -10,11 +10,20 @@ import kotlinx.coroutines.flow.Flow
 interface SavedWeatherDao {
 
     @Upsert
-    suspend fun upsertLocation(entity: SavedWeatherEntity)
+    suspend fun upsertWeatherEntity(entity: SavedWeatherEntity)
+
+    @Upsert
+    suspend fun upsertWeatherEntities(entity: List<SavedWeatherEntity>)
 
     @Query("SELECT * FROM SavedLocations")
-    fun getSavedLocations(): Flow<List<SavedWeatherEntity>>
+    fun getSavedWeatherEntitiesAsFlow(): Flow<List<SavedWeatherEntity>>
+
+    @Query("SELECT * FROM SavedLocations")
+    fun getSavedWeatherEntitiesAsList(): List<SavedWeatherEntity>
 
     @Delete
-    suspend fun deleteLocation(entity: SavedWeatherEntity)
+    suspend fun deleteWeatherEntity(entity: SavedWeatherEntity)
+
+    @Delete
+    suspend fun deleteWeatherEntities(entities: List<SavedWeatherEntity>)
 }

@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.R
@@ -22,8 +23,7 @@ fun NoLocationPermissions(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -34,12 +34,12 @@ fun NoLocationPermissions(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Location permissions are denied",
+            text = stringResource(id = R.string.no_location_title),
             style = MaterialTheme.typography.titleLarge
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "Go to app settings and allow location permissions",
+            text = stringResource(R.string.no_location_body),
             color = MaterialTheme.colorScheme.secondary,
             style = MaterialTheme.typography.bodyMedium
         )
@@ -51,5 +51,8 @@ fun NoLocationPermissions(
 @Preview(showBackground = true)
 @Composable
 fun NoLocationPermissionsPreview() {
-    NoLocationPermissions(modifier = Modifier.background(MaterialTheme.colorScheme.inverseOnSurface))
+    NoLocationPermissions(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.inverseOnSurface)
+    )
 }

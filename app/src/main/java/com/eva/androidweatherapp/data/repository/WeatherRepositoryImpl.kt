@@ -2,7 +2,6 @@ package com.eva.androidweatherapp.data.repository
 
 import com.eva.androidweatherapp.data.mappers.toModel
 import com.eva.androidweatherapp.data.remote.WeatherApi
-import com.eva.androidweatherapp.domain.location.LocationTracker
 import com.eva.androidweatherapp.domain.models.BaseLocationModel
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
@@ -16,9 +15,7 @@ import java.io.IOException
 
 class WeatherRepositoryImpl(
     private val weatherApi: WeatherApi,
-    private val locationTracker: LocationTracker
 ) : WeatherRepository {
-
 
     override suspend fun getWeatherForecastOneDayFromLatAndLong(location: BaseLocationModel)
             : Flow<Resource<WeatherForeCastModel>> {
@@ -28,9 +25,9 @@ class WeatherRepositoryImpl(
                 val data =
                     weatherApi.getWeatherForecast(
                         query = "${location.latitude},${location.longitude}",
-                        days = 14,
+                        days = 7,
                         alert = BooleanResponse.FALSE,
-                        hourCount = 12,
+                        hourCount = 10,
                         quality = BooleanResponse.FALSE,
                     )
                 emit(Resource.Success(data = data.toModel()))
@@ -46,7 +43,6 @@ class WeatherRepositoryImpl(
             }
         }
     }
-
 
     override suspend fun getWeatherForecastOneDayFromName(name: String)
             : Flow<Resource<WeatherForeCastModel>> {
@@ -103,29 +99,6 @@ class WeatherRepositoryImpl(
                 emit(Resource.Error(e.message ?: "IO exception occurred"))
             } catch (e: Exception) {
                 emit(Resource.Error(e.message ?: "Exception occurred"))
-            }
-        }
-    }
-
-    override suspend fun getCurrentLocationWeather(): Flow<Resource<CurrentWeatherModel>> {
-        return flow {
-            emit(Resource.Loading())
-            try {
-                val location =
-                    locationTracker.getLastLocation() ?: locationTracker.getCurrentLocation()
-                if (location != null) {
-                    val data =
-                        weatherApi.getCurrentData(query = "${location.latitude},${location.longitude}")
-                    emit(Resource.Success(data = data.toModel()))
-                } else {
-                    emit(Resource.Error("Cannot retrieve the last location"))
-                }
-            } catch (e: HttpException) {
-                emit(Resource.Error(e.message ?: "Http exception occurred", throwable = e))
-            } catch (e: IOException) {
-                emit(Resource.Error(e.message ?: "IO exception occurred", throwable = e))
-            } catch (e: Exception) {
-                emit(Resource.Error(e.message ?: "Exception occurred", throwable = e))
             }
         }
     }

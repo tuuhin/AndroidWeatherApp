@@ -44,13 +44,15 @@ fun CurrentTemperatureData(
             Text(
                 text = "${model.current.tempInFahrenheit} F",
                 style = tempTextStyle,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
         else
             Text(
                 text = "${model.current.tempInCelsius} C",
                 style = tempTextStyle,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -68,12 +70,14 @@ fun CurrentTemperatureData(
                 if (localeAmerican)
                     Text(
                         text = "${model.forecast.first().maxTempInFahrenheit} F",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 else
                     Text(
                         text = "${model.forecast.first().maxTempInCelsius} C",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
             }
             Row(
@@ -87,12 +91,14 @@ fun CurrentTemperatureData(
                 if (localeAmerican)
                     Text(
                         text = "${model.forecast[0].minTempInFahrenheit} F",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 else
                     Text(
                         text = "${model.forecast[0].minTempInCelsius} C",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
             }
@@ -105,9 +111,7 @@ fun CurrentTemperatureData(
     forecastDay: WeatherDayForecastModel,
     modifier: Modifier = Modifier,
     localeAmerican: Boolean = isCurrentLocaleAmerican(),
-    isCurrentDay: Boolean = false,
-    onSelectedColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-    onUnSelectedColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    iconColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     horizontal: Alignment.Horizontal = Alignment.CenterHorizontally,
     vertical: Arrangement.Vertical = Arrangement.spacedBy(4.dp),
     tempTextStyle: TextStyle = MaterialTheme.typography.displaySmall
@@ -140,9 +144,7 @@ fun CurrentTemperatureData(
                 Image(
                     painter = painterResource(id = R.drawable.ic_arrow_upward),
                     contentDescription = "Max temperature",
-                    colorFilter = ColorFilter.tint(
-                        if (isCurrentDay) onSelectedColor else onUnSelectedColor
-                    ),
+                    colorFilter = ColorFilter.tint(iconColor),
                 )
                 if (localeAmerican)
                     Text(
@@ -161,9 +163,7 @@ fun CurrentTemperatureData(
                 Image(
                     painter = painterResource(id = R.drawable.ic_arrow_downward),
                     contentDescription = "Minimum Temperature",
-                    colorFilter = ColorFilter.tint(
-                        if (isCurrentDay) onSelectedColor else onUnSelectedColor
-                    ),
+                    colorFilter = ColorFilter.tint(iconColor),
                 )
                 if (localeAmerican)
                     Text(

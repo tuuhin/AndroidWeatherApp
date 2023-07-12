@@ -19,6 +19,4 @@ interface WeatherRepository {
 
     suspend fun getBasicWeatherInfoFromName(name: String)
             : Flow<Resource<CurrentWeatherModel>>
-
-    suspend fun getCurrentLocationWeather(): Flow<Resource<CurrentWeatherModel>>
 }

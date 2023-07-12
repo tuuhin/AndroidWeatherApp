@@ -70,7 +70,7 @@ fun WeatherHourlyData(
                 WeatherHourCard(
                     hour = model,
                     modifier = Modifier
-                        .aspectRatio(2f / 3f)
+                        .aspectRatio(.7f)
                 )
             }
         }

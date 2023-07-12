@@ -23,8 +23,8 @@ fun SavedWeatherEntity.toModel(): SavedWeatherModel = SavedWeatherModel(
     code = code
 )
 
-fun SavedWeatherModel.toEntity(): SavedWeatherEntity = SavedWeatherEntity(
-    id = id,
+fun SavedWeatherModel.toEntity(entityId: Int? = null): SavedWeatherEntity = SavedWeatherEntity(
+    id = id ?: entityId,
     condition = condition,
     image = image,
     code = code,

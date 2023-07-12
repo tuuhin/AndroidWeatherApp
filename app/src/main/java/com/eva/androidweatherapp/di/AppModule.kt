@@ -31,7 +31,7 @@ val appModule = module {
             .build()
 
     }
-    single { WeatherApi.createApiInstance(get(), get()) }
+    single { WeatherApi.createApiInstance(get()) }
 
     single { AppDataBase.createDataBase(get()) }
 

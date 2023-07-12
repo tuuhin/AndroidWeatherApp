@@ -3,15 +3,22 @@ package com.eva.androidweatherapp.presentation.feature_search.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,10 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.domain.models.SavedWeatherModel
 import com.eva.androidweatherapp.presentation.composables.WeatherImage
-import com.eva.androidweatherapp.presentation.feature_daily.composables.WeatherPropertySimple
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.isCurrentLocaleAmerican
 
@@ -32,38 +37,59 @@ import com.eva.androidweatherapp.presentation.util.isCurrentLocaleAmerican
 fun WeatherForecastCard(
     model: SavedWeatherModel,
     modifier: Modifier = Modifier,
-    isAmerican: Boolean = isCurrentLocaleAmerican()
+    isAmerican: Boolean = isCurrentLocaleAmerican(),
+    onRemove: () -> Unit,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults
-            .cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            .cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+            )
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(12.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(vertical = 2.dp),
-                verticalArrangement = Arrangement.spacedBy(2.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Bottom
             ) {
-                Text(
-                    text = model.name,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = buildAnnotatedString {
-                        if (model.region.isNotEmpty()) {
-                            withStyle(SpanStyle(fontWeight = FontWeight.Medium)) {
-                                append(model.region)
+                Column(
+                    modifier = Modifier.padding(vertical = 2.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    Text(
+                        text = model.name,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = buildAnnotatedString {
+                            if (model.region.isNotEmpty()) {
+                                withStyle(SpanStyle(fontWeight = FontWeight.Medium)) {
+                                    append(model.region)
+                                }
+                                append(" , ")
                             }
-                            append(" , ")
-                        }
-                        append(model.country)
-                    },
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Normal
-                )
+                            append(model.country)
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Normal
+                    )
+                }
+                TextButton(
+                    onClick = onRemove,
+                    colors = ButtonDefaults.textButtonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ) {
+                    Icon(imageVector = Icons.Outlined.Delete, contentDescription = "Remove")
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Text(text = "Remove")
+                }
             }
             Divider()
             Row(
@@ -77,7 +103,12 @@ fun WeatherForecastCard(
                     modifier = Modifier.wrapContentSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    WeatherImage(res = model.image, modifier = Modifier.size(60.dp))
+                    WeatherImage(
+                        res = model.image,
+                        modifier = Modifier.size(60.dp),
+                        background = MaterialTheme.colorScheme.secondaryContainer,
+                        onBackGround = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
                     Text(
                         text = model.condition,
                         style = MaterialTheme.typography.titleMedium
@@ -108,42 +139,18 @@ fun WeatherForecastCard(
                 }
             }
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 2.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            WeatherPropertySimple(
-                image = R.drawable.ic_wind_speed,
-                value = if (isAmerican) "${model.windSpeedInKmh} mph" else "${model.windSpeedInKmh} kmph",
-                title = "WInd Speed"
-            )
-            WeatherPropertySimple(
-                image = R.drawable.ic_humidity,
-                value = "${model.humidity}",
-                title = "WInd Speed"
-            )
-            WeatherPropertySimple(
-                image = R.drawable.ic_precipitation,
-                value = if (isAmerican) "${model.precipitationInch} in" else "${model.precipitationMM} mm",
-                title = "WInd Speed"
-            )
-            WeatherPropertySimple(
-                image = R.drawable.ic_pressure,
-                value = "${model.pressureMilliBar} mBar",
-                title = "WInd Speed"
-            )
-        }
-
+        CityWeatherProperties(
+            model = model,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
-
 
 @Preview
 @Composable
 fun WeatherForecastCardPreview() {
     WeatherForecastCard(
-        model = PreviewFakeData.fakeSavedWeatherModel
+        model = PreviewFakeData.fakeSavedWeatherModel,
+        onRemove = {}
     )
 }

@@ -41,9 +41,9 @@ fun WeatherHourCard(
     modifier: Modifier = Modifier,
     hour: WeatherHourModel,
     selectedColor: Color = MaterialTheme.colorScheme.primaryContainer,
-    unSelectedColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    unSelectedColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onSelectedColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-    onUnSelectedColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    onUnSelectedColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
     localeAmerican: Boolean = isCurrentLocaleAmerican()
 ) {
     val isCurrentHour by remember {

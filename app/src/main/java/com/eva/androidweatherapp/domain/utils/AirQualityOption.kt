@@ -4,13 +4,13 @@ package com.eva.androidweatherapp.domain.utils
 enum class AirQualityOption(val option: String) {
     GOOD("Good"),
     MODERATE("Moderate"),
-    UNHEALTHY_SENSITIVE("Unhealthy for sensitive"),
+    UNHEALTHY_SENSITIVE("Unhealthy For Sensitive"),
     UNHEALTHY("Unhealthy"),
     VERY_UNHEALTHY("Very Unhealthy"),
-    HAZARDOUS("hazardous");
+    HAZARDOUS("Hazardous");
 
     companion object {
-        fun airQualityFromNumber(number: Int): AirQualityOption = when (number) {
+        fun fromNumber(number: Int): AirQualityOption = when (number) {
             1 -> GOOD
             2 -> MODERATE
             3 -> UNHEALTHY

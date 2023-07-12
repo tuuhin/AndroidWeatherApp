@@ -4,7 +4,6 @@ import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
 import com.eva.androidweatherapp.domain.models.SavedWeatherModel
 import com.eva.androidweatherapp.domain.models.SearchLocationResult
-import com.eva.androidweatherapp.domain.models.WeatherAlertModel
 import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.domain.models.WeatherHourModel
@@ -42,7 +41,6 @@ object PreviewFakeData {
 
     val fakeCurrentWeatherModel = CurrentWeatherModel(
         airQuality = AirQualityOption.GOOD,
-        airQualityIndex = 10f,
         cloudCover = 75f,
         condition = "Partly Cloudy",
         code = 1003,
@@ -60,16 +58,6 @@ object PreviewFakeData {
         tempInCelsius = 34.4f,
         windDirection = "S", country = "United States of America",
         name = "New York", region = "New York",
-    )
-
-    val fakeAlertModel = WeatherAlertModel(
-        headline = "NWS New York City - Upton (Long Island and New York City)",
-        instruction = "",
-        areas = "",
-        note = null,
-        desc = "...HEAT ADVISORY REMAINS IN EFFECT UNTIL 8 PM EDT SUNDAY... * WHAT...Heat index values up to 105. * WHERE...Eastern Passaic Hudson Western Bergen Western Essex Eastern Bergen and Eastern Essex Counties. * WHEN...Until 8 PM EDT Sunday. * IMPACTS...High temperatures and high humidity may cause heat illnesses to occur",
-        category = "Extreme temperature value"
-
     )
 
     val fakeWeatherHourModel = WeatherHourModel(
@@ -119,7 +107,6 @@ object PreviewFakeData {
     val fakeForeCastModel = WeatherForeCastModel(
         current = fakeCurrentWeatherModel,
         forecast = List(5) { fakeWeatherDayDataModel },
-        alerts = listOf(fakeAlertModel)
     )
 
 }

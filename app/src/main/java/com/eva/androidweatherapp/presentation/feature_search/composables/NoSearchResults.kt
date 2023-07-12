@@ -12,14 +12,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.R
 
 @Composable
 fun NoSearchResults(
-    modifier: Modifier = Modifier
+    text: String,
+    modifier: Modifier = Modifier,
+    tint: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -29,14 +35,10 @@ fun NoSearchResults(
         Image(
             painter = painterResource(id = R.drawable.ic_no_city),
             contentDescription = "No city found",
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
+            colorFilter = ColorFilter.tint(tint),
             modifier = Modifier.size(120.dp)
         )
         Spacer(modifier = Modifier.height(12.dp))
-        Text(
-            text = "No results",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        Text(text = text, style = textStyle, color = color)
     }
 }

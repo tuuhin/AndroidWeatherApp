@@ -66,14 +66,14 @@ fun WeekForecastRoute(
                 forecast = forecastModel,
                 type = graphType,
                 onTypeChanged = onTypeChanged,
-                isDropdownExpanded = isDropdownExpanded,
+                isExpanded = isDropdownExpanded,
                 onDropDownDismiss = onDropDownDismiss,
                 modifier = Modifier.aspectRatio(1.5f)
             )
             Text(
                 text = "Forecast",
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(vertical = 4.dp)
+                modifier = Modifier.padding(vertical = 8.dp)
             )
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(12.dp)

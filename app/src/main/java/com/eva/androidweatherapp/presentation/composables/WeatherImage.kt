@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,23 +25,26 @@ import com.eva.androidweatherapp.R
 fun WeatherImage(
     @DrawableRes res: Int,
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    contentScale: ContentScale = ContentScale.Fit,
+    shape: Shape = MaterialTheme.shapes.extraLarge,
     background: Color = MaterialTheme.colorScheme.primaryContainer,
-    color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-    imagePadding: PaddingValues = PaddingValues(10.dp)
+    onBackGround: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    iPadding: PaddingValues = PaddingValues(10.dp)
 ) {
     Box(
         modifier = modifier
             .aspectRatio(1f)
-            .clip(MaterialTheme.shapes.extraLarge)
+            .clip(shape)
             .background(background),
         contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = res),
-            contentDescription = "Current Day weather",
-            colorFilter = ColorFilter.tint(color),
-            modifier = Modifier
-                .padding(imagePadding)
+            contentDescription = contentDescription,
+            colorFilter = ColorFilter.tint(onBackGround),
+            contentScale = contentScale,
+            modifier = Modifier.padding(iPadding)
         )
     }
 }

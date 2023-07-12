@@ -5,6 +5,11 @@ import com.eva.androidweatherapp.data.remote.dto.results.SearchResultsDto
 import com.eva.androidweatherapp.data.remote.dto.results.WeatherCurrentDataDto
 import com.eva.androidweatherapp.data.remote.dto.results.WeatherForecastDto
 import com.eva.androidweatherapp.utils.BooleanResponse
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -33,6 +38,16 @@ interface WeatherApi {
     ): List<SearchResultsDto>
 
     companion object {
-        const val BASE_URL = "https://api.weatherapi.com/v1/"
+        private const val BASE_URL = "https://api.weatherapi.com/v1/"
+        private val mediaType = "application/json".toMediaType()
+
+        fun createApiInstance(client: OkHttpClient): WeatherApi =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(Json.asConverterFactory(mediaType))
+                .build()
+                .create(WeatherApi::class.java)
+
     }
 }

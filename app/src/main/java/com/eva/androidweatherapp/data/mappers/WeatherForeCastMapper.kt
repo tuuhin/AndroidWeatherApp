@@ -12,8 +12,7 @@ import java.time.format.DateTimeFormatter
 
 fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
     current = CurrentWeatherModel(
-        airQuality = weather.airQuality?.epaIndex?.let { AirQualityOption.airQualityFromNumber(it) },
-        airQualityIndex = 0f,
+        airQuality = weather.airQuality?.epaIndex?.let { AirQualityOption.fromNumber(it) },
         cloudCover = weather.cloudCover,
         code = weather.condition.weatherCode,
         image = weather.condition.weatherCode.toDrawableRes(),
@@ -38,7 +37,6 @@ fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
         name = location.name, region = location.region,
         country = location.country
     ),
-    alerts = alerts?.map { it.toModel() },
     forecast = forecast.forecast.map { info ->
         WeatherDayForecastModel(
             date = LocalDate.parse(
@@ -64,7 +62,7 @@ fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
                 )
             },
 
-            quality = info.day.quality?.epaIndex?.let { AirQualityOption.airQualityFromNumber(it) },
+            quality = info.day.quality?.epaIndex?.let { AirQualityOption.fromNumber(it) },
             avgHumidity = info.day.avgHumidity,
             avgTempInCelsius = info.day.avgTempInCelsius,
             avgTempInFahrenheit = info.day.avgTempInFahrenheit,

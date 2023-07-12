@@ -6,5 +6,4 @@ import com.eva.androidweatherapp.utils.Resource
 interface SearchLocationRepository {
 
     suspend fun searchLocations(name: String): Resource<List<SearchLocationResult>>
-
 }

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -104,13 +105,14 @@ fun AboutRoute(
                         val uri = Uri.parse("https://www.weatherapi.com/docs/")
                         val intent = Intent(Intent.ACTION_VIEW, uri)
                         startActivity(context, intent, null)
-                    },
-
-                    ) {
+                    }, colors = ButtonDefaults.textButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                ) {
                     Text(
                         text = "Learn More.",
                         textDecoration = TextDecoration.Underline,
-                        color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.labelMedium
                     )
                 }
@@ -141,10 +143,13 @@ fun AboutRoute(
 @Composable
 fun AboutRoutePreview() {
     Surface(color = MaterialTheme.colorScheme.inverseOnSurface) {
-        AboutRoute(navigationIcon = {
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack, contentDescription = "Back Button"
-            )
-        })
+        AboutRoute(
+            navigationIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.ArrowBack,
+                    contentDescription = "Back Button"
+                )
+            }
+        )
     }
 }

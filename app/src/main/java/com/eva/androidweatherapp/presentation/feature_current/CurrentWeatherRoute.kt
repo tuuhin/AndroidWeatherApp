@@ -1,16 +1,14 @@
 package com.eva.androidweatherapp.presentation.feature_current
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,11 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.presentation.feature_current.composables.CurrentWeatherData
-import com.eva.androidweatherapp.presentation.composables.CurrentWeatherProperties
-import com.eva.androidweatherapp.presentation.feature_current.composables.WeatherAstronomicalData
+import com.eva.androidweatherapp.presentation.feature_current.composables.CurrentDayWeatherProperties
 import com.eva.androidweatherapp.presentation.feature_current.composables.WeatherHourlyData
 import com.eva.androidweatherapp.presentation.util.LocalSnackBarHostState
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
+import com.eva.androidweatherapp.presentation.util.requestBackgroundLocationDialog
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,6 +52,8 @@ fun CurrentWeatherRoute(
             forecast.current.lastUpdated.format(formatter)
         }
     }
+
+
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
@@ -74,7 +74,8 @@ fun CurrentWeatherRoute(
                             contentDescription = "Information"
                         )
                     }
-                }, navigationIcon = {
+                },
+                navigationIcon = {
                     IconButton(
                         onClick = onSearch ?: {},
                         colors = IconButtonDefaults.iconButtonColors(
@@ -90,13 +91,16 @@ fun CurrentWeatherRoute(
                 }
             )
         },
-        containerColor = MaterialTheme.colorScheme.inverseOnSurface
+        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+        contentWindowInsets = WindowInsets.navigationBars
     ) { scPadding ->
+
+        requestBackgroundLocationDialog()
+
         Column(
             modifier = modifier
                 .padding(scPadding)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             CurrentWeatherData(
                 model = forecast,
@@ -107,38 +111,17 @@ fun CurrentWeatherRoute(
             WeatherHourlyData(
                 hourlyWeather = forecast.forecast.first().hourCycle,
                 modifier = Modifier
-                    .weight(.25f)
+                    .height(180.dp)
                     .padding(horizontal = 4.dp),
                 onForecast = onForecast ?: {}
             )
-            Card(
+            CurrentDayWeatherProperties(
+                forecast = forecast.forecast.first(),
+                current = forecast.current,
                 modifier = Modifier
-                    .weight(.35f)
-                    .fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-                shape = MaterialTheme.shapes.extraLarge.copy(
-                    bottomEnd = CornerSize(0.dp),
-                    bottomStart = CornerSize(0.dp)
-                )
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.SpaceAround
-                ) {
-                    CurrentWeatherProperties(
-                        forecastDay = forecast.forecast.first(),
-                        current = forecast.current,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    WeatherAstronomicalData(
-                        dayModel = forecast.forecast.first()
-                    )
-                }
-            }
+                    .padding(vertical = 2.dp, horizontal = 4.dp)
+                    .weight(.4f)
+            )
         }
     }
 }

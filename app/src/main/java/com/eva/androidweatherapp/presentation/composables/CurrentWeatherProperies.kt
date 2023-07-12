@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.R
@@ -21,14 +23,17 @@ fun CurrentWeatherProperties(
     modifier: Modifier = Modifier,
     current: CurrentWeatherModel? = null,
     localeAmerican: Boolean = isCurrentLocaleAmerican(),
+    background: Color = MaterialTheme.colorScheme.secondaryContainer,
+    onBackground: Color = MaterialTheme.colorScheme.onSecondaryContainer,
 ) {
-    Column(
-        modifier = modifier.padding(4.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             WeatherPropertyItem(
                 image = R.drawable.ic_wind_speed,
@@ -39,17 +44,19 @@ fun CurrentWeatherProperties(
                 else
                     if (current != null) "${current.windSpeedInMh} mph"
                     else "${forecastDay.maxWindSpeedInMph} mph",
+                background = background,
+                onBackground = onBackground
             )
             WeatherPropertyItem(
                 image = if (current != null) R.drawable.ic_pressure else R.drawable.ic_ultraviolet,
                 title = "Pressure",
                 value = if (current != null) "${current.pressureMilliBar} mBar" else "${forecastDay.ultralight}",
-
+                background = background,
+                onBackground = onBackground
             )
         }
-        Row(
-            modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             WeatherPropertyItem(
                 image = R.drawable.ic_humidity,
@@ -58,13 +65,15 @@ fun CurrentWeatherProperties(
                     "${current.humidity} %"
                 else
                     "${forecastDay.avgHumidity} %",
-
+                background = background,
+                onBackground = onBackground
             )
             WeatherPropertyItem(
                 image = R.drawable.ic_precipitation,
                 title = "Precipitation",
                 value = "${forecastDay.totalPrecipitationInMm} mm",
-
+                background = background,
+                onBackground = onBackground
             )
         }
     }

@@ -8,6 +8,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,7 +31,7 @@ fun requestBackgroundLocationDialog(
 ): Boolean {
 
     var checkPermission by remember {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             mutableStateOf(
                 ContextCompat.checkSelfPermission(
                     context,
@@ -41,29 +43,44 @@ fun requestBackgroundLocationDialog(
 
     var openDialog by remember { mutableStateOf(true) }
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { results ->
-            Log.d("RESULTS", results.toString())
-            checkPermission = results
-        }
-    )
-    if ((!checkPermission && openDialog) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+
+    if ((!checkPermission && openDialog) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val launcher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission(),
+            onResult = { results ->
+                Log.d("RESULTS", results.toString())
+                checkPermission = results
+            }
+        )
 
         AlertDialog(
             onDismissRequest = { openDialog = false },
             title = { Text(text = stringResource(id = R.string.background_location_title)) },
             text = { Text(text = stringResource(id = R.string.background_location_body)) },
             confirmButton = {
-                Button(onClick = { launcher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION) }) {
+                Button(
+                    onClick = { launcher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION) },
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    )
+                ) {
                     Text(text = "Allow")
                 }
-            }, dismissButton = {
-                TextButton(onClick = { openDialog = false }) {
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { openDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    )
+                ) {
                     Text(text = "Cancel")
                 }
             },
-            modifier = modifier
+            modifier = modifier,
         )
+    }
     return checkPermission
 }

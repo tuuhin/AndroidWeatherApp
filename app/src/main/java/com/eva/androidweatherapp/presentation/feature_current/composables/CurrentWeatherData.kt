@@ -49,7 +49,8 @@ fun CurrentWeatherData(
                 Text(
                     text = model.current.name,
                     style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = buildAnnotatedString {
@@ -60,7 +61,8 @@ fun CurrentWeatherData(
                         append(model.current.country)
                     },
                     style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Normal,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
             CurrentTemperatureData(
@@ -76,16 +78,15 @@ fun CurrentWeatherData(
                 Text(
                     text = model.current.condition,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = buildAnnotatedString {
                         withStyle(
                             SpanStyle(color = MaterialTheme.colorScheme.onPrimaryContainer)
                         ) {
-                            append(
-                                "Feels Like: "
-                            )
+                            append("Feels Like: ")
                         }
                         if (localeAmerican)
                             append("${model.current.feelsLikeFahrenheit} F")
@@ -93,15 +94,15 @@ fun CurrentWeatherData(
                             append("${model.current.feelsLikeInCelsius} C")
                     },
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
         WeatherImage(
             res = model.current.image,
             background = MaterialTheme.colorScheme.primaryContainer,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            imagePadding = PaddingValues(40.dp),
+            onBackGround = MaterialTheme.colorScheme.onPrimaryContainer,
+            iPadding = PaddingValues(40.dp),
             modifier = Modifier
                 .weight(.45f)
                 .align(Alignment.CenterVertically)

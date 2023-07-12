@@ -21,10 +21,10 @@ class SearchLocationRepoImpl(
             Resource.Error(e.message ?: "Http Exception")
         } catch (e: IOException) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "IO error Occured")
+            Resource.Error(e.message ?: "IO error Occurred")
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "Exception Occured")
+            Resource.Error(e.message ?: "Exception Occurred")
         }
     }
 

@@ -38,9 +38,9 @@ import java.time.format.DateTimeFormatter
 fun WeatherDayCard(
     forecastModel: WeatherDayForecastModel,
     modifier: Modifier = Modifier,
-    selectedColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    selectedColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     unSelectedColor: Color = MaterialTheme.colorScheme.surfaceVariant,
-    onSelectedColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    onSelectedColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
     onUnSelectedColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
 ) {
     val isCurrentDay by remember {
@@ -86,9 +86,7 @@ fun WeatherDayCard(
             }
             Divider(
                 modifier = Modifier.padding(vertical = 4.dp),
-                color = if (isCurrentDay)
-                    MaterialTheme.colorScheme.onPrimaryContainer
-                else MaterialTheme.colorScheme.onSurfaceVariant
+                color = if (isCurrentDay) onSelectedColor else onUnSelectedColor
             )
             Row(
                 modifier = Modifier
@@ -108,10 +106,13 @@ fun WeatherDayCard(
                         background = if (isCurrentDay)
                             MaterialTheme.colorScheme.primaryContainer
                         else
-                            MaterialTheme.colorScheme.surfaceVariant,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            MaterialTheme.colorScheme.secondaryContainer,
+                        onBackGround = if (isCurrentDay)
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        else
+                            MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier.sizeIn(maxHeight = 64.dp, maxWidth = 64.dp),
-                        imagePadding = PaddingValues(8.dp)
+                        iPadding = PaddingValues(8.dp)
 
                     )
                     Text(
@@ -129,16 +130,24 @@ fun WeatherDayCard(
                 )
 
             }
-            WeatherPropertiesSimplified(
+            WeatherPropertiesRow(
                 dayForecast = forecastModel,
                 modifier = Modifier.fillMaxWidth(),
-                arrangement = Arrangement.SpaceAround
+                arrangement = Arrangement.SpaceAround,
+                background = if (isCurrentDay)
+                    MaterialTheme.colorScheme.primaryContainer
+                else
+                    MaterialTheme.colorScheme.secondaryContainer,
+                onBackground = if (isCurrentDay)
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                else
+                    MaterialTheme.colorScheme.onSecondaryContainer,
             )
         }
     }
 }
 
-class WeatherDayPreviewParams :
+private class WeatherDayPreviewParams :
     CollectionPreviewParameterProvider<WeatherDayForecastModel>(
         listOf(
             PreviewFakeData.fakeWeatherDayDataModel,
