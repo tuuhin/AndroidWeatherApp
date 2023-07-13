@@ -1,11 +1,13 @@
 package com.eva.androidweatherapp.widgets.composables
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceComposable
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
+import androidx.glance.ImageProvider
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -21,6 +23,7 @@ import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 import com.eva.androidweatherapp.widgets.utils.isCurrentLocalAmericanGlance
 
@@ -30,10 +33,22 @@ fun WeatherTileMedium(
     modifier: GlanceModifier = GlanceModifier,
     model: WidgetWeatherModel,
 ) {
+    val imageBackGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        GlanceModifier
+            .background(GlanceTheme.colors.surfaceVariant)
+            .cornerRadius(10.dp)
+    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
+
+    val backGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        GlanceModifier
+            .background(GlanceTheme.colors.surfaceVariant)
+            .cornerRadius(10.dp)
+    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_surface))
+
     Column(
         modifier = modifier
             .padding(10.dp)
-            .background(GlanceTheme.colors.surfaceVariant)
+            .then(backGround)
     ) {
         WeatherTopBarExtended(model = model)
         Spacer(modifier = GlanceModifier.height(4.dp))
@@ -87,11 +102,10 @@ fun WeatherTileMedium(
                 modifier = GlanceModifier
                     .defaultWeight()
                     .fillMaxHeight()
-                    .cornerRadius(10.dp)
-                    .background(GlanceTheme.colors.primaryContainer),
+                    .then(imageBackGround),
                 contentAlignment = Alignment.Center
             ) {
-                WeatherBasicInfoGrid(model = model)
+                WeatherExtraInfo(model = model)
             }
         }
     }

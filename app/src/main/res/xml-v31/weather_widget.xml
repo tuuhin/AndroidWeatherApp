@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/app_widget_desc"
-    android:initialLayout="@layout/glance_default_loading_layout"
+    android:initialLayout="@layout/glance_initial_layout"
     android:maxResizeWidth="200.dp"
     android:maxResizeHeight="100.dp"
     android:minWidth="100dp"
     android:minHeight="100dp"
     android:minResizeWidth="100dp"
     android:minResizeHeight="50dp"
-    android:resizeMode="vertical|horizontal"
+    android:previewLayout="@layout/glance_preview_layout"
+    android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen" />

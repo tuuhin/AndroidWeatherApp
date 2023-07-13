@@ -18,14 +18,12 @@ class WidgetRefreshWorker(
     private val context: Context,
     params: WorkerParameters
 ) : CoroutineWorker(context, params) {
-
-    override suspend fun doWork(): Result {
-        return withContext(Dispatchers.IO) { UpdateWidgetWork.doWork(context) }
-    }
+    override suspend fun doWork(): Result =
+        withContext(Dispatchers.IO) { UpdateWidgetWork.doWork(context) }
 
     companion object {
 
-        private const val oneTimeSync = "RefreshTimeSyncWorker"
+        private const val oneTimeSync = "RefreshWidgetWorker"
 
         private val constraints =
             Constraints.Builder()
@@ -33,7 +31,7 @@ class WidgetRefreshWorker(
                 .build()
 
         private val oneTimeWorkRequest = OneTimeWorkRequestBuilder<WidgetSyncWorker>()
-            .setInitialDelay(Duration.ofSeconds(10))
+            .setInitialDelay(Duration.ofSeconds(5))
             .setConstraints(constraints)
             .setBackoffCriteria(BackoffPolicy.LINEAR, Duration.ofSeconds(10))
             .build()

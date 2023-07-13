@@ -3,48 +3,54 @@ package com.eva.androidweatherapp.widgets.composables
 import androidx.compose.runtime.Composable
 import androidx.glance.GlanceComposable
 import androidx.glance.GlanceModifier
-import androidx.glance.appwidget.lazy.GridCells
-import androidx.glance.appwidget.lazy.LazyVerticalGrid
+import androidx.glance.layout.Alignment
+import androidx.glance.layout.Column
+import androidx.glance.layout.Row
+import androidx.glance.layout.Spacer
 import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 
 @Composable
 @GlanceComposable
-fun WeatherBasicInfoGrid(
-    modifier: GlanceModifier = GlanceModifier,
+fun WeatherExtraInfo(
     model: WidgetWeatherModel,
+    modifier: GlanceModifier = GlanceModifier
 ) {
-    LazyVerticalGrid(
-        gridCells = GridCells.Fixed(2),
-        modifier = modifier
+    Row(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        item {
+        Column(
+            modifier = GlanceModifier.defaultWeight()
+        ) {
             WeatherBasicInformation(
-                image = R.drawable.ic_precipitation,
+                image = R.drawable.ic_rain,
                 data = "${model.precipitationMM}",
                 unit = "mm"
             )
-        }
-        item {
             WeatherBasicInformation(
                 image = R.drawable.ic_humidity,
                 data = "${model.humidity}",
                 unit = "%"
             )
         }
-        item {
+        Spacer(modifier = GlanceModifier.defaultWeight())
+        Column(
+            modifier = GlanceModifier.defaultWeight()
+        ) {
             WeatherBasicInformation(
                 image = R.drawable.ic_wind_speed,
                 data = "${model.windSpeedInKmh}",
                 unit = "km/h"
             )
-        }
-        item {
+
             WeatherBasicInformation(
                 image = R.drawable.ic_pressure,
                 data = "${model.pressureMilliBar}",
                 unit = "mBar"
             )
+
         }
     }
 }

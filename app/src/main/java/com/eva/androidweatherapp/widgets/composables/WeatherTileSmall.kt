@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.widgets.composables
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.glance.ColorFilter
@@ -20,6 +21,7 @@ import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
+import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 
 @Composable
@@ -28,10 +30,22 @@ fun WeatherTileSmall(
     modifier: GlanceModifier = GlanceModifier,
     model: WidgetWeatherModel,
 ) {
+    val imageBackGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        GlanceModifier
+            .cornerRadius(10.dp)
+            .background(GlanceTheme.colors.surfaceVariant)
+    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
+
+    val backGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        GlanceModifier
+            .background(GlanceTheme.colors.surfaceVariant)
+            .cornerRadius(10.dp)
+    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_surface))
+
     Column(
         modifier = modifier
             .padding(8.dp)
-            .background(GlanceTheme.colors.surfaceVariant)
+            .then(backGround)
     ) {
         WeatherTileTopBar(model = model)
         Column(
@@ -55,9 +69,8 @@ fun WeatherTileSmall(
                         contentDescription = model.condition,
                         colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
                         modifier = GlanceModifier.padding(4.dp)
-                            .cornerRadius(10.dp)
                             .size(60.dp)
-                            .background(GlanceTheme.colors.primaryContainer),
+                            .then(imageBackGround),
                         contentScale = ContentScale.Fit
                     )
                 }

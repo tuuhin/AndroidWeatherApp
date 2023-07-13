@@ -1,6 +1,7 @@
 package com.eva.androidweatherapp.widgets.composables
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -20,6 +21,7 @@ import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
+import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
@@ -46,7 +48,7 @@ fun NoLocationError(
         )
         Spacer(modifier = GlanceModifier.height(4.dp))
         Text(
-            text = "No Location received",
+            text = stringResource(id = R.string.no_location_title_widget),
             style = TextStyle(
                 color = GlanceTheme.colors.onSurfaceVariant,
                 fontSize = 16.sp,
@@ -55,7 +57,7 @@ fun NoLocationError(
         )
         Spacer(modifier = GlanceModifier.height(4.dp))
         Text(
-            text = "Provide location permission",
+            text = stringResource(id = R.string.no_location_desc_widget),
             style = TextStyle(
                 color = GlanceTheme.colors.onSurfaceVariant,
                 fontSize = 12.sp,
@@ -66,7 +68,8 @@ fun NoLocationError(
 
         Row(
             modifier = GlanceModifier.fillMaxWidth().clickable(action),
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.End,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 provider = ImageProvider(R.drawable.ic_refresh_symbol),
@@ -75,7 +78,7 @@ fun NoLocationError(
                     .size(20.dp),
                 colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurfaceVariant)
             )
-            Spacer(modifier = GlanceModifier.height(4.dp))
+            Spacer(modifier = GlanceModifier.width(4.dp))
             Text(
                 text = "Refresh",
                 style = TextStyle(

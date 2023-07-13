@@ -15,7 +15,26 @@
 
     <string name="background_location_title">Background location required</string>
     <string name="background_location_body">For the app widgets you need background location permission,click on allow all time</string>
+
     <string name="no_location_body">Allow location permissions to continue</string>
     <string name="no_location_title">Location permissions not found</string>
+
     <string name="saved_location_helper_text">All saved city data will be synced in the interval of 12 hrs</string>
+
+    <string name="no_location_title_widget">No Location received</string>
+    <string name="no_location_desc_widget">Please provide background permissions</string>
+
+    <string name="initial_loading_layout_text">Initializing…</string>
+
+    <string name="location_icon_widget_placeholder_content_desc">Location Icon</string>
+    <string name="current_location_widget_placeholder">Los Altos</string>
+    <string name="current_weather_widget_placeholder">Sunny</string>
+
+    <string name="temperature_widget_placeholder">62.7°</string>
+    <string name="wind_title_widget_placeholder">Wind</string>
+    <string name="wind_value_widget_placeholder">3.6kmh</string>
+    <string name="humidity_title_widget_placeholder">Humidity</string>
+    <string name="humidity_value_widget_placeholder">83%</string>
+    <string name="rain_title_widget_placeholder">Rain</string>
+    <string name="rain_value_widget_placeholder">0.0mm</string>
 </resources>

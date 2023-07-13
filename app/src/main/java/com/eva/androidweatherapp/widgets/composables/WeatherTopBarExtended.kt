@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.widgets.composables
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +25,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
+import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 
 @Composable
@@ -32,6 +34,12 @@ fun WeatherTopBarExtended(
     modifier: GlanceModifier = GlanceModifier,
     model: WidgetWeatherModel,
 ) {
+    val background = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        GlanceModifier
+            .background(GlanceTheme.colors.surfaceVariant)
+            .cornerRadius(10.dp)
+    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -45,8 +53,7 @@ fun WeatherTopBarExtended(
                 modifier = GlanceModifier
                     .wrapContentSize()
                     .size(60.dp)
-                    .background(GlanceTheme.colors.primaryContainer)
-                    .cornerRadius(10.dp),
+                    .then(background),
                 contentAlignment = Alignment.CenterStart
             ) {
                 Image(

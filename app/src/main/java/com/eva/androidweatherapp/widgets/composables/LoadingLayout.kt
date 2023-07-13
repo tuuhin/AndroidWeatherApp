@@ -33,7 +33,9 @@ fun LoadingLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CircularProgressIndicator(color = GlanceTheme.colors.onPrimaryContainer)
+            CircularProgressIndicator(
+                color = GlanceTheme.colors.secondary
+            )
             Spacer(modifier = GlanceModifier.width(8.dp))
             Text(
                 text = "Loading..",
@@ -50,7 +52,9 @@ fun LoadingLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CircularProgressIndicator(color = GlanceTheme.colors.onPrimaryContainer)
+            CircularProgressIndicator(
+                color = GlanceTheme.colors.secondary
+            )
             Spacer(modifier = GlanceModifier.height(8.dp))
             Text(
                 text = "Loading..",

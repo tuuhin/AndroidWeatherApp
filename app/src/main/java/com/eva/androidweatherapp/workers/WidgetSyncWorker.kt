@@ -18,11 +18,8 @@ class WidgetSyncWorker(
     private val context: Context,
     workerParameters: WorkerParameters,
 ) : CoroutineWorker(context, workerParameters) {
-
-
-    override suspend fun doWork(): Result {
-        return withContext(Dispatchers.IO) { UpdateWidgetWork.doWork(context) }
-    }
+    override suspend fun doWork(): Result =
+        withContext(Dispatchers.IO) { UpdateWidgetWork.doWork(context) }
 
     companion object {
 
@@ -35,7 +32,7 @@ class WidgetSyncWorker(
 
 
         private val startPeriodicSync =
-            PeriodicWorkRequestBuilder<WidgetSyncWorker>(repeatInterval = Duration.ofHours(1))
+            PeriodicWorkRequestBuilder<WidgetSyncWorker>(repeatInterval = Duration.ofHours(2))
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, Duration.ofMinutes(10))
                 .setInitialDelay(Duration.ofSeconds(10))
                 .setConstraints(periodicConstraints)

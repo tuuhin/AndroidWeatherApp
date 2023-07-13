@@ -24,7 +24,6 @@ object WeatherDataDefinition : GlanceStateDefinition<SerializedResource> {
 
     private val Context.weatherDataStore by dataStore(fileName, CurrentWeatherModelSerializer)
 
-
     override suspend fun getDataStore(
         context: Context,
         fileKey: String

@@ -16,18 +16,16 @@ import com.eva.androidweatherapp.ui.theme.LightColorScheme
 @GlanceComposable
 fun WeatherAppWidgetTheme(
     context: Context = LocalContext.current,
+    dynamicColors: Boolean = true,
     content: (@Composable () -> Unit) = {}
 ) {
     GlanceTheme(
-        colors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        colors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && dynamicColors)
             ColorProviders(
                 light = dynamicLightColorScheme(context),
                 dark = dynamicDarkColorScheme(context)
             ) else
-            ColorProviders(
-                light = LightColorScheme,
-                dark = DarkColorScheme
-            ),
+            ColorProviders(light = LightColorScheme, dark = DarkColorScheme),
         content = content
     )
 }
