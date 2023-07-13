@@ -1,6 +1,7 @@
 package com.eva.androidweatherapp
 
 import android.app.Application
+import androidx.work.ExistingPeriodicWorkPolicy
 import com.eva.androidweatherapp.di.appModule
 import com.eva.androidweatherapp.workers.DataBaseSyncWorker
 import org.koin.android.ext.koin.androidContext
@@ -18,7 +19,10 @@ class MyApplication : Application() {
             modules(appModule)
         }
 
-        DataBaseSyncWorker.start(applicationContext)
+        DataBaseSyncWorker.start(
+            applicationContext,
+            policy = ExistingPeriodicWorkPolicy.KEEP
+        )
     }
 
     override fun onTerminate() {

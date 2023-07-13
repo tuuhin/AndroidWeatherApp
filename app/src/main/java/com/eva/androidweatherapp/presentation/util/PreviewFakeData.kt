@@ -37,6 +37,7 @@ object PreviewFakeData {
         tempInCelsius = 34.4f,
         country = "United States of America",
         name = "New York", region = "New York",
+        lastUpdate = LocalDateTime.now()
     )
 
     val fakeCurrentWeatherModel = CurrentWeatherModel(

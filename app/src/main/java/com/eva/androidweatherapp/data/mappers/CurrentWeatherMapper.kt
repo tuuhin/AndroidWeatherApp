@@ -51,5 +51,10 @@ fun WeatherCurrentDataDto.toDbModel(entityId: Int? = null): SavedWeatherModel = 
     windSpeedInMh = weather.windSpeedInMh,
     name = location.name,
     region = location.region,
-    country = location.country
+    country = location.country,
+    lastUpdate = LocalDateTime.parse(
+        weather.lastUpdated,
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    )
+
 )

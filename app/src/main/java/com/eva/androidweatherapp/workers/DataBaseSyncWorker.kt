@@ -33,7 +33,7 @@ class DataBaseSyncWorker(
     private val dataBase: AppDataBase by inject()
     private val weatherApi: WeatherApi by inject()
 
-    private val outKey = "message"
+    private val outKey = "MESSAGE_KEY"
 
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
@@ -63,7 +63,6 @@ class DataBaseSyncWorker(
         }
     }
 
-
     companion object {
 
         private const val uniqueWorker = "DATABASE_SYNCER"
@@ -74,8 +73,7 @@ class DataBaseSyncWorker(
             .build()
 
         private val instance = PeriodicWorkRequestBuilder<DataBaseSyncWorker>(
-            repeatInterval = Duration.ofHours(12),
-            flexTimeInterval = Duration.ofHours(1)
+            repeatInterval = Duration.ofHours(12)
         )
             .setInitialDelay(Duration.ofSeconds(30))
             .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, Duration.ofMinutes(10))

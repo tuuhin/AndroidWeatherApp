@@ -23,4 +23,5 @@ data class SavedWeatherEntity(
     val country: String,
     val name: String,
     val region: String,
+    val lastUpdated: String? = null
 )

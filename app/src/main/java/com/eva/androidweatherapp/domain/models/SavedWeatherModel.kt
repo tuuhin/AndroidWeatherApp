@@ -1,6 +1,7 @@
 package com.eva.androidweatherapp.domain.models
 
 import androidx.annotation.DrawableRes
+import java.time.LocalDateTime
 
 data class SavedWeatherModel(
     val id: Int? = null,
@@ -20,4 +21,5 @@ data class SavedWeatherModel(
     val country: String,
     val name: String,
     val region: String,
+    val lastUpdate: LocalDateTime? = null
 )

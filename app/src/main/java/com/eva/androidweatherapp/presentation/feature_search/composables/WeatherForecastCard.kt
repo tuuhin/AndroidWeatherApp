@@ -19,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
@@ -32,6 +34,8 @@ import com.eva.androidweatherapp.domain.models.SavedWeatherModel
 import com.eva.androidweatherapp.presentation.composables.WeatherImage
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.isCurrentLocaleAmerican
+import java.time.format.DateTimeFormatter
+import androidx.compose.runtime.getValue
 
 @Composable
 fun WeatherForecastCard(
@@ -140,11 +144,32 @@ fun WeatherForecastCard(
                     )
                 }
             }
+            CityWeatherProperties(
+                model = model,
+                modifier = Modifier.fillMaxWidth()
+            )
+            model.lastUpdate?.let { time ->
+                val formattedTime by remember {
+                    derivedStateOf {
+                        time.format(DateTimeFormatter.ofPattern("dd MMMM, d HH:mm a"))
+                    }
+                }
+
+                Text(
+                    text = buildAnnotatedString {
+                        withStyle(SpanStyle(color = MaterialTheme.colorScheme.onSecondaryContainer))
+                        { append("Last Updated At: ") }
+                        append(formattedTime)
+                    },
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 2.dp)
+                )
+            }
         }
-        CityWeatherProperties(
-            model = model,
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 }
 
