@@ -35,7 +35,8 @@ fun NoLocationPermissions(
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(id = R.string.no_location_title),
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(

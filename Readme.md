@@ -42,6 +42,15 @@ these steps:
 3. Commit your changes and push your branch to your fork.
 4. Submit a pull request to the main repository.
 
+To ensure accurate weather data, please sign up at [weatherapi.com](https://www.weatherapi.com/) and
+obtain your unique API key.
+After that create a new property in `local.properties` file
+
+```properties
+API_KEY=<your_api_key>
+```
+You are set to go!!
+
 ## 🔚 Conclusion
 
 This app is mainly created to try out

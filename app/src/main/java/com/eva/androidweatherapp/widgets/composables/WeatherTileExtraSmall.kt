@@ -18,7 +18,6 @@ import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
-import androidx.glance.layout.height
 import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.layout.wrapContentSize
@@ -33,7 +32,7 @@ fun WeatherTileExtraSmall(
 ) {
     val imageBackground = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
         GlanceModifier
-            .background(GlanceTheme.colors.surfaceVariant)
+            .background(GlanceTheme.colors.primaryContainer)
             .cornerRadius(10.dp)
     else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
 
@@ -49,16 +48,19 @@ fun WeatherTileExtraSmall(
             .padding(8.dp)
             .then(backGround)
     ) {
-        WeatherTileTopBar(model = model)
-        Spacer(modifier = GlanceModifier.height(4.dp))
+        WeatherTileTopBar(
+            model = model,
+            modifier = GlanceModifier
+                .wrapContentSize()
+        )
         Row(
-            modifier = GlanceModifier.fillMaxWidth(),
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .defaultWeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = GlanceModifier
-                    .wrapContentSize()
-                    .size(36.dp)
                     .then(imageBackground),
                 contentAlignment = Alignment.TopStart
             ) {
@@ -66,10 +68,12 @@ fun WeatherTileExtraSmall(
                     provider = ImageProvider(model.image),
                     contentDescription = model.condition,
                     colorFilter = ColorFilter.tint(GlanceTheme.colors.onPrimaryContainer),
-                    modifier = GlanceModifier.padding(4.dp)
+                    modifier = GlanceModifier
+                        .size(48.dp)
+                        .padding(4.dp)
                 )
             }
-            Spacer(modifier = GlanceModifier.width(8.dp))
+            Spacer(modifier = GlanceModifier.width(12.dp))
             CurrentTemperatureText(
                 celsius = model.tempInCelsius,
                 fahrenheit = model.tempInFahrenheit

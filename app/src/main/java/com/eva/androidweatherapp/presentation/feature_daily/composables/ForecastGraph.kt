@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.presentation.feature_daily.composables
 
+import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -18,6 +19,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -67,7 +69,7 @@ fun ForeCastGraph(
     axisColor: Color = MaterialTheme.colorScheme.tertiary,
     chartColor: Color = MaterialTheme.colorScheme.primary,
     textColor: Color = MaterialTheme.colorScheme.secondary,
-    numberStyle: TextStyle = MaterialTheme.typography.labelMedium,
+    numberStyle: TextStyle = MaterialTheme.typography.labelLarge,
 ) {
 
     val listOfTypes = remember { WeatherGraphType.values() }
@@ -247,7 +249,7 @@ fun ForeCastGraph(
                                             textMeasurer = textMeasurer,
                                             text = "${point.value}",
                                             topLeft = point.coordinate,
-                                            style = numberStyle,
+                                            style = numberStyle.copy(color = textColor),
                                             maxLines = 1,
                                             overflow = TextOverflow.Visible,
                                             softWrap = false
@@ -285,17 +287,21 @@ class PreviewForeCastParams : CollectionPreviewParameterProvider<WeatherForeCast
     )
 )
 
-@Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ForeCastGraphPreview(
     @PreviewParameter(PreviewForeCastParams::class)
     forecast: WeatherForeCastModel
 ) {
-    ForeCastGraph(
-        forecast = forecast,
-        modifier = Modifier
-            .aspectRatio(1.5f)
-            .padding(10.dp),
-        state = GraphInteractionState(), onEvents = {}
-    )
+    Surface(
+        color = MaterialTheme.colorScheme.inverseOnSurface
+    ) {
+        ForeCastGraph(
+            forecast = forecast,
+            modifier = Modifier
+                .aspectRatio(1.5f)
+                .padding(10.dp),
+            state = GraphInteractionState(), onEvents = {}
+        )
+    }
 }

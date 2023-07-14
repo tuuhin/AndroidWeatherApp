@@ -12,13 +12,14 @@ fun CurrentWeatherModel.toSerializer(): WeatherModelSerializer = WeatherModelSer
     precipitationInch = precipitationInch,
     precipitationMM = precipitationMM,
     poundPerSquareInch = poundPerSquareInch,
-    pressureMilliBar = precipitationMM,
+    pressureMilliBar = pressureMilliBar,
     tempInCelsius = tempInCelsius,
     tempInFahrenheit = tempInFahrenheit,
     windSpeedInKmh = windSpeedInKmh,
     windSpeedInMh = windSpeedInMh,
     name = name,
-    region = region, humidity = humidity
+    region = region,
+    humidity = humidity
 )
 
 fun WeatherModelSerializer.toModel(): WidgetWeatherModel = WidgetWeatherModel(
@@ -29,11 +30,12 @@ fun WeatherModelSerializer.toModel(): WidgetWeatherModel = WidgetWeatherModel(
     precipitationInch = precipitationInch,
     precipitationMM = precipitationMM,
     poundPerSquareInch = poundPerSquareInch,
-    pressureMilliBar = precipitationMM,
+    pressureMilliBar = pressureMilliBar,
     tempInCelsius = tempInCelsius,
     tempInFahrenheit = tempInFahrenheit,
     windSpeedInKmh = windSpeedInKmh,
     windSpeedInMh = windSpeedInMh,
     name = name,
-    region = region, humidity = humidity
+    region = region,
+    humidity = humidity
 )

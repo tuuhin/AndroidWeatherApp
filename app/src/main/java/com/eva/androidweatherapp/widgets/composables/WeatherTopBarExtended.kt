@@ -36,7 +36,7 @@ fun WeatherTopBarExtended(
 ) {
     val background = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
         GlanceModifier
-            .background(GlanceTheme.colors.surfaceVariant)
+            .background(GlanceTheme.colors.primaryContainer)
             .cornerRadius(10.dp)
     else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
 

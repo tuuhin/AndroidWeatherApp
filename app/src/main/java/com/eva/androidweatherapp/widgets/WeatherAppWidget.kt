@@ -72,11 +72,16 @@ object WeatherAppWidget : GlanceAppWidget() {
                         is SerializedResource.IsLoading -> LoadingLayout()
 
                         is SerializedResource.Success ->
-                            WeatherWidgetLayouts(model = state.data.toModel())
+                            WeatherWidgetLayouts(
+                                model = state.data.toModel(),
+                                modifier = GlanceModifier
+                                    .clickable(actionStartActivity<MainActivity>())
+                            )
 
                         is SerializedResource.NoLocationFound -> NoLocationError(
                             action = actionRunCallback<RefreshAction>(),
-                            modifier = GlanceModifier.clickable(actionStartActivity<MainActivity>())
+                            modifier = GlanceModifier
+                                .clickable(actionStartActivity<MainActivity>())
                         )
                     }
                 }

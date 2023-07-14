@@ -26,13 +26,15 @@ fun WeatherExtraInfo(
         ) {
             WeatherBasicInformation(
                 image = R.drawable.ic_rain,
-                data = "${model.precipitationMM}",
-                unit = "mm"
+                data = "${model.precipitationMM} mm",
+                title = "Rain",
+                modifier = GlanceModifier.defaultWeight()
             )
             WeatherBasicInformation(
                 image = R.drawable.ic_humidity,
-                data = "${model.humidity}",
-                unit = "%"
+                data = "${model.humidity} %",
+                title = "Humidity",
+                modifier = GlanceModifier.defaultWeight()
             )
         }
         Spacer(modifier = GlanceModifier.defaultWeight())
@@ -41,16 +43,17 @@ fun WeatherExtraInfo(
         ) {
             WeatherBasicInformation(
                 image = R.drawable.ic_wind_speed,
-                data = "${model.windSpeedInKmh}",
-                unit = "km/h"
+                data = "${model.windSpeedInKmh} kmph",
+                title = "Wind",
+                modifier = GlanceModifier.defaultWeight()
             )
 
             WeatherBasicInformation(
                 image = R.drawable.ic_pressure,
-                data = "${model.pressureMilliBar}",
-                unit = "mBar"
+                data = "${model.pressureMilliBar} mbar",
+                title = "Pressure",
+                modifier = GlanceModifier.defaultWeight()
             )
-
         }
     }
 }

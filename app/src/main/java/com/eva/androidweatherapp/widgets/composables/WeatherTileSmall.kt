@@ -33,7 +33,7 @@ fun WeatherTileSmall(
     val imageBackGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
         GlanceModifier
             .cornerRadius(10.dp)
-            .background(GlanceTheme.colors.surfaceVariant)
+            .background(GlanceTheme.colors.primaryContainer)
     else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
 
     val backGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)

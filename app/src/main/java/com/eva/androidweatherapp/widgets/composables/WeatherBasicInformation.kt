@@ -25,7 +25,7 @@ fun WeatherBasicInformation(
     @DrawableRes image: Int,
     contentDescription: String? = null,
     data: String,
-    unit: String,
+    title: String? = null,
     modifier: GlanceModifier = GlanceModifier,
 ) {
     Column(
@@ -39,12 +39,21 @@ fun WeatherBasicInformation(
             provider = ImageProvider(image),
             contentDescription = contentDescription,
             colorFilter = ColorFilter.tint(GlanceTheme.colors.onPrimaryContainer),
-            modifier = GlanceModifier.size(36.dp)
+            modifier = GlanceModifier.size(40.dp)
         )
+        title?.let {
+            Text(
+                text = title, style = TextStyle(
+                    fontSize = 12.sp,
+                    color = GlanceTheme.colors.onPrimaryContainer,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+        }
         Text(
-            text = "$data$unit",
+            text = data,
             style = TextStyle(
-                fontSize = 8.sp,
+                fontSize = 10.sp,
                 color = GlanceTheme.colors.onPrimaryContainer,
                 fontWeight = FontWeight.Medium
             )
