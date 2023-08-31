@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.WeatherIcons" parent="android:Widget">
+        <item name="android:tint">@color/on_primary_container</item>
+    </style>
+
+</resources>

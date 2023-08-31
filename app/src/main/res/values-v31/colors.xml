@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">@color/material_dynamic_primary40</color>
+    <color name="on_primary">@color/white</color>
+    <color name="secondary">@color/material_dynamic_secondary40</color>
+    <color name="on_secondary">@color/white</color>
+    <color name="tertiary">@color/material_dynamic_tertiary40</color>
+    <color name="on_tertiary">@color/white</color>
+
+    <color name="background">@color/material_dynamic_neutral99</color>
+    <color name="on_background">@color/material_dynamic_neutral10</color>
+    <color name="outlined">@color/material_dynamic_neutral_variant50</color>
+    <color name="outline_variant">@color/material_dynamic_neutral_variant80</color>
+
+    <color name="primary_container">@color/material_dynamic_primary90</color>
+    <color name="on_primary_container">@color/material_dynamic_primary10</color>
+    <color name="secondary_container">@color/material_dynamic_secondary90</color>
+    <color name="on_secondary_container">@color/material_dynamic_secondary10</color>
+    <color name="tertiary_container">@color/material_dynamic_tertiary90</color>
+    <color name="on_tertiary_container">@color/material_dynamic_tertiary10</color>
+
+    <color name="surface">@color/material_dynamic_neutral99</color>
+    <color name="on_surface">@color/material_dynamic_neutral10</color>
+    <color name="surface_variant">@color/material_dynamic_neutral_variant90</color>
+    <color name="on_surface_variant">@color/material_dynamic_neutral_variant30</color>
+</resources>

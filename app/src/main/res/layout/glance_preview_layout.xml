@@ -7,7 +7,8 @@
     android:layout_gravity="center"
     android:background="@drawable/shape_rounded_surface"
     android:gravity="center"
-    android:orientation="vertical" android:padding="8dp">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -16,13 +17,15 @@
         android:paddingHorizontal="12dp">
 
         <ImageView
+            style="@style/Widget.WeatherIcons"
             android:layout_width="28dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:contentDescription="@string/location_icon_widget_placeholder_content_desc"
+            android:foregroundTint="@color/on_primary_container"
+            android:foregroundTintMode="screen"
             android:padding="4dp"
-            android:src="@drawable/ic_location_symbol"
-            app:tint="@color/on_primary_container" />
+            android:src="@drawable/ic_location_symbol" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/current_location_widget_placeholder"
-                android:textColor="@color/on_primary_container"
+                android:textColor="@color/primary"
                 android:textFontWeight="700"
                 android:textSize="16sp" />
 
@@ -44,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/current_weather_widget_placeholder"
-                android:textColor="@color/on_secondary_container"
+                android:textColor="@color/secondary"
                 android:textFontWeight="500"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -57,6 +60,7 @@
         android:padding="4dp">
 
         <ImageView
+            style="@style/Widget.WeatherIcons"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerHorizontal="true"
@@ -73,7 +77,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:text="@string/temperature_widget_placeholder"
-            android:textColor="@color/on_surface_variant"
+            android:textColor="@color/secondary"
             android:textFontWeight="700"
             android:textSize="18sp" />
 
@@ -99,11 +103,13 @@
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
+                style="@style/Widget.WeatherIcons"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:contentDescription="@string/rain_title_widget_placeholder"
                 android:paddingBottom="4dp"
-                android:src="@drawable/ic_rain" />
+                android:src="@drawable/ic_rain"
+                app:tint="@color/on_primary_container" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -126,11 +132,13 @@
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
+                style="@style/Widget.WeatherIcons"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:contentDescription="@string/humidity_title_widget_placeholder"
                 android:paddingBottom="4dp"
-                android:src="@drawable/ic_humidity" />
+                android:src="@drawable/ic_humidity"
+                app:tint="@color/on_primary_container" />
 
 
             <TextView
@@ -145,6 +153,7 @@
         </LinearLayout>
 
         <LinearLayout
+            style="@style/Widget.WeatherIcons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -152,13 +161,14 @@
             android:paddingHorizontal="2dp"
             tools:ignore="UseCompoundDrawables">
 
-
             <ImageView
+                style="@style/Widget.WeatherIcons"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:contentDescription="@string/wind_title_widget_placeholder"
                 android:paddingBottom="4dp"
-                android:src="@drawable/ic_wind_speed" />
+                android:src="@drawable/ic_wind_speed"
+                app:tint="@color/on_primary_container" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -168,10 +178,7 @@
                 android:textFontWeight="500"
                 android:textSize="8sp"
                 tools:ignore="SmallSp" />
-
-
         </LinearLayout>
-
 
     </LinearLayout>
 
