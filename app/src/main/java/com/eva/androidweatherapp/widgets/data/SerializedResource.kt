@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 sealed interface SerializedResource {
 
     @Serializable
-    object IsLoading : SerializedResource
+    data object IsLoading : SerializedResource
 
     @Serializable
     data class Success(val data: WeatherModelSerializer) : SerializedResource

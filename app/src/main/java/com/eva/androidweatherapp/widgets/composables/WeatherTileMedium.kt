@@ -1,15 +1,10 @@
 package com.eva.androidweatherapp.widgets.composables
 
-import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceComposable
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
-import androidx.glance.ImageProvider
-import androidx.glance.appwidget.cornerRadius
-import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -20,35 +15,23 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.width
-import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
-import androidx.glance.text.TextStyle
 import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.utils.WeatherUnits
 import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
+import com.eva.androidweatherapp.widgets.theme.GlanceTextStyles
 import com.eva.androidweatherapp.widgets.utils.isCurrentLocalAmericanGlance
+import com.eva.androidweatherapp.widgets.utils.roundedCorners
 
 @Composable
 @GlanceComposable
 fun WeatherTileMedium(
-    modifier: GlanceModifier = GlanceModifier,
     model: WidgetWeatherModel,
+    modifier: GlanceModifier = GlanceModifier,
+    isAmerican: Boolean = isCurrentLocalAmericanGlance(),
 ) {
-    val imageBackGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        GlanceModifier
-            .background(GlanceTheme.colors.primaryContainer)
-            .cornerRadius(10.dp)
-    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
-
-    val backGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        GlanceModifier
-            .background(GlanceTheme.colors.surfaceVariant)
-            .cornerRadius(10.dp)
-    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_surface))
-
     Column(
-        modifier = modifier
-            .padding(10.dp)
-            .then(backGround)
+        modifier = modifier.padding(10.dp)
     ) {
         WeatherTopBarExtended(model = model)
         Spacer(modifier = GlanceModifier.height(4.dp))
@@ -65,44 +48,30 @@ fun WeatherTileMedium(
                     contentAlignment = Alignment.Center
                 ) {
                     CurrentTemperatureText(
-                        celsius = model.tempInCelsius,
-                        fahrenheit = model.tempInFahrenheit
+                        temp = if (isAmerican) model.tempInFahrenheit else model.tempInCelsius,
+                        units = if (isAmerican) WeatherUnits.TEMP_FAHRENHEIT else WeatherUnits.TEMP_CELSIUS,
+                        style = GlanceTextStyles.extraLargeTextStyleWithOnSurfaceVariantColor()
                     )
                 }
                 Text(
                     text = "Feels like: ",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = GlanceTheme.colors.secondary
-                    )
+                    style = GlanceTextStyles.smallTextStyleWithSecondaryColor()
                 )
-                if (isCurrentLocalAmericanGlance())
-                    Text(
-                        text = "${model.feelsLikeFahrenheit}" + "\u00B0",
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = GlanceTheme.colors.onPrimaryContainer
-                        )
-                    )
-                else
-                    Text(
-                        text = "${model.feelsLikeInCelsius}" + "\u00B0",
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = GlanceTheme.colors.onPrimaryContainer
-                        )
-                    )
-
+                CurrentTemperatureText(
+                    temp = if (isAmerican) model.feelsLikeFahrenheit else model.feelsLikeInCelsius,
+                    units = if (isAmerican) WeatherUnits.TEMP_FAHRENHEIT else WeatherUnits.TEMP_CELSIUS,
+                    style = GlanceTextStyles.smallTextStyleWithOnSurfaceVariantColor()
+                )
             }
             Spacer(modifier = GlanceModifier.width(4.dp))
             Box(
                 modifier = GlanceModifier
                     .defaultWeight()
                     .fillMaxHeight()
-                    .then(imageBackGround),
+                    .roundedCorners(
+                        color = GlanceTheme.colors.primaryContainer,
+                        resId = R.drawable.shape_rounded_container
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 WeatherExtraInfo(

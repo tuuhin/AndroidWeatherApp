@@ -1,57 +1,42 @@
 package com.eva.androidweatherapp.widgets.composables
 
-import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.glance.ColorFilter
 import androidx.glance.GlanceComposable
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
-import androidx.glance.background
 import androidx.glance.layout.Column
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.appwidget.cornerRadius
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.size
 import androidx.glance.layout.width
-import androidx.glance.layout.wrapContentSize
 import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.utils.WeatherUnits
 import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
+import com.eva.androidweatherapp.widgets.theme.GlanceTextStyles
+import com.eva.androidweatherapp.widgets.utils.isCurrentLocalAmericanGlance
+import com.eva.androidweatherapp.widgets.utils.roundedCorners
 
 @Composable
 @GlanceComposable
 fun WeatherTileExtraSmall(
     model: WidgetWeatherModel,
-    modifier: GlanceModifier = GlanceModifier
+    modifier: GlanceModifier = GlanceModifier,
+    isAmerican: Boolean = isCurrentLocalAmericanGlance()
 ) {
-    val imageBackground = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        GlanceModifier
-            .background(GlanceTheme.colors.primaryContainer)
-            .cornerRadius(10.dp)
-    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
-
-    val backGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        GlanceModifier
-            .background(GlanceTheme.colors.surfaceVariant)
-            .cornerRadius(10.dp)
-    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_surface))
-
-
     Column(
-        modifier = modifier
-            .padding(8.dp)
-            .then(backGround)
+        modifier = modifier.padding(8.dp)
     ) {
         WeatherTileTopBar(
             model = model,
-            modifier = GlanceModifier
-                .wrapContentSize()
+            modifier = GlanceModifier.fillMaxWidth()
         )
         Row(
             modifier = GlanceModifier
@@ -61,8 +46,11 @@ fun WeatherTileExtraSmall(
         ) {
             Box(
                 modifier = GlanceModifier
-                    .then(imageBackground),
-                contentAlignment = Alignment.TopStart
+                    .roundedCorners(
+                        color = GlanceTheme.colors.primaryContainer,
+                        resId = R.drawable.shape_rounded_container
+                    ),
+                contentAlignment = Alignment.Center
             ) {
                 Image(
                     provider = ImageProvider(model.image),
@@ -75,8 +63,9 @@ fun WeatherTileExtraSmall(
             }
             Spacer(modifier = GlanceModifier.width(12.dp))
             CurrentTemperatureText(
-                celsius = model.tempInCelsius,
-                fahrenheit = model.tempInFahrenheit
+                temp = if (isAmerican) model.tempInFahrenheit else model.tempInCelsius,
+                units = if (isAmerican) WeatherUnits.TEMP_FAHRENHEIT else WeatherUnits.TEMP_CELSIUS,
+                style = GlanceTextStyles.largeTextStyleWithOnSurfaceVariantColor()
             )
         }
     }

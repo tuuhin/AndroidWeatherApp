@@ -1,45 +1,44 @@
 package com.eva.androidweatherapp.widgets.composables
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
 import androidx.glance.GlanceComposable
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.layout.wrapContentSize
-import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
-import androidx.glance.text.TextStyle
 import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
+import com.eva.androidweatherapp.widgets.theme.GlanceTextStyles
 
 @Composable
 @GlanceComposable
 fun WeatherTileTopBar(
-    modifier: GlanceModifier = GlanceModifier,
     model: WidgetWeatherModel,
+    modifier: GlanceModifier = GlanceModifier,
+    context: Context = LocalContext.current
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier,
         horizontalAlignment = Alignment.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             provider = ImageProvider(R.drawable.ic_location_symbol),
-            contentDescription = "Location Symbol",
+            contentDescription = context.getString(R.string.location_symbol),
             modifier = GlanceModifier.size(24.dp),
-            colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurfaceVariant)
+            colorFilter = ColorFilter.tint(GlanceTheme.colors.onPrimaryContainer)
         )
         Spacer(modifier = GlanceModifier.width(4.dp))
         Column(
@@ -48,33 +47,12 @@ fun WeatherTileTopBar(
         ) {
             Text(
                 text = model.name,
-                style = TextStyle(
-                    color = GlanceTheme.colors.onSurfaceVariant,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                style = GlanceTextStyles.smallTitleTextStyle()
             )
             Text(
                 text = model.condition,
-                style = TextStyle(
-                    color = GlanceTheme.colors.onSurfaceVariant,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Normal
-                )
+                style = GlanceTextStyles.smallSubTitleTextStyle()
             )
         }
-//        Row(
-//            modifier = GlanceModifier.fillMaxWidth(),
-//            horizontalAlignment = Alignment.End
-//        ) {
-//            Image(
-//                provider = ImageProvider(R.drawable.ic_refresh_symbol),
-//                contentDescription = "Refresh Symbol",
-//                modifier = GlanceModifier
-//                    .size(20.dp)
-//                    .clickable(action),
-//                colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurfaceVariant)
-//            )
-//        }
     }
 }

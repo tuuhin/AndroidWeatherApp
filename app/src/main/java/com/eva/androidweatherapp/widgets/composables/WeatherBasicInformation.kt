@@ -3,7 +3,6 @@ package com.eva.androidweatherapp.widgets.composables
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
 import androidx.glance.GlanceComposable
 import androidx.glance.GlanceModifier
@@ -15,18 +14,19 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.wrapContentSize
-import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
-import androidx.glance.text.TextStyle
+import com.eva.androidweatherapp.utils.WeatherUnits
+import com.eva.androidweatherapp.widgets.theme.GlanceTextStyles
 
 @Composable
 @GlanceComposable
 fun WeatherBasicInformation(
     @DrawableRes image: Int,
-    contentDescription: String? = null,
-    data: String,
-    title: String? = null,
+    value: String,
+    units: WeatherUnits,
     modifier: GlanceModifier = GlanceModifier,
+    contentDescription: String? = null,
+    title: String? = null,
 ) {
     Column(
         modifier = modifier
@@ -43,20 +43,16 @@ fun WeatherBasicInformation(
         )
         title?.let {
             Text(
-                text = title, style = TextStyle(
-                    fontSize = 12.sp,
-                    color = GlanceTheme.colors.onPrimaryContainer,
-                    fontWeight = FontWeight.Medium
-                )
+                text = it,
+                style = GlanceTextStyles.smallTextStyleWithOnPrimaryContainerColor()
             )
         }
         Text(
-            text = data,
-            style = TextStyle(
-                fontSize = 10.sp,
-                color = GlanceTheme.colors.onPrimaryContainer,
-                fontWeight = FontWeight.Medium
-            )
+            text = buildString {
+                append(value)
+                append(units.text)
+            },
+            style = GlanceTextStyles.extraSmallTextStyleWithOnPrimaryContainerColor()
         )
     }
 }

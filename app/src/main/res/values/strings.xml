@@ -37,4 +37,10 @@
     <string name="humidity_value_widget_placeholder">83%</string>
     <string name="rain_title_widget_placeholder">Rain</string>
     <string name="rain_value_widget_placeholder">0.0mm</string>
+
+    <string name="location_symbol">Location Symbol</string>
+    <string name="refresh">Refresh</string>
+    <string name="error_text">Error</string>
+    <string name="loading_text">Loading</string>
+    <string name="no_weather_data">No weather Data found</string>
 </resources>

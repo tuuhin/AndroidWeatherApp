@@ -14,14 +14,15 @@ import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.utils.WeatherUnits
 import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
 import com.eva.androidweatherapp.widgets.utils.isCurrentLocalAmericanGlance
 
 @Composable
 @GlanceComposable
 fun WeatherTileBottomSimple(
-    modifier: GlanceModifier = GlanceModifier,
     model: WidgetWeatherModel,
+    modifier: GlanceModifier = GlanceModifier,
     isAmerican: Boolean = isCurrentLocalAmericanGlance(),
 ) {
     val background = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
@@ -40,17 +41,20 @@ fun WeatherTileBottomSimple(
     ) {
         WeatherBasicInformation(
             image = R.drawable.ic_rain,
-            data = "${model.precipitationMM} mm",
+            value = if (isAmerican) "${model.precipitationInch}" else "${model.precipitationMM}",
+            units = if (isAmerican) WeatherUnits.PRECIPITATION_IN_INCH else WeatherUnits.PRECIPITATION_IN_MM,
             modifier = GlanceModifier.defaultWeight()
         )
         WeatherBasicInformation(
             image = R.drawable.ic_humidity,
-            data = "${model.humidity} %",
+            value = "${model.humidity}",
+            units = WeatherUnits.HUMIDITY_PERCENTAGE,
             modifier = GlanceModifier.defaultWeight()
         )
         WeatherBasicInformation(
             image = R.drawable.ic_wind_speed,
-            data = if (isAmerican) "${model.windSpeedInMh} kph" else "${model.windSpeedInKmh} kph",
+            value = if (isAmerican) "${model.windSpeedInMh}" else "${model.windSpeedInKmh}",
+            units = if (isAmerican) WeatherUnits.SPEED_KMH else WeatherUnits.SPEED_MPH,
             modifier = GlanceModifier.defaultWeight()
         )
     }

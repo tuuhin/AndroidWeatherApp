@@ -17,7 +17,7 @@ data class WeatherModelSerializer(
     @SerialName("tempF") val tempInFahrenheit: Float,
     @SerialName("wSpeedKm") val windSpeedInKmh: Float,
     @SerialName("wSpeedM") val windSpeedInMh: Float,
-    val name: String,
-    val region: String,
-    val humidity: Float
+    @SerialName("name") val name: String,
+    @SerialName("region") val region: String,
+    @SerialName("humidity") val humidity: Float
 )

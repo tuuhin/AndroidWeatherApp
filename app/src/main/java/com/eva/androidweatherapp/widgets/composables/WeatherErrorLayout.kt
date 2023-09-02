@@ -1,6 +1,6 @@
 package com.eva.androidweatherapp.widgets.composables
 
-import android.os.Build
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -11,11 +11,10 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.LocalSize
 import androidx.glance.action.Action
 import androidx.glance.action.clickable
-import androidx.glance.appwidget.cornerRadius
-import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -32,22 +31,20 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.widgets.theme.GlanceTextStyles
 import com.eva.androidweatherapp.widgets.utils.AvailableSizes
+import com.eva.androidweatherapp.widgets.utils.roundedCorners
+import com.eva.androidweatherapp.widgets.utils.toWidgetSize
 
 @Composable
 @GlanceComposable
 fun WeatherErrorLayout(
-    errorMessage: String,
+    error: String,
+    action: Action,
     modifier: GlanceModifier = GlanceModifier,
     size: DpSize = LocalSize.current,
-    action: Action
+    context: Context = LocalContext.current
 ) {
-    val imageModifier =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            GlanceModifier.cornerRadius(10.dp)
-                .background(GlanceTheme.colors.primaryContainer)
-        else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
-
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
@@ -59,14 +56,14 @@ fun WeatherErrorLayout(
         ) {
             Image(
                 provider = ImageProvider(R.drawable.ic_refresh_symbol),
-                contentDescription = "Refresh Symbol",
+                contentDescription = context.getString(R.string.refresh),
                 modifier = GlanceModifier
                     .size(20.dp)
                     .clickable(action),
                 colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurfaceVariant)
             )
 
-            when (size) {
+            when (size.toWidgetSize()) {
                 AvailableSizes.WIDGET_SIZE_SMALL -> Row(
                     modifier = GlanceModifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.Start,
@@ -74,11 +71,14 @@ fun WeatherErrorLayout(
                 ) {
                     Image(
                         provider = ImageProvider(R.drawable.ic_error),
-                        contentDescription = "No weather data found",
+                        contentDescription = context.getString(R.string.no_weather_data),
                         colorFilter = ColorFilter.tint(GlanceTheme.colors.onPrimaryContainer),
                         modifier = GlanceModifier.padding(4.dp)
                             .size(50.dp)
-                            .then(imageModifier),
+                            .roundedCorners(
+                                color = GlanceTheme.colors.primaryContainer,
+                                resId = R.drawable.shape_rounded_container
+                            ),
                         contentScale = ContentScale.Fit
                     )
                     Spacer(modifier = GlanceModifier.width(10.dp))
@@ -86,19 +86,13 @@ fun WeatherErrorLayout(
                         modifier = GlanceModifier.defaultWeight()
                     ) {
                         Text(
-                            text = "Error ",
-                            style = TextStyle(
-                                color = GlanceTheme.colors.onPrimaryContainer,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 14.sp
-                            ), modifier = GlanceModifier.padding(vertical = 2.dp)
+                            text = context.getString(R.string.error_text),
+                            style = GlanceTextStyles.smallTextStyleWithOnPrimaryContainerColor(),
+                            modifier = GlanceModifier.padding(vertical = 2.dp)
                         )
                         Text(
-                            text = errorMessage,
-                            style = TextStyle(
-                                color = GlanceTheme.colors.onPrimaryContainer,
-                                fontSize = 10.sp
-                            ),
+                            text = error,
+                            style = GlanceTextStyles.extraSmallTextStyleWithOnPrimaryContainerColor(),
                             maxLines = 1
                         )
                     }
@@ -111,16 +105,19 @@ fun WeatherErrorLayout(
                 ) {
                     Image(
                         provider = ImageProvider(R.drawable.ic_error),
-                        contentDescription = "No weather data found",
+                        contentDescription = context.getString(R.string.no_weather_data),
                         colorFilter = ColorFilter.tint(GlanceTheme.colors.onPrimaryContainer),
                         modifier = GlanceModifier.padding(4.dp)
                             .size(50.dp)
-                            .then(imageModifier),
+                            .roundedCorners(
+                                color = GlanceTheme.colors.primaryContainer,
+                                resId = R.drawable.shape_rounded_container
+                            ),
                         contentScale = ContentScale.Fit
                     )
                     Spacer(modifier = GlanceModifier.height(10.dp))
                     Text(
-                        text = "Error Occurred",
+                        text = context.getString(R.string.error_text),
                         style = TextStyle(
                             color = GlanceTheme.colors.onPrimaryContainer,
                             fontWeight = FontWeight.Bold,
@@ -128,11 +125,8 @@ fun WeatherErrorLayout(
                         ), modifier = GlanceModifier.padding(vertical = 2.dp)
                     )
                     Text(
-                        text = errorMessage,
-                        style = TextStyle(
-                            color = GlanceTheme.colors.onPrimaryContainer,
-                            fontSize = 12.sp
-                        ),
+                        text = error,
+                        style = GlanceTextStyles.smallTextStyleWithOnPrimaryContainerColor(),
                         maxLines = 2
                     )
                 }

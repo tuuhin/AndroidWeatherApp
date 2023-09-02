@@ -1,6 +1,5 @@
 package com.eva.androidweatherapp.widgets.composables
 
-import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.glance.ColorFilter
@@ -9,8 +8,6 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.appwidget.cornerRadius
-import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -22,30 +19,21 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.utils.WeatherUnits
 import com.eva.androidweatherapp.widgets.model.WidgetWeatherModel
+import com.eva.androidweatherapp.widgets.theme.GlanceTextStyles
+import com.eva.androidweatherapp.widgets.utils.isCurrentLocalAmericanGlance
+import com.eva.androidweatherapp.widgets.utils.roundedCorners
 
 @Composable
 @GlanceComposable
 fun WeatherTileSmall(
-    modifier: GlanceModifier = GlanceModifier,
     model: WidgetWeatherModel,
+    modifier: GlanceModifier = GlanceModifier,
+    isAmerican: Boolean = isCurrentLocalAmericanGlance(),
 ) {
-    val imageBackGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        GlanceModifier
-            .cornerRadius(10.dp)
-            .background(GlanceTheme.colors.primaryContainer)
-    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_container))
-
-    val backGround = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        GlanceModifier
-            .background(GlanceTheme.colors.surfaceVariant)
-            .cornerRadius(10.dp)
-    else GlanceModifier.background(ImageProvider(R.drawable.shape_rounded_surface))
-
     Column(
-        modifier = modifier
-            .padding(8.dp)
-            .then(backGround)
+        modifier = modifier.padding(8.dp)
     ) {
         WeatherTileTopBar(model = model)
         Column(
@@ -62,7 +50,7 @@ fun WeatherTileSmall(
                 Box(
                     modifier = GlanceModifier
                         .fillMaxSize(),
-                    contentAlignment = Alignment.CenterStart
+                    contentAlignment = Alignment.Center
                 ) {
                     Image(
                         provider = ImageProvider(model.image),
@@ -70,7 +58,10 @@ fun WeatherTileSmall(
                         colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
                         modifier = GlanceModifier.padding(4.dp)
                             .size(60.dp)
-                            .then(imageBackGround),
+                            .roundedCorners(
+                                color = GlanceTheme.colors.primaryContainer,
+                                resId = R.drawable.shape_rounded_container
+                            ),
                         contentScale = ContentScale.Fit
                     )
                 }
@@ -79,8 +70,9 @@ fun WeatherTileSmall(
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     CurrentTemperatureText(
-                        celsius = model.tempInCelsius,
-                        fahrenheit = model.tempInFahrenheit
+                        temp = if (isAmerican) model.tempInFahrenheit else model.tempInCelsius,
+                        units = if (isAmerican) WeatherUnits.TEMP_FAHRENHEIT else WeatherUnits.TEMP_CELSIUS,
+                        style = GlanceTextStyles.extraLargeTextStyleWithOnSurfaceVariantColor()
                     )
                 }
             }
