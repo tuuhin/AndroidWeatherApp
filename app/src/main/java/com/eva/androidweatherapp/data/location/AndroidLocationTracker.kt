@@ -27,7 +27,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 class AndroidLocationTracker(
     private val context: Context,
     private val locationProviderClient: FusedLocationProviderClient,
-) : LocationTracker() {
+) : LocationTracker {
 
     private val locationTag = "ANDROID_LOCATION_TAG"
 

@@ -13,40 +13,30 @@ import com.eva.androidweatherapp.domain.repository.WeatherRepository
 import com.eva.androidweatherapp.presentation.WeatherForecastViewModel
 import com.eva.androidweatherapp.presentation.feature_search.SearchLocationViewModel
 import com.google.android.gms.location.LocationServices
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
-import java.time.Duration
-import java.util.concurrent.TimeUnit
 
 val appModule = module {
 
-    single {
-        OkHttpClient.Builder()
-            .connectTimeout(1, TimeUnit.MINUTES)
-            .addInterceptor(HttpLoggingInterceptor())
-            .readTimeout(Duration.ofMinutes(2))
-            .build()
-
-    }
-    single { WeatherApi.createApiInstance(get()) }
+    single { WeatherApi.createApiInstance() }
 
     single { AppDataBase.createDataBase(get()) }
 
     single { LocationServices.getFusedLocationProviderClient(androidContext()) }
 
-    factory<LocationTracker> { AndroidLocationTracker(get(), get()) }
+    factoryOf(::AndroidLocationTracker) bind LocationTracker::class
 
-    factory<WeatherRepository> { WeatherRepositoryImpl(get()) }
+    factoryOf(::WeatherRepositoryImpl) bind WeatherRepository::class
 
-    factory<SearchLocationRepository> { SearchLocationRepoImpl(get()) }
+    factoryOf(::SearchLocationRepoImpl) bind SearchLocationRepository::class
 
-    factory<SaveLocationRepository> { SaveLocationRepoImpl(get(), get()) }
+    factoryOf(::SaveLocationRepoImpl) bind SaveLocationRepository::class
 
-    viewModel { WeatherForecastViewModel(get(), get()) }
+    viewModelOf(::WeatherForecastViewModel)
 
-    viewModel { SearchLocationViewModel(get(), get()) }
+    viewModelOf(::SearchLocationViewModel)
 
 }

@@ -1,6 +1,5 @@
 package com.eva.androidweatherapp.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eva.androidweatherapp.domain.location.LocationTracker
@@ -20,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class WeatherForecastViewModel(
     private val locationTracker: LocationTracker,
-    private val weatherRepository: WeatherRepository,
+    private val repository: WeatherRepository,
 ) : ViewModel() {
 
     private val _uiEvent = MutableSharedFlow<UiEvents>()
@@ -34,37 +33,31 @@ class WeatherForecastViewModel(
         getCurrentWeather()
     }
 
+    private suspend fun getLocationCoordinated() =
+        locationTracker.getLastLocation() ?: locationTracker.getCurrentLocation()
 
-    private fun getCurrentWeather() {
-        viewModelScope.launch {
-            locationTracker.getLastLocation()?.let { location ->
-                weatherRepository.getWeatherForecastOneDayFromLatAndLong(location)
-                    .onEach { res ->
-                        when (res) {
-                            is Resource.Error -> {
-                                _content.update {
-                                    ShowContent(isLoading = false, content = null)
-                                }
-                                _uiEvent.emit(
-                                    UiEvents.ShowSnackBar(res.message ?: "Error Occurred")
-                                )
+
+    private fun getCurrentWeather() = viewModelScope.launch {
+        getLocationCoordinated()?.let { location ->
+            repository.getWeatherForecastOneDayFromLatAndLong(location)
+                .onEach { res ->
+                    when (res) {
+                        is Resource.Error -> {
+                            _content.update { cont ->
+                                cont.copy(isLoading = false, content = null)
                             }
-
-                            is Resource.Success -> _content.update {
-                                ShowContent(isLoading = false, content = res.data)
-                            }
-
-                            else -> {}
+                            _uiEvent.emit(
+                                UiEvents.ShowSnackBar(res.message ?: "Error Occurred")
+                            )
                         }
 
-                    }.launchIn(this)
-            }
-        }
-    }
+                        is Resource.Success -> _content.update { cont ->
+                            cont.copy(isLoading = false, content = res.data)
+                        }
 
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("VIEWMODEL", "CLEARED")
+                        else -> {}
+                    }
+                }.launchIn(this)
+        } ?: UiEvents.ShowSnackBar("Cannot access location.")
     }
 }

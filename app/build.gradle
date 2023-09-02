@@ -25,6 +25,8 @@ android {
         localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
         buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
+
+        buildConfigField("String", "BASE_URL","\"https://api.weatherapi.com/v1/\"")
     }
 
     buildTypes {
