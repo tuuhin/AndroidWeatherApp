@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.presentation.feature_current
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.presentation.feature_current.composables.CurrentWeatherData
@@ -34,6 +36,7 @@ import com.eva.androidweatherapp.presentation.feature_current.composables.Weathe
 import com.eva.androidweatherapp.presentation.util.LocalSnackBarHostState
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.requestBackgroundLocationDialog
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,8 +56,6 @@ fun CurrentWeatherRoute(
         }
     }
 
-
-
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         topBar = {
@@ -64,7 +65,7 @@ fun CurrentWeatherRoute(
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    titleContentColor = MaterialTheme.colorScheme.secondary,
                     actionIconContentColor = MaterialTheme.colorScheme.onSurface
                 ),
                 actions = {
@@ -128,8 +129,22 @@ fun CurrentWeatherRoute(
 
 
 @Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE,
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
 fun CurrentWeatherRoutePreview() {
-    CurrentWeatherRoute(forecast = PreviewFakeData.fakeForeCastModel)
+    AndroidWeatherAppTheme {
+        CurrentWeatherRoute(
+            forecast = PreviewFakeData.fakeForeCastModel
+        )
+    }
 }
 

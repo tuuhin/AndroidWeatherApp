@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.presentation.feature_search
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.R
@@ -34,6 +36,7 @@ import com.eva.androidweatherapp.presentation.feature_search.composables.Weather
 import com.eva.androidweatherapp.presentation.util.LocalSnackBarHostState
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.ShowContent
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -45,7 +48,10 @@ fun SearchLocationsRoute(
     savedLocations: List<SavedWeatherModel>,
     snackBarState: SnackbarHostState = LocalSnackBarHostState.current
 ) {
-    val searchBarPadding by animateDpAsState(if (state.isActive) 0.dp else 8.dp)
+    val searchBarPadding by animateDpAsState(
+        if (state.isActive) 0.dp else 8.dp,
+        label = "SearchBarAnimation"
+    )
 
     Scaffold(
         topBar = {
@@ -119,15 +125,27 @@ class SavedLocationsPreviewParams :
 
 
 @Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE,
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
 fun SavedLocationRoutePreview(
     @PreviewParameter(SavedLocationsPreviewParams::class)
     savedLocation: List<SavedWeatherModel>
 ) {
-    SearchLocationsRoute(
-        savedLocations = savedLocation,
-        state = CitySearchBarState(),
-        searchResults = ShowContent(),
-        onEvents = {}
-    )
+    AndroidWeatherAppTheme {
+        SearchLocationsRoute(
+            savedLocations = savedLocation,
+            state = CitySearchBarState(),
+            searchResults = ShowContent(),
+            onEvents = {}
+        )
+    }
 }

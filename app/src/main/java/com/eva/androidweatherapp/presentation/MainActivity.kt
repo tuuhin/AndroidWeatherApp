@@ -24,11 +24,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.inverseOnSurface
                 ) {
                     val locationPermissions = checkLocationPermissions()
-
-                    if (locationPermissions)
-                        NavigationGraph()
-                    else
-                        NoLocationPermissions()
+                    when {
+                        locationPermissions -> NavigationGraph()
+                        else -> NoLocationPermissions()
+                    }
                 }
             }
         }

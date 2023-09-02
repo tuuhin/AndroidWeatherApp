@@ -1,8 +1,8 @@
 package com.eva.androidweatherapp.presentation.feature_daily
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -20,17 +20,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.presentation.feature_daily.composables.ForeCastGraph
 import com.eva.androidweatherapp.presentation.feature_daily.composables.WeatherDayCard
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
@@ -74,6 +75,7 @@ fun WeekForecastRoute(
             Text(
                 text = "Forecast",
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             LazyColumn(
@@ -92,13 +94,20 @@ fun WeekForecastRoute(
     }
 }
 
-
 @Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE,
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
 fun WeekForeCastRoutePreview() {
-    Surface(
-        modifier = Modifier.background(MaterialTheme.colorScheme.inverseOnSurface)
-    ) {
+    AndroidWeatherAppTheme {
         WeekForecastRoute(
             forecastModel = PreviewFakeData.fakeForeCastModel,
             navigation = {

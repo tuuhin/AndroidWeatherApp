@@ -36,7 +36,6 @@ fun NavigationGraph(
 
     val snackBarState = SnackbarHostState()
 
-
     CompositionLocalProvider(LocalSnackBarHostState provides snackBarState) {
 
         NavHost(

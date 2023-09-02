@@ -18,8 +18,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
@@ -31,10 +29,8 @@ import java.time.LocalDateTime
 @Composable
 fun WeatherHourlyData(
     hourlyWeather: List<WeatherHourModel>,
-    modifier: Modifier = Modifier,
     onForecast: () -> Unit,
-    titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
-    color: Color = MaterialTheme.colorScheme.onSurface
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.padding(vertical = 4.dp)
@@ -48,8 +44,8 @@ fun WeatherHourlyData(
         ) {
             Text(
                 text = "Hourly Weather",
-                style = titleStyle,
-                color = color
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
             TextButton(
                 onClick = onForecast,
@@ -58,10 +54,16 @@ fun WeatherHourlyData(
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             ) {
-                Text(text = "Forecast", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = "Forecast",
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         }
-        Divider(modifier = Modifier.padding(vertical = 2.dp))
+        Divider(
+            modifier = Modifier.padding(vertical = 2.dp),
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(vertical = 8.dp)

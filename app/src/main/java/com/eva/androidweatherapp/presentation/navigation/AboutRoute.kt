@@ -2,6 +2,7 @@ package com.eva.androidweatherapp.presentation.navigation
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +23,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -40,9 +40,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,10 +60,12 @@ fun AboutRoute(
                 navigationIcon = navigationIcon ?: {},
                 colors = TopAppBarDefaults
                     .topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.inverseOnSurface
+                        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+                        titleContentColor = MaterialTheme.colorScheme.onSurface
                     )
             )
-        }, containerColor = MaterialTheme.colorScheme.inverseOnSurface
+        },
+        containerColor = MaterialTheme.colorScheme.inverseOnSurface
     ) { scPadding ->
         Column(
             modifier = modifier
@@ -98,6 +102,7 @@ fun AboutRoute(
                         text = "API",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                     )
                 }
                 TextButton(
@@ -117,7 +122,7 @@ fun AboutRoute(
                     )
                 }
             }
-            Divider()
+            Divider(color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(
                 text = buildAnnotatedString {
                     withStyle(
@@ -140,9 +145,19 @@ fun AboutRoute(
 }
 
 @Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE,
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
 fun AboutRoutePreview() {
-    Surface(color = MaterialTheme.colorScheme.inverseOnSurface) {
+    AndroidWeatherAppTheme {
         AboutRoute(
             navigationIcon = {
                 Icon(

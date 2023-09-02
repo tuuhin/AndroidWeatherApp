@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.presentation.composables
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
 
 @Composable
 fun NoLocationPermissions(
@@ -49,11 +52,23 @@ fun NoLocationPermissions(
 }
 
 
-@Preview(showBackground = true)
+@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE
+)
+@Preview(
+    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE,
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
 fun NoLocationPermissionsPreview() {
-    NoLocationPermissions(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.inverseOnSurface)
-    )
+    AndroidWeatherAppTheme {
+        NoLocationPermissions(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.inverseOnSurface)
+        )
+    }
 }

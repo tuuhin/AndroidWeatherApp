@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.domain.models.WeatherHourModel
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.isCurrentLocaleAmerican
+import com.eva.androidweatherapp.utils.WeatherUnits
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -40,10 +41,10 @@ import java.time.format.DateTimeFormatter
 fun WeatherHourCard(
     modifier: Modifier = Modifier,
     hour: WeatherHourModel,
-    selectedColor: Color = MaterialTheme.colorScheme.primaryContainer,
-    unSelectedColor: Color = MaterialTheme.colorScheme.secondaryContainer,
-    onSelectedColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-    onUnSelectedColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
+    selectedColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    unSelectedColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
+    onSelectedColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
+    onUnSelectedColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
     localeAmerican: Boolean = isCurrentLocaleAmerican()
 ) {
     val isCurrentHour by remember {
@@ -72,42 +73,40 @@ fun WeatherHourCard(
         ) {
             Text(
                 text = formattedTime.uppercase(),
-                style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.weight(.1f))
             Image(
                 painter = painterResource(hour.image),
-                contentDescription = " Current hour Weather",
-                colorFilter = ColorFilter.tint(if (isCurrentHour) onSelectedColor else onUnSelectedColor),
+                contentDescription = " Current Hour Image :${hour.image}",
+                colorFilter = ColorFilter.tint(
+                    if (isCurrentHour) onSelectedColor else onUnSelectedColor
+                ),
                 modifier = Modifier
                     .weight(0.5f)
                     .sizeIn(maxHeight = 120.dp, maxWidth = 120.dp)
             )
             Spacer(modifier = Modifier.weight(.1f))
-            if (localeAmerican)
-                Text(
-                    text = buildAnnotatedString {
+
+            Text(
+                text = buildAnnotatedString {
+                    if (localeAmerican)
                         append("${hour.tempF}")
-                        withStyle(SpanStyle(fontSize = MaterialTheme.typography.bodyMedium.fontSize)) {
-                            append(" F")
-                        }
-                    },
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center
-                )
-            else
-                Text(
-                    text = buildAnnotatedString {
+                    else
                         append("${hour.tempC}")
-                        withStyle(SpanStyle(fontSize = MaterialTheme.typography.bodyMedium.fontSize)) {
-                            append(" C")
-                        }
-                    },
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center
-                )
+                    withStyle(SpanStyle(fontSize = MaterialTheme.typography.bodyMedium.fontSize)) {
+                        if (localeAmerican)
+                            append(WeatherUnits.TEMP_FAHRENHEIT.text)
+                        else
+                            append(WeatherUnits.TEMP_CELSIUS.text)
+                    }
+                },
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
+            )
+
         }
     }
 }
