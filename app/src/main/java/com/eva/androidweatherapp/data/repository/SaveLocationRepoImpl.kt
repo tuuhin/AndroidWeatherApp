@@ -2,6 +2,7 @@ package com.eva.androidweatherapp.data.repository
 
 import android.database.SQLException
 import com.eva.androidweatherapp.data.local.AppDataBase
+import com.eva.androidweatherapp.data.local.SavedWeatherDao
 import com.eva.androidweatherapp.data.mappers.toEntity
 import com.eva.androidweatherapp.data.mappers.toModel
 import com.eva.androidweatherapp.data.mappers.toDbModel
@@ -16,10 +17,8 @@ import java.io.IOException
 
 class SaveLocationRepoImpl(
     private val api: WeatherApi,
-    private val database: AppDataBase
+    private val dao: SavedWeatherDao
 ) : SaveLocationRepository {
-
-    private val dao by lazy { database.dao }
 
     private suspend fun getCityWeather(name: String): Resource<SavedWeatherModel> {
         return try {

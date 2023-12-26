@@ -31,6 +31,11 @@ val appModule = module {
 
     factoryOf(::WeatherRepositoryImpl) bind WeatherRepository::class
 
+    factory {
+        val dataBase: AppDataBase = get<AppDataBase>()
+        dataBase.getDao()
+    }
+
     factoryOf(::SearchLocationRepoImpl) bind SearchLocationRepository::class
 
     factoryOf(::SaveLocationRepoImpl) bind SaveLocationRepository::class
