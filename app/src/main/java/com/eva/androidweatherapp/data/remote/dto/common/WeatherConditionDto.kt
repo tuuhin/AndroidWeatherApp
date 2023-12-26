@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class WeatherConditionDto(
     @SerialName("code") val weatherCode: Int,
-    @SerialName("icon") val icon: String,
+//    @SerialName("icon") val icon: String,
     @SerialName("text") val text: String
 )

@@ -27,6 +27,5 @@ data class WeatherDayForecastModel(
     val minTempInFahrenheit: Float,
     val totalPrecipitationInInch: Float,
     val totalPrecipitationInMm: Float,
-    val totalSnowInCm: Float,
     val ultralight: Float
 )

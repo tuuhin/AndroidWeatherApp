@@ -41,7 +41,6 @@ object PreviewFakeData {
     )
 
     val fakeCurrentWeatherModel = CurrentWeatherModel(
-        airQuality = AirQualityOption.GOOD,
         cloudCover = 75f,
         condition = "Partly Cloudy",
         code = 1003,
@@ -57,7 +56,7 @@ object PreviewFakeData {
         precipitationMM = 0f,
         tempInFahrenheit = 93.9f,
         tempInCelsius = 34.4f,
-        windDirection = "S", country = "United States of America",
+        country = "United States of America",
         name = "New York", region = "New York",
     )
 
@@ -102,7 +101,6 @@ object PreviewFakeData {
         totalPrecipitationInMm = 0f,
         totalPrecipitationInInch = 0f,
         ultralight = 8f,
-        totalSnowInCm = 0f,
     )
 
     val fakeForeCastModel = WeatherForeCastModel(
