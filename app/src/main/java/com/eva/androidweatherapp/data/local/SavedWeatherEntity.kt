@@ -1,27 +1,47 @@
 package com.eva.androidweatherapp.data.local
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "SavedLocations")
+@Entity(tableName = "SAVED_LOCATIONS")
 data class SavedWeatherEntity(
+
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo("ID")
     val id: Int? = null,
+
+    @ColumnInfo("CONDITION")
     val condition: String,
+
+    @ColumnInfo("WEATHER_CODE")
     val code: Int,
-    val image: Int,
+
+    @ColumnInfo("FEELS_LIKE_TEMP_C")
     val feelsLikeInCelsius: Float,
-    val feelsLikeFahrenheit: Float,
+    @ColumnInfo("HUMIDITY")
     val humidity: Float,
+
+    @ColumnInfo("PRECIPITATION_INCH")
     val precipitationInch: Float,
-    val precipitationMM: Float,
+    @ColumnInfo("PRESSURE_MBAR")
     val pressureMilliBar: Float,
+
+    @ColumnInfo("TEMP_C")
     val tempInCelsius: Float,
-    val tempInFahrenheit: Float,
+
+    @ColumnInfo("WIND_SPEED_KMPH")
     val windSpeedInKmh: Float,
-    val windSpeedInMh: Float,
+
+    @ColumnInfo("COUNTRY")
     val country: String,
+
+    @ColumnInfo("NAME")
     val name: String,
+
+    @ColumnInfo("REGION")
     val region: String,
+
+    @ColumnInfo("LAST_UPDATED")
     val lastUpdated: String? = null
 )

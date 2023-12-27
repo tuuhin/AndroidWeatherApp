@@ -15,10 +15,10 @@ interface SavedWeatherDao {
     @Upsert
     suspend fun upsertWeatherEntities(entity: List<SavedWeatherEntity>)
 
-    @Query("SELECT * FROM SavedLocations")
+    @Query("SELECT * FROM SAVED_LOCATIONS")
     fun getSavedWeatherEntitiesAsFlow(): Flow<List<SavedWeatherEntity>>
 
-    @Query("SELECT * FROM SavedLocations")
+    @Query("SELECT * FROM SAVED_LOCATIONS")
     fun getSavedWeatherEntitiesAsList(): List<SavedWeatherEntity>
 
     @Delete
