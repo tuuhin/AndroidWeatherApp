@@ -115,6 +115,8 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     //lottie
     implementation("com.airbnb.android:lottie-compose:6.1.0")
+    // splash
+    implementation("androidx.core:core-splashscreen:1.0.1")
     //tests
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

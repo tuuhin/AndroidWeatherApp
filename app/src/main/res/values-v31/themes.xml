@@ -4,11 +4,13 @@
     <style name="Theme.AndroidWeatherApp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowSplashScreenBackground">@color/surface</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowSplashScreenBackground">@color/background</item>
         <item name="android:windowSplashScreenAnimatedIcon">
             @drawable/ic_weather_launcher_foreground
         </item>
-        <item name="android:windowSplashScreenIconBackgroundColor">@color/surface_variant</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/primary_container
+        </item>
     </style>
 
 </resources>
