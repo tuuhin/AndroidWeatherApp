@@ -12,3 +12,9 @@ fun LocalDateTime.toDateTimeFormat(): String = DateTimeFormatter.ofPattern("yyyy
 
 fun String.toIsoDateFormat(): LocalDate = LocalDate.parse(this, DateTimeFormatter.ISO_DATE)
 
+fun LocalDateTime.toHourAmOrPm(): String = DateTimeFormatter.ofPattern("hh a").format(this)
+
+
+fun LocalDateTime.toReadableDateWithWeekDay(): String =
+    DateTimeFormatter.ofPattern("EEE, MMMM d").format(this)
+

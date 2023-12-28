@@ -43,4 +43,7 @@
     <string name="error_text">Error</string>
     <string name="loading_text">Loading</string>
     <string name="no_weather_data">No weather Data found</string>
+    <string name="hourly_weather_title">Hourly Weather</string>
+    <string name="forecast_text">Forecast</string>
+    <string name="astronomical_data">Astronomical Data</string>
 </resources>
