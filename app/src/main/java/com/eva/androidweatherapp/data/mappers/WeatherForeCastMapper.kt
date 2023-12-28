@@ -1,19 +1,28 @@
 package com.eva.androidweatherapp.data.mappers
 
+import androidx.annotation.DrawableRes
 import com.eva.androidweatherapp.data.remote.dto.results.WeatherForecastDto
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
 import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.domain.models.WeatherHourModel
 import com.eva.androidweatherapp.domain.utils.AirQualityOption
-import com.eva.androidweatherapp.utils.toIsoDateFormat
 import com.eva.androidweatherapp.utils.toDateTimeFormat
+import com.eva.androidweatherapp.utils.toIsoDateFormat
+
+@get:DrawableRes
+val WeatherDayForecastModel.image: Int
+    get() = code.toDrawableRes()
+
+
+@get:DrawableRes
+val WeatherHourModel.image: Int
+    get() = code.toDrawableRes()
 
 fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
     current = CurrentWeatherModel(
         cloudCover = weather.cloudCover,
         code = weather.condition.weatherCode,
-        image = weather.condition.weatherCode.toDrawableRes(),
         condition = weather.condition.text,
         feelsLikeInCelsius = weather.feelsLikeInCelsius,
         feelsLikeFahrenheit = weather.feelsLikeFahrenheit,
@@ -42,7 +51,6 @@ fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
                 WeatherHourModel(
                     date = hourly.time.toDateTimeFormat(),
                     code = hourly.condition.weatherCode,
-                    image = hourly.condition.weatherCode.toDrawableRes(),
                     tempC = hourly.temperatureInCelsius,
                     tempF = hourly.temperatureInFahrenheit,
                     windSpeedKmpH = hourly.windSpeedInKph,
@@ -55,7 +63,6 @@ fun WeatherForecastDto.toModel(): WeatherForeCastModel = WeatherForeCastModel(
             avgTempInCelsius = info.day.avgTempInCelsius,
             avgTempInFahrenheit = info.day.avgTempInFahrenheit,
             code = info.day.condition.weatherCode,
-            image = info.day.condition.weatherCode.toDrawableRes(),
             weather = info.day.condition.text,
             maxTempInCelsius = info.day.maxTempInCelsius,
             minTempInCelsius = info.day.minTempInCelsius,

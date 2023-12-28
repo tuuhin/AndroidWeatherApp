@@ -1,10 +1,15 @@
 package com.eva.androidweatherapp.data.mappers
 
+import androidx.annotation.DrawableRes
 import com.eva.androidweatherapp.data.local.SavedWeatherEntity
 import com.eva.androidweatherapp.domain.models.SavedWeatherModel
 import com.eva.androidweatherapp.utils.toDateTimeFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+
+@get:DrawableRes
+val SavedWeatherModel.image: Int
+    get() = code.toDrawableRes()
 
 fun SavedWeatherEntity.toModel(): SavedWeatherModel {
 
@@ -16,7 +21,6 @@ fun SavedWeatherEntity.toModel(): SavedWeatherModel {
     return SavedWeatherModel(
         id = id,
         condition = condition,
-        image = code.toDrawableRes(),
         feelsLikeInCelsius = feelsLikeInCelsius,
         feelsLikeFahrenheit = feelsLikeFahrenheit,
         humidity = humidity,

@@ -15,7 +15,6 @@ data class WeatherDayForecastModel(
     val avgTempInCelsius: Float,
     val avgTempInFahrenheit: Float,
     val code: Int,
-    val image: Int,
     val weather: String,
     val rainPercentage: Float,
     val snowPercentage: Float,

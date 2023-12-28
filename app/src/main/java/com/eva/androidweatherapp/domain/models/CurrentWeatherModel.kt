@@ -1,13 +1,10 @@
 package com.eva.androidweatherapp.domain.models
 
-import androidx.annotation.DrawableRes
-import com.eva.androidweatherapp.domain.utils.AirQualityOption
 import java.time.LocalDateTime
 
 data class CurrentWeatherModel(
     val cloudCover: Float,
     val condition: String,
-    @DrawableRes val image: Int,
     val code: Int,
     val feelsLikeInCelsius: Float,
     val feelsLikeFahrenheit: Float,

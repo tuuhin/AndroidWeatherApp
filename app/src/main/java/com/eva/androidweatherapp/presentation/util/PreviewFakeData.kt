@@ -1,6 +1,5 @@
 package com.eva.androidweatherapp.presentation.util
 
-import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
 import com.eva.androidweatherapp.domain.models.SavedWeatherModel
 import com.eva.androidweatherapp.domain.models.SearchLocationResult
@@ -24,7 +23,6 @@ object PreviewFakeData {
     val fakeSavedWeatherModel = SavedWeatherModel(
         condition = "Partly Cloudy",
         code = 1003,
-        image = R.drawable.ic_few_clouds,
         windSpeedInMh = 16.3f,
         windSpeedInKmh = 25.9f,
         feelsLikeFahrenheit = 98.6f,
@@ -44,7 +42,6 @@ object PreviewFakeData {
         cloudCover = 75f,
         condition = "Partly Cloudy",
         code = 1003,
-        image = R.drawable.ic_few_clouds,
         windSpeedInMh = 16.3f,
         windSpeedInKmh = 25.9f,
         feelsLikeFahrenheit = 98.6f,
@@ -52,7 +49,8 @@ object PreviewFakeData {
         humidity = 31f, ultraviolet = 8f,
         lastUpdated = LocalDateTime.now(),
         pressureMilliBar = 1011f,
-        poundPerSquareInch = 29.85f, precipitationInch = 0f,
+        poundPerSquareInch = 29.85f,
+        precipitationInch = 0f,
         precipitationMM = 0f,
         tempInFahrenheit = 93.9f,
         tempInCelsius = 34.4f,
@@ -62,7 +60,6 @@ object PreviewFakeData {
 
     val fakeWeatherHourModel = WeatherHourModel(
         code = 1000,
-        image = R.drawable.ic_weather_clear,
         date = LocalDateTime.parse(
             "2022-07-22 00:00",
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
@@ -85,7 +82,6 @@ object PreviewFakeData {
         sunrise = "05:44 AM",
         avgHumidity = 53f,
         code = 1000,
-        image = R.drawable.ic_weather_clear,
         avgTempInCelsius = 30.7f,
         avgTempInFahrenheit = 87.3f,
         quality = AirQualityOption.MODERATE,
