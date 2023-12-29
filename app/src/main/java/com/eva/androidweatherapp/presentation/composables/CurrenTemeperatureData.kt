@@ -1,15 +1,19 @@
 package com.eva.androidweatherapp.presentation.composables
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +28,7 @@ import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.isCurrentLocaleAmerican
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
 
 @Composable
 fun CurrentTemperatureData(
@@ -31,31 +36,47 @@ fun CurrentTemperatureData(
     modifier: Modifier = Modifier,
     localeAmerican: Boolean = isCurrentLocaleAmerican(),
     iconColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-    horizontal: Alignment.Horizontal = Alignment.CenterHorizontally,
-    vertical: Arrangement.Vertical = Arrangement.spacedBy(4.dp),
-    tempTextStyle: TextStyle = MaterialTheme.typography.displaySmall
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(4.dp),
+    tempTextStyle: TextStyle = MaterialTheme.typography.displaySmall,
+    minMaxTempTextStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    minMaxTempTextColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
+    val tempText by remember(localeAmerican) {
+        derivedStateOf {
+            if (localeAmerican) "${model.current.tempInFahrenheit} F"
+            else "${model.current.tempInCelsius} C"
+        }
+    }
+
+    val maxTempText by remember(localeAmerican) {
+        derivedStateOf {
+            if (localeAmerican) "${model.forecast.first().maxTempInFahrenheit} F"
+            else "${model.forecast.first().maxTempInCelsius} C"
+        }
+    }
+
+    val minTempText by remember(localeAmerican) {
+        derivedStateOf {
+            if (localeAmerican) "${model.forecast.first().minTempInFahrenheit} F"
+            else "${model.forecast.first().minTempInCelsius} C"
+        }
+    }
+
+
     Column(
-        modifier = modifier.width(IntrinsicSize.Max),
-        verticalArrangement = vertical,
-        horizontalAlignment = horizontal
+        modifier = modifier,
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
-        if (localeAmerican)
-            Text(
-                text = "${model.current.tempInFahrenheit} F",
-                style = tempTextStyle,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        else
-            Text(
-                text = "${model.current.tempInCelsius} C",
-                style = tempTextStyle,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+        Text(
+            text = tempText,
+            style = tempTextStyle,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.wrapContentWidth(),
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
@@ -67,18 +88,11 @@ fun CurrentTemperatureData(
                     contentDescription = "Max temperature",
                     colorFilter = ColorFilter.tint(iconColor),
                 )
-                if (localeAmerican)
-                    Text(
-                        text = "${model.forecast.first().maxTempInFahrenheit} F",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                else
-                    Text(
-                        text = "${model.forecast.first().maxTempInCelsius} C",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                Text(
+                    text = maxTempText,
+                    style = minMaxTempTextStyle,
+                    color = minMaxTempTextColor
+                )
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -88,19 +102,12 @@ fun CurrentTemperatureData(
                     contentDescription = "Minimum Temperature",
                     colorFilter = ColorFilter.tint(iconColor),
                 )
-                if (localeAmerican)
-                    Text(
-                        text = "${model.forecast[0].minTempInFahrenheit} F",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                else
-                    Text(
-                        text = "${model.forecast[0].minTempInCelsius} C",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
 
+                Text(
+                    text = minTempText,
+                    style = minMaxTempTextStyle,
+                    color = minMaxTempTextColor
+                )
             }
         }
     }
@@ -114,27 +121,38 @@ fun CurrentTemperatureData(
     iconColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     horizontal: Alignment.Horizontal = Alignment.CenterHorizontally,
     vertical: Arrangement.Vertical = Arrangement.spacedBy(4.dp),
-    tempTextStyle: TextStyle = MaterialTheme.typography.displaySmall
+    tempTextStyle: TextStyle = MaterialTheme.typography.displaySmall,
+    minMaxTempTextStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    minMaxTempTextColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
+
+    val maxTempText by remember(localeAmerican) {
+        derivedStateOf {
+            if (localeAmerican) "${forecastDay.maxTempInFahrenheit} F"
+            else "${forecastDay.maxTempInCelsius} C"
+        }
+    }
+
+
+    val minTempText by remember(localeAmerican) {
+        derivedStateOf {
+            if (localeAmerican) "${forecastDay.minTempInFahrenheit} F"
+            else "${forecastDay.minTempInCelsius} C"
+        }
+    }
+
     Column(
         modifier = modifier.width(IntrinsicSize.Max),
         verticalArrangement = vertical,
         horizontalAlignment = horizontal
     ) {
-        if (localeAmerican)
-            Text(
-                text = "${forecastDay.maxTempInFahrenheit} F",
-                style = tempTextStyle,
-                fontWeight = FontWeight.Bold
-            )
-        else
-            Text(
-                text = "${forecastDay.maxTempInCelsius} C",
-                style = tempTextStyle,
-                fontWeight = FontWeight.Bold
-            )
+        Text(
+            text = maxTempText,
+            style = tempTextStyle,
+            fontWeight = FontWeight.Bold
+        )
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.wrapContentWidth(),
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
@@ -146,16 +164,11 @@ fun CurrentTemperatureData(
                     contentDescription = "Max temperature",
                     colorFilter = ColorFilter.tint(iconColor),
                 )
-                if (localeAmerican)
-                    Text(
-                        text = "${forecastDay.maxTempInFahrenheit} F",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                else
-                    Text(
-                        text = "${forecastDay.maxTempInCelsius} C",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                Text(
+                    text = maxTempText,
+                    style = minMaxTempTextStyle,
+                    color = minMaxTempTextColor
+                )
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -165,24 +178,27 @@ fun CurrentTemperatureData(
                     contentDescription = "Minimum Temperature",
                     colorFilter = ColorFilter.tint(iconColor),
                 )
-                if (localeAmerican)
-                    Text(
-                        text = "${forecastDay.minTempInFahrenheit} F",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                else
-                    Text(
-                        text = "${forecastDay.minTempInFahrenheit} F",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+
+                Text(
+                    text = minTempText,
+                    style = minMaxTempTextStyle,
+                    color = minMaxTempTextColor
+                )
             }
         }
     }
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
-fun CurrentTemperatureDataPreview() {
+fun CurrentTemperatureDataPreview() = AndroidWeatherAppTheme {
     CurrentTemperatureData(model = PreviewFakeData.fakeForeCastModel)
 }

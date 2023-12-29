@@ -1,0 +1,106 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "72bade5f513457a7c812934f2a7b19e6",
+    "entities": [
+      {
+        "tableName": "SAVED_LOCATIONS",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER PRIMARY KEY AUTOINCREMENT, `CONDITION` TEXT NOT NULL, `WEATHER_CODE` INTEGER NOT NULL, `FEELS_LIKE_TEMP_C` REAL NOT NULL, `HUMIDITY` REAL NOT NULL, `PRECIPITATION_INCH` REAL NOT NULL, `PRESSURE_MBAR` REAL NOT NULL, `TEMP_C` REAL NOT NULL, `WIND_SPEED_KMPH` REAL NOT NULL, `COUNTRY` TEXT NOT NULL, `NAME` TEXT NOT NULL, `REGION` TEXT NOT NULL, `LAST_UPDATED` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "ID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "condition",
+            "columnName": "CONDITION",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "code",
+            "columnName": "WEATHER_CODE",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "feelsLikeInCelsius",
+            "columnName": "FEELS_LIKE_TEMP_C",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "humidity",
+            "columnName": "HUMIDITY",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precipitationInch",
+            "columnName": "PRECIPITATION_INCH",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pressureMilliBar",
+            "columnName": "PRESSURE_MBAR",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tempInCelsius",
+            "columnName": "TEMP_C",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windSpeedInKmh",
+            "columnName": "WIND_SPEED_KMPH",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "country",
+            "columnName": "COUNTRY",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "NAME",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "region",
+            "columnName": "REGION",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "LAST_UPDATED",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "ID"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '72bade5f513457a7c812934f2a7b19e6')"
+    ]
+  }
+}

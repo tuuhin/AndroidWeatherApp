@@ -27,8 +27,8 @@ interface WeatherApi {
         @Query("days") days: Int,
         @Query("dt") hourCount: Int,
         @Query("hour") currentHour: Int? = null,
-        @Query("alerts") alert: BooleanResponse,
-        @Query("aqi") quality: BooleanResponse,
+        @Query("alerts") alert: BooleanResponse = BooleanResponse.FALSE,
+        @Query("aqi") quality: BooleanResponse = BooleanResponse.FALSE,
     ): WeatherForecastDto
 
     @GET("search.json")

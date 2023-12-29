@@ -1,9 +1,9 @@
 package com.eva.androidweatherapp.data.mappers
 
 import com.eva.androidweatherapp.data.remote.dto.results.SearchResultsDto
-import com.eva.androidweatherapp.domain.models.SearchLocationResult
+import com.eva.androidweatherapp.domain.models.LocationSearchResult
 
-fun SearchResultsDto.toModel(): SearchLocationResult =
-    SearchLocationResult(id = id, country = country, name = name, region = region)
+fun SearchResultsDto.toModel(): LocationSearchResult =
+    LocationSearchResult(id = id, country = country, name = name, region = region)
 
-fun List<SearchResultsDto>.toModels(): List<SearchLocationResult> = map { it.toModel() }
+fun List<SearchResultsDto>.toModels(): List<LocationSearchResult> = map { it.toModel() }

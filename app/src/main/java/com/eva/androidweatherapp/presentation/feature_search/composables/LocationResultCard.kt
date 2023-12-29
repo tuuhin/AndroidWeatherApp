@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.presentation.feature_search.composables
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,26 +24,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.eva.androidweatherapp.domain.models.SearchLocationResult
+import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.domain.models.LocationSearchResult
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
 
 @Composable
 fun LocationResultsCard(
-    result: SearchLocationResult,
+    searchResult: LocationSearchResult,
     modifier: Modifier = Modifier,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    shape: Shape = CardDefaults.elevatedShape
 ) {
     Card(
-        modifier = modifier, colors = CardDefaults.cardColors(containerColor, contentColor)
+        modifier = modifier,
+        colors = CardDefaults.cardColors(containerColor, contentColor),
+        shape = shape,
     ) {
         Row(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(all = dimensionResource(id = R.dimen.location_searched_cards_i_padding))
                 .height(IntrinsicSize.Min),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -65,30 +73,36 @@ fun LocationResultsCard(
                 modifier = Modifier.weight(.6f)
             ) {
                 Text(
-                    text = result.name,
+                    text = searchResult.name,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Medium
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = buildAnnotatedString {
-                        if (result.region.isNotEmpty()) {
-                            append(result.region)
+                        if (searchResult.region.isNotEmpty()) {
+                            append(searchResult.region)
                             append(", ")
                         }
-                        append(result.country)
-                    }, style = MaterialTheme.typography.bodySmall
+                        append(searchResult.country)
+                    },
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
         }
     }
 }
 
-@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
-fun LocationResultsCardPreview() {
+fun LocationResultsCardPreview() = AndroidWeatherAppTheme {
     LocationResultsCard(
-        result = PreviewFakeData.locationResult,
+        searchResult = PreviewFakeData.locationResult,
         modifier = Modifier.fillMaxWidth()
     )
 }

@@ -3,7 +3,7 @@ package com.eva.androidweatherapp.presentation.feature_daily
 import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 
-enum class WeatherGraphType(val type: String) {
+enum class WeatherGraphType(private val type: String) {
     AVG_TEMPERATURE("Avg. Temp"),
     MAX_TEMPERATURE("Max. Temp"),
     MIN_TEMPERATURE("Min Temp"),
@@ -29,7 +29,7 @@ enum class WeatherGraphType(val type: String) {
         }
     }
 
-    fun valueFromForeCast(model: WeatherDayForecastModel, localeAmerican: Boolean): Float {
+    fun valueOfForecast(model: WeatherDayForecastModel, localeAmerican: Boolean): Float {
         return when (this) {
             AVG_TEMPERATURE -> if (localeAmerican)
                 model.avgTempInFahrenheit

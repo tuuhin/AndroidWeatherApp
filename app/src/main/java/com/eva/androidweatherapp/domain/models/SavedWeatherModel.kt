@@ -1,13 +1,11 @@
 package com.eva.androidweatherapp.domain.models
 
-import androidx.annotation.DrawableRes
 import java.time.LocalDateTime
 
 data class SavedWeatherModel(
-    val id: Int? = null,
+    val id: Int,
     val condition: String,
     val code: Int,
-    @DrawableRes val image: Int,
     val feelsLikeInCelsius: Float,
     val feelsLikeFahrenheit: Float,
     val humidity: Float,

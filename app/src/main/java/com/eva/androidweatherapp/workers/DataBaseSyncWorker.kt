@@ -12,6 +12,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.eva.androidweatherapp.data.local.AppDataBase
+import com.eva.androidweatherapp.data.local.SavedWeatherDao
 import com.eva.androidweatherapp.data.mappers.toDbModel
 import com.eva.androidweatherapp.data.mappers.toEntity
 import com.eva.androidweatherapp.data.remote.WeatherApi
@@ -30,7 +31,7 @@ class DataBaseSyncWorker(
     params: WorkerParameters
 ) : CoroutineWorker(context, params), KoinComponent {
 
-    private val dataBase: AppDataBase by inject()
+    private val dao: SavedWeatherDao by inject()
     private val weatherApi: WeatherApi by inject()
 
     private val outKey = "MESSAGE_KEY"
@@ -39,7 +40,7 @@ class DataBaseSyncWorker(
         return withContext(Dispatchers.IO) {
             try {
                 Log.d(outKey, "STARTED WORKER")
-                val models = dataBase.dao.getSavedWeatherEntitiesAsList()
+                val models = dao.getSavedWeatherEntitiesAsList()
                     .associateBy { it.id }
                     .map { (key, location) ->
                         async {
@@ -49,7 +50,7 @@ class DataBaseSyncWorker(
                     }.awaitAll()
 
                 models
-                    .map { model -> async { dataBase.dao.upsertWeatherEntity(model.toEntity()) } }
+                    .map { model -> async { dao.upsertWeatherEntity(model.toEntity()) } }
                     .awaitAll()
                 Log.d(outKey, "DONE JOB")
                 Result.success(workDataOf(outKey to "Completed Successfully"))

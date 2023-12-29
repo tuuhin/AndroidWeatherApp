@@ -33,31 +33,30 @@ class WeatherForecastViewModel(
         getCurrentWeather()
     }
 
-    private suspend fun getLocationCoordinated() =
-        locationTracker.getLastLocation() ?: locationTracker.getCurrentLocation()
-
-
     private fun getCurrentWeather() = viewModelScope.launch {
-        getLocationCoordinated()?.let { location ->
-            repository.getWeatherForecastOneDayFromLatAndLong(location)
-                .onEach { res ->
-                    when (res) {
-                        is Resource.Error -> {
-                            _content.update { cont ->
-                                cont.copy(isLoading = false, content = null)
-                            }
-                            _uiEvent.emit(
-                                UiEvents.ShowSnackBar(res.message ?: "Error Occurred")
-                            )
-                        }
+        val coordinates = locationTracker.getLastLocation()
+            ?: locationTracker.getCurrentLocation()
 
-                        is Resource.Success -> _content.update { cont ->
-                            cont.copy(isLoading = false, content = res.data)
+        coordinates?.let { location ->
+            val weatherDataFromLatLog = repository.getWeatherForecastOneDayFromLatAndLong(location)
+            weatherDataFromLatLog.onEach { res ->
+                when (res) {
+                    is Resource.Error -> {
+                        _content.update { cont ->
+                            cont.copy(isLoading = false, content = null)
                         }
-
-                        else -> {}
+                        _uiEvent.emit(
+                            UiEvents.ShowSnackBar(res.message ?: "Error Occurred")
+                        )
                     }
-                }.launchIn(this)
+
+                    is Resource.Success -> _content.update { cont ->
+                        cont.copy(isLoading = false, content = res.data)
+                    }
+
+                    else -> {}
+                }
+            }.launchIn(this)
         } ?: UiEvents.ShowSnackBar("Cannot access location.")
     }
 }

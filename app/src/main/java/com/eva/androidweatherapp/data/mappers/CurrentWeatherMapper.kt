@@ -1,17 +1,18 @@
 package com.eva.androidweatherapp.data.mappers
 
+import androidx.annotation.DrawableRes
 import com.eva.androidweatherapp.data.remote.dto.results.WeatherCurrentDataDto
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
 import com.eva.androidweatherapp.domain.models.SavedWeatherModel
-import com.eva.androidweatherapp.domain.utils.AirQualityOption
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.eva.androidweatherapp.utils.toDateTimeFormat
+
+@get:DrawableRes
+val CurrentWeatherModel.image: Int
+    get() = code.toDrawableRes()
 
 fun WeatherCurrentDataDto.toModel(): CurrentWeatherModel = CurrentWeatherModel(
-    airQuality = weather.airQuality?.epaIndex?.let { AirQualityOption.fromNumber(it) },
     cloudCover = weather.cloudCover,
     code = weather.condition.weatherCode,
-    image = weather.condition.weatherCode.toDrawableRes(),
     condition = weather.condition.text,
     feelsLikeInCelsius = weather.feelsLikeInCelsius,
     feelsLikeFahrenheit = weather.feelsLikeFahrenheit,
@@ -20,14 +21,10 @@ fun WeatherCurrentDataDto.toModel(): CurrentWeatherModel = CurrentWeatherModel(
     precipitationMM = weather.precipitationMM,
     poundPerSquareInch = weather.pressureInch,
     pressureMilliBar = weather.pressureMilliBar,
-    lastUpdated = LocalDateTime.parse(
-        weather.lastUpdated,
-        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-    ),
+    lastUpdated = weather.lastUpdated.toDateTimeFormat(),
     tempInCelsius = weather.tempInCelsius,
     tempInFahrenheit = weather.tempInFahrenheit,
     ultraviolet = weather.ultraviolet,
-    windDirection = weather.windDirection,
     windSpeedInKmh = weather.windSpeedInKmh,
     windSpeedInMh = weather.windSpeedInMh,
     name = location.name, region = location.region,
@@ -35,9 +32,8 @@ fun WeatherCurrentDataDto.toModel(): CurrentWeatherModel = CurrentWeatherModel(
 )
 
 fun WeatherCurrentDataDto.toDbModel(entityId: Int? = null): SavedWeatherModel = SavedWeatherModel(
-    id = entityId,
+    id = entityId ?: -1,
     code = weather.condition.weatherCode,
-    image = weather.condition.weatherCode.toDrawableRes(),
     condition = weather.condition.text,
     feelsLikeInCelsius = weather.feelsLikeInCelsius,
     feelsLikeFahrenheit = weather.feelsLikeFahrenheit,
@@ -52,9 +48,5 @@ fun WeatherCurrentDataDto.toDbModel(entityId: Int? = null): SavedWeatherModel = 
     name = location.name,
     region = location.region,
     country = location.country,
-    lastUpdate = LocalDateTime.parse(
-        weather.lastUpdated,
-        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-    )
-
+    lastUpdate = weather.lastUpdated.toDateTimeFormat()
 )

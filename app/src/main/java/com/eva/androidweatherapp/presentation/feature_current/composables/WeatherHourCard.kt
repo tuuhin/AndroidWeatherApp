@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.presentation.feature_current.composables
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,26 +22,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import com.eva.androidweatherapp.data.mappers.image
 import com.eva.androidweatherapp.domain.models.WeatherHourModel
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.isCurrentLocaleAmerican
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
 import com.eva.androidweatherapp.utils.WeatherUnits
+import com.eva.androidweatherapp.utils.toHourAmOrPm
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun WeatherHourCard(
-    modifier: Modifier = Modifier,
     hour: WeatherHourModel,
+    modifier: Modifier = Modifier,
     selectedColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     unSelectedColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
     onSelectedColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -54,59 +55,61 @@ fun WeatherHourCard(
     }
 
     val formattedTime by remember {
-        derivedStateOf {
-            hour.date.format(DateTimeFormatter.ofPattern("hh a"))
-        }
+        derivedStateOf(hour.date::toHourAmOrPm)
     }
+
+    val cardColor = if (isCurrentHour) CardDefaults.cardColors(
+        containerColor = selectedColor,
+        contentColor = onSelectedColor
+    ) else CardDefaults.cardColors(
+        containerColor = unSelectedColor,
+        contentColor = onUnSelectedColor
+    )
+
+    val imageColor = if (isCurrentHour) ColorFilter.tint(onSelectedColor)
+    else ColorFilter.tint(onUnSelectedColor)
+
     Card(
         modifier = modifier.aspectRatio(2f / 3f),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isCurrentHour) selectedColor else unSelectedColor,
-            contentColor = if (isCurrentHour) onSelectedColor else onUnSelectedColor
-        ), shape = MaterialTheme.shapes.medium
+        colors = cardColor,
+        shape = MaterialTheme.shapes.medium
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(4.dp)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = formattedTime.uppercase(),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.weight(.1f))
+            Spacer(modifier = Modifier.weight(.2f))
             Image(
                 painter = painterResource(hour.image),
                 contentDescription = " Current Hour Image :${hour.image}",
-                colorFilter = ColorFilter.tint(
-                    if (isCurrentHour) onSelectedColor else onUnSelectedColor
-                ),
+                colorFilter = imageColor,
                 modifier = Modifier
                     .weight(0.5f)
                     .sizeIn(maxHeight = 120.dp, maxWidth = 120.dp)
             )
-            Spacer(modifier = Modifier.weight(.1f))
-
+            Spacer(modifier = Modifier.weight(.2f))
             Text(
                 text = buildAnnotatedString {
-                    if (localeAmerican)
+                    if (localeAmerican) {
                         append("${hour.tempF}")
-                    else
+                        append(WeatherUnits.TEMP_FAHRENHEIT.text)
+                    } else {
                         append("${hour.tempC}")
-                    withStyle(SpanStyle(fontSize = MaterialTheme.typography.bodyMedium.fontSize)) {
-                        if (localeAmerican)
-                            append(WeatherUnits.TEMP_FAHRENHEIT.text)
-                        else
-                            append(WeatherUnits.TEMP_CELSIUS.text)
+                        append(WeatherUnits.TEMP_CELSIUS.text)
                     }
+
                 },
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
-
         }
     }
 }
@@ -119,11 +122,16 @@ class WeatherHourPreviewParams : CollectionPreviewParameterProvider<WeatherHourM
     )
 )
 
-@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
 fun WeatherHourCardPreview(
     @PreviewParameter(WeatherHourPreviewParams::class)
     hourModel: WeatherHourModel
-) {
-    WeatherHourCard(hour = hourModel, modifier = Modifier.height(120.dp))
+) = AndroidWeatherAppTheme {
+    WeatherHourCard(hour = hourModel, modifier = Modifier.height(100.dp))
 }

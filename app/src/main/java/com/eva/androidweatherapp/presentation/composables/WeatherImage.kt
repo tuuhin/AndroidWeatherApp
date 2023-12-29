@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.presentation.composables
 
+import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eva.androidweatherapp.R
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
 
 @Composable
 fun WeatherImage(
@@ -49,8 +51,13 @@ fun WeatherImage(
     }
 }
 
-@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
-fun WeatherImagePreview() {
+fun WeatherImagePreview() = AndroidWeatherAppTheme {
     WeatherImage(res = R.drawable.ic_sleet)
 }
