@@ -2,17 +2,17 @@ package com.eva.androidweatherapp.data.repository
 
 import com.eva.androidweatherapp.data.mappers.toModels
 import com.eva.androidweatherapp.data.remote.WeatherApi
-import com.eva.androidweatherapp.domain.models.SearchLocationResult
-import com.eva.androidweatherapp.domain.repository.SearchLocationRepository
+import com.eva.androidweatherapp.domain.models.LocationSearchResult
+import com.eva.androidweatherapp.domain.repository.RemoteSearchLocationRepository
 import com.eva.androidweatherapp.utils.Resource
 import retrofit2.HttpException
 import java.io.IOException
 
-class SearchLocationRepoImpl(
+class RemoteSearchedLocationRepoImpl(
     private val api: WeatherApi,
-) : SearchLocationRepository {
+) : RemoteSearchLocationRepository {
 
-    override suspend fun searchLocations(name: String): Resource<List<SearchLocationResult>> {
+    override suspend fun searchLocations(name: String): Resource<List<LocationSearchResult>> {
         return try {
             val data = api.searchCity(query = name)
             return Resource.Success(data.toModels())

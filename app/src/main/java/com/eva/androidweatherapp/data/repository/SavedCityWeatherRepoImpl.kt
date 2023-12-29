@@ -1,24 +1,23 @@
 package com.eva.androidweatherapp.data.repository
 
 import android.database.SQLException
-import com.eva.androidweatherapp.data.local.AppDataBase
 import com.eva.androidweatherapp.data.local.SavedWeatherDao
+import com.eva.androidweatherapp.data.mappers.toDbModel
 import com.eva.androidweatherapp.data.mappers.toEntity
 import com.eva.androidweatherapp.data.mappers.toModel
-import com.eva.androidweatherapp.data.mappers.toDbModel
 import com.eva.androidweatherapp.data.remote.WeatherApi
 import com.eva.androidweatherapp.domain.models.SavedWeatherModel
-import com.eva.androidweatherapp.domain.repository.SaveLocationRepository
+import com.eva.androidweatherapp.domain.repository.SavedCityWeatherRepository
 import com.eva.androidweatherapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import java.io.IOException
 
-class SaveLocationRepoImpl(
+class SavedCityWeatherRepoImpl(
     private val api: WeatherApi,
     private val dao: SavedWeatherDao
-) : SaveLocationRepository {
+) : SavedCityWeatherRepository {
 
     private suspend fun getCityWeather(name: String): Resource<SavedWeatherModel> {
         return try {

@@ -19,7 +19,7 @@ fun SavedWeatherEntity.toModel(): SavedWeatherModel {
     val windSpeedInMh = 0.27f * windSpeedInKmh
 
     return SavedWeatherModel(
-        id = id,
+        id = id ?: -1,
         condition = condition,
         feelsLikeInCelsius = feelsLikeInCelsius,
         feelsLikeFahrenheit = feelsLikeFahrenheit,

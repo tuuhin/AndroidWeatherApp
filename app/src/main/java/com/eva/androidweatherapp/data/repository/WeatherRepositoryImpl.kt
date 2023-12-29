@@ -22,14 +22,13 @@ class WeatherRepositoryImpl(
         return flow {
             emit(Resource.Loading())
             try {
-                val data =
-                    weatherApi.getWeatherForecast(
-                        query = "${location.latitude},${location.longitude}",
-                        days = 7,
-                        alert = BooleanResponse.FALSE,
-                        hourCount = 10,
-                        quality = BooleanResponse.FALSE,
-                    )
+                val data = weatherApi.getWeatherForecast(
+                    query = "${location.latitude},${location.longitude}",
+                    days = 7,
+                    alert = BooleanResponse.FALSE,
+                    hourCount = 10,
+                    quality = BooleanResponse.FALSE,
+                )
                 emit(Resource.Success(data = data.toModel()))
             } catch (e: HttpException) {
                 e.printStackTrace()
@@ -49,14 +48,13 @@ class WeatherRepositoryImpl(
         return flow {
             emit(Resource.Loading())
             try {
-                val data =
-                    weatherApi.getWeatherForecast(
-                        query = name,
-                        days = 1,
-                        alert = BooleanResponse.FALSE,
-                        hourCount = 10,
-                        quality = BooleanResponse.TRUE,
-                    )
+                val data = weatherApi.getWeatherForecast(
+                    query = name,
+                    days = 1,
+                    alert = BooleanResponse.FALSE,
+                    hourCount = 10,
+                    quality = BooleanResponse.FALSE,
+                )
                 emit(Resource.Success(data = data.toModel()))
             } catch (e: HttpException) {
                 emit(Resource.Error(e.message ?: "Http exception occurred"))

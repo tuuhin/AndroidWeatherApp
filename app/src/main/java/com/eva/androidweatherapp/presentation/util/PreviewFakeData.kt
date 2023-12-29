@@ -1,8 +1,8 @@
 package com.eva.androidweatherapp.presentation.util
 
 import com.eva.androidweatherapp.domain.models.CurrentWeatherModel
+import com.eva.androidweatherapp.domain.models.LocationSearchResult
 import com.eva.androidweatherapp.domain.models.SavedWeatherModel
-import com.eva.androidweatherapp.domain.models.SearchLocationResult
 import com.eva.androidweatherapp.domain.models.WeatherDayForecastModel
 import com.eva.androidweatherapp.domain.models.WeatherForeCastModel
 import com.eva.androidweatherapp.domain.models.WeatherHourModel
@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter
 
 object PreviewFakeData {
 
-    val locationResult = SearchLocationResult(
+    val locationResult = LocationSearchResult(
         id = 1000,
         name = "New York",
         region = "New York",
@@ -21,6 +21,7 @@ object PreviewFakeData {
     )
 
     val fakeSavedWeatherModel = SavedWeatherModel(
+        id = 0,
         condition = "Partly Cloudy",
         code = 1003,
         windSpeedInMh = 16.3f,
