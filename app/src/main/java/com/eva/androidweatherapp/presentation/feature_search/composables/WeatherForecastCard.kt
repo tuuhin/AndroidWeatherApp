@@ -1,5 +1,6 @@
 package com.eva.androidweatherapp.presentation.feature_search.composables
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -31,12 +34,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.eva.androidweatherapp.R
 import com.eva.androidweatherapp.data.mappers.image
 import com.eva.androidweatherapp.domain.models.SavedWeatherModel
 import com.eva.androidweatherapp.presentation.composables.WeatherImage
 import com.eva.androidweatherapp.presentation.util.PreviewFakeData
 import com.eva.androidweatherapp.presentation.util.isCurrentLocaleAmerican
-import java.time.format.DateTimeFormatter
+import com.eva.androidweatherapp.ui.theme.AndroidWeatherAppTheme
+import com.eva.androidweatherapp.utils.toDateTimeFormat
 
 @Composable
 fun WeatherForecastCard(
@@ -44,14 +49,30 @@ fun WeatherForecastCard(
     modifier: Modifier = Modifier,
     isAmerican: Boolean = isCurrentLocaleAmerican(),
     onRemove: () -> Unit,
+    containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    contentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer
 ) {
+
+    val tempText by remember {
+        derivedStateOf {
+            if (isAmerican) "${model.tempInFahrenheit} F"
+            else "${model.tempInCelsius} C"
+        }
+    }
+    val feelsLikeTempText by remember {
+        derivedStateOf {
+            if (isAmerican)
+                "${model.feelsLikeFahrenheit} F"
+            else "${model.feelsLikeInCelsius} C"
+        }
+    }
+
     Card(
         modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults
-            .cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        )
     ) {
         Column(
             modifier = Modifier.padding(12.dp)
@@ -67,7 +88,7 @@ fun WeatherForecastCard(
                 ) {
                     Text(
                         text = model.name,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
@@ -76,27 +97,27 @@ fun WeatherForecastCard(
                                 withStyle(SpanStyle(fontWeight = FontWeight.Medium)) {
                                     append(model.region)
                                 }
-                                append(" , ")
+                                append(",")
                             }
                             append(model.country)
                         },
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.Normal
                     )
                 }
                 TextButton(
                     onClick = onRemove,
                     colors = ButtonDefaults.textButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 ) {
                     Icon(imageVector = Icons.Outlined.Delete, contentDescription = "Remove")
                     Spacer(modifier = Modifier.width(2.dp))
-                    Text(text = "Remove")
+                    Text(text = stringResource(id = R.string.remove_button_text))
                 }
             }
-            Divider()
+            Divider(color = MaterialTheme.colorScheme.outline)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,8 +131,9 @@ fun WeatherForecastCard(
                     WeatherImage(
                         res = model.image,
                         modifier = Modifier.size(60.dp),
-                        background = MaterialTheme.colorScheme.secondaryContainer,
-                        onBackGround = MaterialTheme.colorScheme.onSecondaryContainer
+                        background = MaterialTheme.colorScheme.tertiaryContainer,
+                        onBackGround = MaterialTheme.colorScheme.onTertiaryContainer,
+                        shape = MaterialTheme.shapes.medium
                     )
                     Text(
                         text = model.condition,
@@ -126,20 +148,17 @@ fun WeatherForecastCard(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = if (isAmerican) "${model.tempInFahrenheit} F" else "${model.tempInCelsius} C",
+                        text = tempText,
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(vertical = 2.dp, horizontal = 4.dp),
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
                         text = buildAnnotatedString {
-                            withStyle(SpanStyle(fontWeight = FontWeight.Medium)) {
-                                append("Feels Like: ")
-                            }
-                            if (isAmerican)
-                                append("${model.feelsLikeFahrenheit} F")
-                            else
-                                append("${model.feelsLikeInCelsius} C")
+                            val feelsLikeText = stringResource(id = R.string.feels_like_text)
+
+                            append(feelsLikeText)
+                            append(feelsLikeTempText)
                         },
                         style = MaterialTheme.typography.bodyMedium,
                     )
@@ -147,36 +166,42 @@ fun WeatherForecastCard(
             }
             CityWeatherProperties(
                 model = model,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                background = MaterialTheme.colorScheme.tertiaryContainer,
+                onBackGround = MaterialTheme.colorScheme.onTertiaryContainer,
             )
             model.lastUpdate?.let { time ->
                 val formattedTime by remember {
-                    derivedStateOf {
-                        time.format(DateTimeFormatter.ofPattern("dd MMMM, d HH:mm a"))
-                    }
+                    derivedStateOf(time::toDateTimeFormat)
                 }
+                Divider(color = MaterialTheme.colorScheme.outline)
+
 
                 Text(
                     text = buildAnnotatedString {
-                        withStyle(SpanStyle(color = MaterialTheme.colorScheme.onSecondaryContainer))
-                        { append("Last Updated At: ") }
+                        val dateTimeText =
+                            stringResource(R.string.saved_location_cards_date_time_text)
+                        append(dateTimeText)
                         append(formattedTime)
                     },
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                     textAlign = TextAlign.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 2.dp)
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
     }
 }
 
-@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
-fun WeatherForecastCardPreview() {
+fun WeatherForecastCardPreview() = AndroidWeatherAppTheme {
     WeatherForecastCard(
         model = PreviewFakeData.fakeSavedWeatherModel,
         onRemove = {}

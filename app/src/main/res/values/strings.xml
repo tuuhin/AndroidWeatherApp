@@ -50,4 +50,14 @@
     <string name="wind_speed">Wind Speed</string>
     <string name="humidity">Humidity</string>
     <string name="precipitation">Rainfall</string>
+
+    <string name="search_placeholder">Search …</string>
+    <string name="loading_placeholder">Requesting..</string>
+    <string name="data_from_api_text">Data from API</string>
+    <string name="saved_locations_title">Saved Locations</string>
+    <string name="no_saved_locations">No locations are saved</string>
+    <string name="city_not_found_text">City Not Found</string>
+    <string name="saved_location_cards_date_time_text">Date/Time</string>
+    <string name="remove_button_text">Remove</string>
+    <string name="feels_like_text">Feels Like</string>
 </resources>

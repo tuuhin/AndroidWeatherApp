@@ -11,4 +11,5 @@
     <dimen name="weather_properties_card_padding">8dp</dimen>
     <dimen name="current_weather_topic_spacing">20dp</dimen>
     <dimen name="scaffold_horizontal_padding">10dp</dimen>
+    <dimen name="location_searched_cards_i_padding">10dp</dimen>
 </resources>
