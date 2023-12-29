@@ -116,6 +116,8 @@ fun CurrentWeatherRoute(
                 CurrentDayWeatherProperties(
                     forecast = forecast.firstForecast,
                     current = forecast.current,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }

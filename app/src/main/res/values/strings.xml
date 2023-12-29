@@ -46,4 +46,8 @@
     <string name="hourly_weather_title">Hourly Weather</string>
     <string name="forecast_text">Forecast</string>
     <string name="astronomical_data">Astronomical Data</string>
+    <string name="forecast_route_title">Forecast</string>
+    <string name="wind_speed">Wind Speed</string>
+    <string name="humidity">Humidity</string>
+    <string name="precipitation">Rainfall</string>
 </resources>

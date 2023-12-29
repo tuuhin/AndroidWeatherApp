@@ -10,7 +10,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -18,7 +17,6 @@ import androidx.navigation.compose.rememberNavController
 import com.eva.androidweatherapp.presentation.WeatherForecastViewModel
 import com.eva.androidweatherapp.presentation.composables.LoadingPlaceholder
 import com.eva.androidweatherapp.presentation.feature_current.CurrentWeatherRoute
-import com.eva.androidweatherapp.presentation.feature_daily.WeatherGraphViewModel
 import com.eva.androidweatherapp.presentation.feature_daily.WeekForecastRoute
 import com.eva.androidweatherapp.presentation.feature_search.SearchLocationViewModel
 import com.eva.androidweatherapp.presentation.feature_search.SearchLocationsRoute
@@ -78,9 +76,6 @@ fun NavigationGraph(
                     entry.sharedViewModel<WeatherForecastViewModel>(navController)
                 val content by sharedViewModel.content.collectAsStateWithLifecycle()
 
-                val viewModel = viewModel<WeatherGraphViewModel>()
-                val state by viewModel.graphState.collectAsStateWithLifecycle()
-
 
                 LoadingPlaceholder(
                     showContent = content
@@ -97,8 +92,6 @@ fun NavigationGraph(
                                 )
                             }
                         },
-                        state = state,
-                        onEvents = viewModel::onGraphEvents
                     )
                 }
             }
