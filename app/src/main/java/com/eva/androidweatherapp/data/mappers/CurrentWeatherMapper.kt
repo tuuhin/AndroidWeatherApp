@@ -32,7 +32,7 @@ fun WeatherCurrentDataDto.toModel(): CurrentWeatherModel = CurrentWeatherModel(
 )
 
 fun WeatherCurrentDataDto.toDbModel(entityId: Int? = null): SavedWeatherModel = SavedWeatherModel(
-    id = entityId ?: -1,
+    id = entityId,
     code = weather.condition.weatherCode,
     condition = weather.condition.text,
     feelsLikeInCelsius = weather.feelsLikeInCelsius,

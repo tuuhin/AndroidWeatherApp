@@ -3,7 +3,7 @@ package com.eva.androidweatherapp.domain.models
 import java.time.LocalDateTime
 
 data class SavedWeatherModel(
-    val id: Int,
+    val id: Int? = null,
     val condition: String,
     val code: Int,
     val feelsLikeInCelsius: Float,

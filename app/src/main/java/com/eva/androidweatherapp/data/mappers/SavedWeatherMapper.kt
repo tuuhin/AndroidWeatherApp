@@ -4,8 +4,6 @@ import androidx.annotation.DrawableRes
 import com.eva.androidweatherapp.data.local.SavedWeatherEntity
 import com.eva.androidweatherapp.domain.models.SavedWeatherModel
 import com.eva.androidweatherapp.utils.toDateTimeFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @get:DrawableRes
 val SavedWeatherModel.image: Int
@@ -35,9 +33,7 @@ fun SavedWeatherEntity.toModel(): SavedWeatherModel {
         name = name,
         region = region,
         code = code,
-        lastUpdate = lastUpdated?.let { str ->
-            LocalDateTime.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-        }
+        lastUpdate = lastUpdated?.toDateTimeFormat()
     )
 }
 

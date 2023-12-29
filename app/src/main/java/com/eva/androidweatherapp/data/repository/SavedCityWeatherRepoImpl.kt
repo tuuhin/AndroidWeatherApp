@@ -37,14 +37,15 @@ class SavedCityWeatherRepoImpl(
 
     override suspend fun addCity(name: String): Resource<SavedWeatherModel> {
         return try {
-            when (val res = getCityWeather(name)) {
+            val results = getCityWeather(name)
+            when (results) {
                 is Resource.Success -> {
-                    res.data?.let { model -> dao.upsertWeatherEntity(model.toEntity()) }
-                    res
+                    results.data?.let { model -> dao.upsertWeatherEntity(model.toEntity()) }
                 }
 
-                else -> res
+                else -> {}
             }
+            results
         } catch (e: SQLException) {
             Resource.Error(e.message ?: "SQL Exception Occurred")
         } catch (e: Exception) {

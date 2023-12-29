@@ -5,9 +5,12 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
@@ -65,7 +68,6 @@ fun SearchLocationsRoute(
                     .fillMaxWidth()
                     .padding(searchBarPadding),
             )
-
         },
         snackbarHost = { SnackbarHost(hostState = snackBarState) },
         modifier = modifier,
@@ -76,7 +78,8 @@ fun SearchLocationsRoute(
                 contentPadding = scPadding,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = dimensionResource(id = R.dimen.scaffold_horizontal_padding)),
+                    .padding(horizontal = dimensionResource(id = R.dimen.scaffold_horizontal_padding))
+                    .windowInsetsPadding(WindowInsets.systemBars),
             ) {
                 item {
                     Text(
@@ -87,7 +90,9 @@ fun SearchLocationsRoute(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-                itemsIndexed(savedLocations) { _, current ->
+                itemsIndexed(
+                    items = savedLocations,
+                    key = { _, location -> location.id ?: -1 }) { _, current ->
                     WeatherForecastCard(
                         model = current,
                         onRemove = { onEvents(SearchBarEvents.OnRemoveCity(current)) },
@@ -110,7 +115,7 @@ fun SearchLocationsRoute(
 class SavedLocationsPreviewParams :
     CollectionPreviewParameterProvider<List<SavedWeatherModel>>(
         listOf(
-            List(3) { PreviewFakeData.fakeSavedWeatherModel },
+            List(3) { PreviewFakeData.fakeSavedWeatherModel.copy(id = it) },
             emptyList()
         )
     )
