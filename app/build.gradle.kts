@@ -83,9 +83,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material3:material3-window-size-class")
-    // theme colors
-    implementation("com.google.android.material:material:1.11.0")
     //room
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
@@ -107,7 +104,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     //navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
-    //jetpack -glance
+    //jetpack-glance
     implementation("androidx.glance:glance:1.0.0")
     implementation("androidx.glance:glance-appwidget:1.0.0")
     implementation("androidx.glance:glance-material3:1.0.0")

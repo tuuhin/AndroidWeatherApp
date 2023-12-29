@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">@android:color/system_primary_dark</color>
+    <color name="on_primary">@android:color/system_on_primary_dark</color>
+    <color name="secondary">@android:color/system_secondary_dark</color>
+    <color name="on_secondary">@android:color/system_on_secondary_dark</color>
+    <color name="tertiary">@android:color/system_tertiary_dark</color>
+    <color name="on_tertiary">@android:color/system_on_tertiary_dark</color>
+
+    <color name="background">@android:color/system_background_dark</color>
+    <color name="on_background">@android:color/system_on_background_dark</color>
+    <color name="outlined">@android:color/system_outline_dark</color>
+    <color name="outline_variant">@android:color/system_outline_variant_dark</color>
+
+    <color name="primary_container">@android:color/system_primary_container_dark</color>
+    <color name="on_primary_container">@android:color/system_on_primary_container_dark</color>
+    <color name="secondary_container">@android:color/system_secondary_container_dark</color>
+    <color name="on_secondary_container">@android:color/system_on_secondary_container_dark</color>
+    <color name="tertiary_container">@android:color/system_on_tertiary_container_dark</color>
+    <color name="on_tertiary_container">@android:color/system_on_tertiary_container_dark</color>
+
+    <color name="surface">@android:color/system_surface_dark</color>
+    <color name="on_surface">@android:color/system_on_surface_dark</color>
+    <color name="surface_variant">@android:color/system_surface_variant_dark</color>
+    <color name="on_surface_variant">@android:color/system_on_surface_variant_dark</color>
+
+</resources>
